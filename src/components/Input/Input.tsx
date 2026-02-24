@@ -14,7 +14,7 @@ export type InputInteractionState = 'default' | 'hover' | 'focus' | 'disabled';
 /** Message type below input */
 export type InputMessageType = 'none' | 'helper' | 'error' | 'success';
 
-export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   // ─── Label ─────────────────────────────────────────────────────────────
   /** Field label */
   label?: string;

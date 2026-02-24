@@ -47,7 +47,7 @@ export function Avatar({
     />
   ) : hasInitials ? (
     <span className="avatar__initials" aria-hidden>
-      {initials.trim()}
+      {(initials ?? '').trim()}
     </span>
   ) : (
     <span className="avatar__icon" aria-hidden>
