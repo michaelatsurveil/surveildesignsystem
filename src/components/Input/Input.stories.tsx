@@ -9,10 +9,14 @@ const meta: Meta<typeof Input> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-3801',
+    },
     docs: {
       description: {
         component:
-          'Text input with optional label, prefix/suffix icons, validation states, and helper text.',
+          'Text input with optional label, prefix/suffix icons, validation states, and helper text. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-3801)',
       },
     },
   },

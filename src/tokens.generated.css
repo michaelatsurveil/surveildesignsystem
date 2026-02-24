@@ -1,0 +1,130 @@
+/**
+ * Generated from src/design-tokens.ts - do not edit by hand.
+ * Run: node scripts/generate-tokens-css.mjs
+ */
+
+:root {
+  --scale-0: 0;
+  --scale-25: 1px;
+  --scale-50: 2px;
+  --scale-100: 4px;
+  --scale-200: 8px;
+  --scale-300: 12px;
+  --scale-400: 16px;
+  --scale-500: 20px;
+  --scale-600: 24px;
+  --scale-700: 28px;
+  --scale-800: 32px;
+  --scale-900: 40px;
+  --scale-1000: 48px;
+
+  --font-family-headings: Roboto, system-ui, sans-serif;
+  --font-family-body: Roboto, system-ui, sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --color-primary-50: #e5eefa;
+  --color-primary-100: #c6d7f0;
+  --color-primary-200: #9fb9e0;
+  --color-primary-300: #81a5d9;
+  --color-primary-400: #527db6;
+  --color-primary: #3165ad;
+  --color-primary-600: #27518c;
+  --color-primary-700: #203b61;
+  --color-primary-800: #142845;
+  --color-primary-900: #111827;
+  --color-grey-25: #f7f7f7;
+  --color-grey-50: #efefef;
+  --color-grey-100: #dfdfdf;
+  --color-grey-200: #c0c0c0;
+  --color-grey-300: #a0a0a0;
+  --color-grey-400: #818181;
+  --color-grey: #616161;
+  --color-grey-600: #3a3a3a;
+  --color-grey-700: #272727;
+  --color-grey-800: #131313;
+  --color-success-50: #effff5;
+  --color-success-100: #daf1de;
+  --color-success-200: #c0e7ce;
+  --color-success-300: #76bd91;
+  --color-success-400: #449964;
+  --color-success: #15803d;
+  --color-success-600: #116631;
+  --color-success-700: #0d4d25;
+  --color-success-800: #083318;
+  --color-error-50: #fff3f3;
+  --color-error-100: #ffe1e1;
+  --color-error-200: #ffbbbc;
+  --color-error-300: #f07777;
+  --color-error-400: #eb494a;
+  --color-error: #e61c1d;
+  --color-error-600: #c51516;
+  --color-error-700: #8a1111;
+  --color-error-800: #5c0b0c;
+  --color-warning-50: #fdf9e9;
+  --color-warning-100: #fbf1c6;
+  --color-warning-200: #f8e090;
+  --color-warning-300: #f4c750;
+  --color-warning-400: #f0b537;
+  --color-warning: #db9315;
+  --color-warning-600: #99510f;
+  --color-warning-700: #7f4014;
+  --color-warning-800: #6c3517;
+  --color-neutral-white: #ffffff;
+  --color-background: #ffffff;
+  --color-background-alt: #f9fafb;
+  --color-icon: #616161;
+  --color-icon-muted: #a0a0a0;
+  --color-icon-primary: #3165ad;
+  --color-icon-success: #15803d;
+  --color-icon-error: #e61c1d;
+  --color-icon-warning: #db9315;
+  --color-button-primary-bg: #3165ad;
+  --color-button-primary-bgHover: #27518c;
+  --color-button-primary-bgPressed: #203b61;
+  --color-button-primary-bgDisabled: #dfdfdf;
+  --color-button-primary-text: #ffffff;
+  --color-button-primary-textDisabled: #818181;
+  --color-button-primary-border: #3165ad;
+  --color-button-primary-borderDisabled: #c0c0c0;
+  --color-button-secondary-bg: #ffffff;
+  --color-button-secondary-bgHover: #f7f7f7;
+  --color-button-secondary-bgPressed: #dfdfdf;
+  --color-button-secondary-bgDisabled: #ffffff;
+  --color-button-secondary-text: #203b61;
+  --color-button-secondary-textDisabled: #a0a0a0;
+  --color-button-secondary-border: #dfdfdf;
+  --color-button-secondary-borderHover: #f7f7f7;
+  --color-button-secondary-borderPressed: #c0c0c0;
+  --color-button-secondary-borderDisabled: #dfdfdf;
+  --color-button-tertiary-bgHover: #f7f7f7;
+  --color-button-tertiary-bgPressed: #dfdfdf;
+  --color-button-tertiary-text: #203b61;
+  --color-button-tertiary-textDisabled: #a0a0a0;
+  --color-button-danger-bg: #e61c1d;
+  --color-button-danger-bgHover: #c51516;
+  --color-button-danger-bgPressed: #8a1111;
+  --color-button-danger-bgDisabled: #ffbbbc;
+  --color-button-danger-text: #ffffff;
+  --color-button-danger-border: #e61c1d;
+  --color-button-danger-borderDisabled: #f07777;
+
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 2px 4px -2px rgba(0, 0, 0, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 8px 10px -6px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}

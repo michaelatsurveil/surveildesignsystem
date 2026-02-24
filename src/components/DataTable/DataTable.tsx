@@ -26,6 +26,8 @@ export interface DataTableProps<T = Record<string, unknown>> {
   selectedRowIds?: Set<string>;
   /** Selection change callback */
   onSelectionChange?: (selectedIds: Set<string>) => void;
+  /** Optional additional class name for the wrapper */
+  className?: string;
 }
 
 export function DataTable<T extends Record<string, unknown>>({
@@ -35,6 +37,7 @@ export function DataTable<T extends Record<string, unknown>>({
   selectable = false,
   selectedRowIds = new Set(),
   onSelectionChange,
+  className = '',
 }: DataTableProps<T>) {
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
   const someSelected = selectable && selectedRowIds.size > 0;
@@ -63,7 +66,7 @@ export function DataTable<T extends Record<string, unknown>>({
   };
 
   return (
-    <div className="data-table__wrap">
+    <div className={`data-table__wrap ${className}`.trim()}>
       <table className="data-table">
         <thead className="data-table__head">
           <tr>

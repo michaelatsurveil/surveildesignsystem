@@ -19,6 +19,8 @@ export interface ModalProps {
   closeOnBackdropClick?: boolean;
   /** Close when pressing Escape */
   closeOnEscape?: boolean;
+  /** Optional additional class name for the modal root */
+  className?: string;
 }
 
 export function Modal({
@@ -30,6 +32,7 @@ export function Modal({
   footer,
   closeOnBackdropClick = true,
   closeOnEscape = true,
+  className = '',
 }: ModalProps) {
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -53,7 +56,7 @@ export function Modal({
 
   return (
     <div
-      className="modal"
+      className={`modal ${className}`.trim()}
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}

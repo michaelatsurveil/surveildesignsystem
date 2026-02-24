@@ -119,6 +119,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           id={id}
           type={effectiveType}
           disabled={disabled}
+          required={required}
+          aria-required={required}
           className={`input__field ${prefix != null ? 'input__field--has-prefix' : ''} ${hasSuffix ? 'input__field--has-suffix' : ''}`}
           aria-invalid={!!error}
           aria-describedby={

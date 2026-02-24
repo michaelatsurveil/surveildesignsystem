@@ -30,34 +30,34 @@
  */
 
 .input {
-  font-family: Roboto, system-ui, sans-serif;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--scale-100, 4px);
 }
 
 .input__label-row {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--scale-100, 4px);
 }
 
 .input__label {
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  color: #3a3a3a;
+  color: var(--color-grey-600, #3a3a3a);
 }
 
 .input__required {
-  color: #e61c1d;
+  color: var(--color-error, #e61c1d);
 }
 
 .input__info {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #6b7280;
+  color: var(--color-grey-400, #6b7280);
   cursor: help;
 }
 
@@ -65,29 +65,29 @@
 .input__wrapper {
   display: flex;
   align-items: stretch;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: #ffffff;
+  border: 1px solid var(--color-grey-200, #d1d5db);
+  border-radius: var(--radius-sm, 4px);
+  background: var(--color-white, #ffffff);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .input:not(.input--disabled) .input__wrapper:hover {
-  border-color: #9ca3af;
+  border-color: var(--color-grey-300, #9ca3af);
 }
 
 .input__wrapper:focus-within {
-  border-color: #3165ad;
+  border-color: var(--color-primary, #3165ad);
   box-shadow: 0 0 0 4px rgba(49, 101, 173, 0.2);
 }
 
 .input--disabled .input__wrapper {
-  background: #f3f4f6;
-  border-color: #e5e7eb;
+  background: var(--color-bg-alt, #f9fafb);
+  border-color: var(--color-grey-100, #e5e7eb);
   cursor: not-allowed;
 }
 
 .input--disabled .input__wrapper:hover {
-  border-color: #e5e7eb;
+  border-color: var(--color-grey-100, #e5e7eb);
 }
 
 .input--disabled {
@@ -95,20 +95,20 @@
 }
 
 .input--error .input__wrapper {
-  border-color: #e61c1d;
+  border-color: var(--color-error, #e61c1d);
 }
 
 .input--error .input__wrapper:focus-within {
-  border-color: #e61c1d;
+  border-color: var(--color-error, #e61c1d);
   box-shadow: 0 0 0 4px rgba(230, 28, 29, 0.2);
 }
 
 .input--success .input__wrapper {
-  border-color: #15803d;
+  border-color: var(--color-success, #15803d);
 }
 
 .input--success .input__wrapper:focus-within {
-  border-color: #15803d;
+  border-color: var(--color-success, #15803d);
   box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.2);
 }
 
@@ -117,8 +117,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 12px;
-  color: #6b7280;
+  padding: 0 var(--scale-300, 12px);
+  color: var(--color-grey-400, #6b7280);
   flex-shrink: 0;
 }
 
@@ -134,24 +134,24 @@
 }
 
 .input__suffix-btn:hover {
-  color: #3a3a3a;
+  color: var(--color-grey-600, #3a3a3a);
 }
 
 .input__field {
   flex: 1;
   min-width: 0;
-  padding: 0 12px;
+  padding: 0 var(--scale-300, 12px);
   border: none;
   background: transparent;
   font-family: inherit;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  color: #3a3a3a;
+  color: var(--color-grey-600, #3a3a3a);
 }
 
 .input__field::placeholder {
-  color: #818181;
+  color: var(--color-grey-400, #818181);
 }
 
 .input__field:focus {
@@ -160,7 +160,7 @@
 
 .input__field:disabled {
   cursor: not-allowed;
-  color: #818181;
+  color: var(--color-grey-400, #818181);
 }
 
 /* ─── Sizes (Numbers-TC/Inputs-TC) ──────────────────────────────────────── */
@@ -170,7 +170,7 @@
 
 .input--xs .input__prefix,
 .input--xs .input__suffix {
-  padding: 0 8px;
+  padding: 0 var(--scale-200, 8px);
 }
 
 .input--s .input__field {
@@ -194,7 +194,7 @@
 .input__messages {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--scale-50, 2px);
 }
 
 .input__message {
@@ -208,19 +208,19 @@
 }
 
 .input__message--error {
-  color: #e61c1d;
+  color: var(--color-error, #e61c1d);
 }
 
 .input__message--success {
-  color: #15803d;
+  color: var(--color-success, #15803d);
 }
 
 .input__message--helper {
-  color: #6b7280;
+  color: var(--color-grey-400, #6b7280);
 }
 
 .input__message--helper .input__message-icon {
-  color: #76bd91;
+  color: var(--color-success-300, #76bd91);
 }
 
 .input__message-icon {
@@ -229,9 +229,9 @@
 }
 
 .input__message--error .input__message-icon {
-  color: #e61c1d;
+  color: var(--color-error, #e61c1d);
 }
 
 .input__message--success .input__message-icon {
-  color: #15803d;
+  color: var(--color-success, #15803d);
 }

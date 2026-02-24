@@ -22,6 +22,8 @@ export interface CardProps {
   labels?: React.ReactNode[];
   /** Optional click handler - when set, card is interactive */
   onClick?: () => void;
+  /** Optional additional class name for the root element */
+  className?: string;
 }
 
 export function Card({
@@ -34,6 +36,7 @@ export function Card({
   secondaryAction,
   labels,
   onClick,
+  className = '',
 }: CardProps) {
   const isInteractive = typeof onClick === 'function';
   const hasFooterActions = primaryAction || secondaryAction;
@@ -41,7 +44,7 @@ export function Card({
 
   return (
     <article
-      className={`card ${isInteractive ? 'card--interactive' : ''}`}
+      className={`card ${isInteractive ? 'card--interactive' : ''} ${className}`.trim()}
       onClick={isInteractive ? onClick : undefined}
       role={isInteractive ? 'button' : undefined}
       tabIndex={isInteractive ? 0 : undefined}

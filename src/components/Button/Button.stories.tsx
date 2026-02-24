@@ -5,6 +5,19 @@ const meta: Meta<typeof Button> = {
   title: 'Input/Button',
   component: Button,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'padded',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library',
+    },
+    docs: {
+      description: {
+        component:
+          'Action button with semantic variants (primary, secondary, tertiary, outline, danger) and sizes. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library)',
+      },
+    },
+  },
   argTypes: {
     variant: {
       control: 'select',
