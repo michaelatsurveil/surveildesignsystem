@@ -33,6 +33,10 @@ Storybook runs at http://localhost:6006 and lists all components by category: Fo
 npm run build
 ```
 
+### Deploy Storybook to Vercel
+
+This repo is set up to deploy **Storybook** (not the main Vite app) on Vercel. Connect the repo in the [Vercel dashboard](https://vercel.com); the root `vercel.json` uses `build-storybook` and outputs `storybook-static`, so each deploy will build and serve Storybook at your project’s URL (e.g. `https://your-project.vercel.app`).
+
 ## Using the design system
 
 1. **Install dependencies** – This repo depends on `react`, `react-dom`, and `lucide-react`. Consumers need the same (or compatible) versions.
