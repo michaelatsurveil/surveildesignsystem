@@ -1,0 +1,133 @@
+/**
+ * Segmented Control styles from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=429-13641
+ *
+ * Sizes: Numbers-TC/Inputs-TC (XS: 26, S: 30, M: 34, L: 38)
+ * Typography: Text-X Small (12px), Text-Small (14px), Text-Base (16px)
+ * Radius: Radius/S (4px), Radius/10XL (1000px for pill)
+ */
+
+.segmented-control {
+  display: inline-flex;
+  font-family: Roboto, system-ui, sans-serif;
+  font-weight: 500;
+}
+
+/* XS: 26px height, Text-X Small/Medium (12px, 18px) */
+.segmented-control--xs {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.segmented-control--xs .segmented-control__segment {
+  min-height: 26px;
+  padding: 4px 12px;
+}
+
+/* S: 30px height, Text-Small/Medium (14px, 20px) */
+.segmented-control--s {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.segmented-control--s .segmented-control__segment {
+  min-height: 30px;
+  padding: 5px 12px;
+}
+
+/* M: 34px height, Text-Small/Medium (14px, 20px) */
+.segmented-control--m {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.segmented-control--m .segmented-control__segment {
+  min-height: 34px;
+  padding: 7px 16px;
+}
+
+/* L: 38px height, Text-Base/Medium (16px, 24px) */
+.segmented-control--l {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.segmented-control--l .segmented-control__segment {
+  min-height: 38px;
+  padding: 7px 16px;
+}
+
+.segmented-control--rectangular .segmented-control__segment:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.segmented-control--rectangular .segmented-control__segment:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.segmented-control--rectangular .segmented-control__segment:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.segmented-control--pill .segmented-control__segment:first-child {
+  border-radius: 1000px 0 0 1000px;
+}
+
+.segmented-control--pill .segmented-control__segment:last-child {
+  border-radius: 0 1000px 1000px 0;
+}
+
+.segmented-control--pill .segmented-control__segment:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.segmented-control__segment {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Surface/Button/tertiary-hover */
+.segmented-control__segment:hover:not(.segmented-control__segment--selected):not(:disabled) {
+  background: #f7f7f7;
+}
+
+/* Surface/Button/tertiary-pressed, Border/Button/secondary-pressed */
+.segmented-control__segment:active:not(.segmented-control__segment--selected):not(:disabled) {
+  background: #dfdfdf;
+  border-color: #c0c0c0;
+}
+
+.segmented-control__segment + .segmented-control__segment {
+  margin-left: -1px;
+}
+
+.segmented-control__segment--selected {
+  background: #ffffff;
+  border-color: #3165ad;
+  color: #3165ad;
+  z-index: 1;
+}
+
+.segmented-control__segment:focus-visible {
+  outline: 2px solid #3165ad;
+  outline-offset: 2px;
+  z-index: 2;
+}
+
+/* Buttons/Secondary secondary-bg-color-disabled, secondary-border-color-disabled, Text/Disabled */
+.segmented-control__segment:disabled {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  color: #818181;
+  cursor: not-allowed;
+}

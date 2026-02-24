@@ -1,0 +1,123 @@
+/**
+ * Alert styles from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=248-15946
+ *
+ * Variants: default, success, info, warning, error
+ */
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-family: Roboto, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+/* Default - light grey bg */
+.alert--default {
+  background: #f8f9fb;
+  color: #111827;
+  border-color: #e5e7eb;
+}
+
+/* Success */
+.alert--success {
+  background: #effff5;
+  color: #15803d;
+  border-color: #daf1de;
+}
+
+/* Info */
+.alert--info {
+  background: #e5eefa;
+  color: #3165ad;
+  border-color: #c6d7f0;
+}
+
+/* Warning */
+.alert--warning {
+  background: #fdf9e9;
+  color: #db9315;
+  border-color: #fbf1c6;
+}
+
+/* Error */
+.alert--error {
+  background: #fff3f3;
+  color: #e61c1d;
+  border-color: #ffe1e1;
+}
+
+.alert__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  line-height: 0;
+}
+
+.alert__icon svg {
+  display: block;
+}
+
+.alert__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert__action {
+  flex-shrink: 0;
+  color: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.alert__action:hover {
+  text-decoration: underline;
+}
+
+.alert__action:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.alert__close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  color: inherit;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+
+.alert__close:hover {
+  opacity: 1;
+}
+
+.alert__close:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

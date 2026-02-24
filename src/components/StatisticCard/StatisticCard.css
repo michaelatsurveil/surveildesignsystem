@@ -1,0 +1,114 @@
+/**
+ * Statistic Card component from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=87-408
+ *
+ * Displays a primary statistic with title, value, optional comparison trend,
+ * supporting text, and footer actions.
+ */
+
+.statistic-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  padding: var(--scale-400, 16px);
+  font-family: Roboto, system-ui, sans-serif;
+}
+
+.statistic-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scale-400, 16px);
+  margin-bottom: var(--scale-400, 16px);
+}
+
+.statistic-card__header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-300, 12px);
+  min-width: 0;
+}
+
+.statistic-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #db9315;
+}
+
+.statistic-card__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #272727;
+}
+
+.statistic-card__badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #efefef;
+  color: #616161;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.statistic-card__value-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--scale-300, 12px);
+  margin-bottom: var(--scale-200, 8px);
+}
+
+.statistic-card__value {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  color: #272727;
+}
+
+.statistic-card__comparison {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.statistic-card__comparison--up {
+  color: #15803d;
+}
+
+.statistic-card__comparison--down {
+  color: #e61c1d;
+}
+
+.statistic-card__comparison--neutral {
+  color: #616161;
+}
+
+.statistic-card__supporting {
+  margin: 0 0 var(--scale-600, 24px);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #6b7480;
+}
+
+.statistic-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--scale-300, 12px);
+  padding-top: var(--scale-400, 16px);
+  margin-top: auto;
+}

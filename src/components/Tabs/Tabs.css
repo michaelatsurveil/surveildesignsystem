@@ -1,0 +1,64 @@
+/**
+ * Tabs component from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=254-15994
+ *
+ * Typography: Text-X Small/Text-Small (14px, Medium 500 / Semibold 600 when selected)
+ * Colors: Icons/Default #616161, Text/Action #3165ad, Border/Button/primary #3165ad
+ * Hover: Surface/Button/secondary-hover #f7f7f7
+ */
+
+.tabs {
+  display: flex;
+  gap: 0;
+  font-family: Roboto, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: #3a3a3a;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.tabs__tab:hover:not(.tabs__tab--selected):not(:disabled) {
+  background: #f7f7f7;
+}
+
+.tabs__tab:focus-visible {
+  outline: 2px solid #3165ad;
+  outline-offset: 2px;
+}
+
+.tabs__tab--selected {
+  color: #3165ad;
+  font-weight: 600;
+  border-bottom-color: #3165ad;
+}
+
+.tabs__tab:disabled {
+  color: #818181;
+  cursor: not-allowed;
+}
+
+.tabs__tab-icon,
+.tabs__tab-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+}

@@ -1,0 +1,134 @@
+/**
+ * Card component from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=320-5290
+ *
+ * Container with optional header (icon in 40x40 block, title, status badge), body,
+ * and footer (primary + secondary buttons, or label pills). Uses scale tokens.
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px -1px rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  padding: var(--scale-400, 16px);
+  font-family: Roboto, system-ui, sans-serif;
+}
+
+.card--interactive {
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.card--interactive:hover {
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-color: #c0c0c0;
+}
+
+.card--interactive:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(49, 101, 173, 0.2), 0 0 0 2px #ffffff;
+}
+
+.card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-200, 8px);
+  margin-bottom: var(--scale-400, 16px);
+}
+
+.card__header-row {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-400, 16px);
+}
+
+.card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: #eef0f3;
+  border-radius: var(--scale-100, 4px);
+  color: #616161;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  color: #2c3139;
+}
+
+.card__status {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.card__status--default {
+  background: #efefef;
+  color: #616161;
+}
+
+.card__status--success {
+  background: #e6f5ec;
+  color: #388e3c;
+}
+
+.card__status--error {
+  background: #fff3f3;
+  color: #e61c1d;
+}
+
+.card__status--warning {
+  background: #fdf9e9;
+  color: #db9315;
+}
+
+.card__status--info {
+  background: #e5eefa;
+  color: #3165ad;
+}
+
+.card__body {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #6b7480;
+  margin-bottom: var(--scale-600, 24px);
+}
+
+.card__body:last-child {
+  margin-bottom: 0;
+}
+
+.card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--scale-300, 12px);
+  padding-top: var(--scale-600, 24px);
+}
+
+.card__label {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--scale-50, 2px);
+  background: #3165ad;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}

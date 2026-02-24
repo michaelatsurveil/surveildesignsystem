@@ -1,0 +1,237 @@
+/**
+ * Input component from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-3801
+ *
+ * VARIANT STRUCTURE
+ * ─────────────────────────────────────────────────────────────────────────
+ * Label:        On | Off
+ * Required:     On | Off
+ * Info:         On | Off
+ * Prefix:       None | Icon
+ * Suffix:       None | Icon | Password toggle
+ * Message:      None | Helper | Error | Success
+ * Size:         XS (26) | S (30) | M (34) | L (38)  - Numbers-TC/Inputs-TC
+ *
+ * STATES
+ * ─────────────────────────────────────────────────────────────────────────
+ * Default      - Border #d1d5db, bg #ffffff
+ * Hover        - Border darkens slightly
+ * Focus        - Border #3165ad, focus ring
+ * Disabled     - Bg #f9fafb, border #e5e7eb, cursor not-allowed
+ * Error        - Border #e61c1d, message with icon
+ * Success      - Border #15803d, message with icon
+ *
+ * TOKENS
+ * ─────────────────────────────────────────────────────────────────────────
+ * Text/Body: #3a3a3a, Text/Subtext: #818181
+ * Border/border: #d1d5db
+ * Icons/Error: #e61c1d, Icons/Success: #15803d, Icon/icon-color: #6b7280
+ * Radius/S: 4, Numbers-TC/Inputs-TC: 26, 30, 34, 38
+ */
+
+.input {
+  font-family: Roboto, system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input__label-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.input__label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #3a3a3a;
+}
+
+.input__required {
+  color: #e61c1d;
+}
+
+.input__info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  cursor: help;
+}
+
+/* ─── Wrapper (Default + Hover + Focus + Disabled + Error + Success) ─────── */
+.input__wrapper {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #ffffff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input:not(.input--disabled) .input__wrapper:hover {
+  border-color: #9ca3af;
+}
+
+.input__wrapper:focus-within {
+  border-color: #3165ad;
+  box-shadow: 0 0 0 4px rgba(49, 101, 173, 0.2);
+}
+
+.input--disabled .input__wrapper {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.input--disabled .input__wrapper:hover {
+  border-color: #e5e7eb;
+}
+
+.input--disabled {
+  opacity: 0.65;
+}
+
+.input--error .input__wrapper {
+  border-color: #e61c1d;
+}
+
+.input--error .input__wrapper:focus-within {
+  border-color: #e61c1d;
+  box-shadow: 0 0 0 4px rgba(230, 28, 29, 0.2);
+}
+
+.input--success .input__wrapper {
+  border-color: #15803d;
+}
+
+.input--success .input__wrapper:focus-within {
+  border-color: #15803d;
+  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.2);
+}
+
+.input__prefix,
+.input__suffix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.input__suffix-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.input__suffix-btn:hover {
+  color: #3a3a3a;
+}
+
+.input__field {
+  flex: 1;
+  min-width: 0;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #3a3a3a;
+}
+
+.input__field::placeholder {
+  color: #818181;
+}
+
+.input__field:focus {
+  outline: none;
+}
+
+.input__field:disabled {
+  cursor: not-allowed;
+  color: #818181;
+}
+
+/* ─── Sizes (Numbers-TC/Inputs-TC) ──────────────────────────────────────── */
+.input--xs .input__field {
+  min-height: 26px;
+}
+
+.input--xs .input__prefix,
+.input--xs .input__suffix {
+  padding: 0 8px;
+}
+
+.input--s .input__field {
+  min-height: 30px;
+}
+
+.input--s .input__prefix,
+.input--s .input__suffix {
+  padding: 0 10px;
+}
+
+.input--m .input__field {
+  min-height: 34px;
+}
+
+.input--l .input__field {
+  min-height: 38px;
+}
+
+/* ─── Messages ─────────────────────────────────────────────────────────── */
+.input__messages {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.input__message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.input__message--error {
+  color: #e61c1d;
+}
+
+.input__message--success {
+  color: #15803d;
+}
+
+.input__message--helper {
+  color: #6b7280;
+}
+
+.input__message--helper .input__message-icon {
+  color: #76bd91;
+}
+
+.input__message-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.input__message--error .input__message-icon {
+  color: #e61c1d;
+}
+
+.input__message--success .input__message-icon {
+  color: #15803d;
+}

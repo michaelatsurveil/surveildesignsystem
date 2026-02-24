@@ -1,0 +1,181 @@
+/**
+ * File Upload component from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=350-2475
+ *
+ * Layout: [Browse...] [Or drop files here] - horizontal, no icon
+ * Buttons/Secondary: bg #ffffff, border #d1d5db, text #374151
+ * Text-Small/Medium: 14px, 500, 20px
+ * Foreground/content-text-color-alt2: #6b7280 (placeholder)
+ * Border: 1px dashed, Radius/S: 4, Radius/M: 6
+ * Background/content-bg-color: #ffffff
+ */
+
+.file-upload {
+  font-family: Roboto, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.file-upload__dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  padding: 16px 24px;
+  border: 1px dashed #d1d5db;
+  border-radius: 4px;
+  background: #ffffff;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.file-upload__dropzone:hover:not(.file-upload__dropzone--disabled):not(.file-upload__dropzone--drag) {
+  border-color: #9ca3af;
+}
+
+.file-upload__dropzone--drag {
+  border-color: #3165ad;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.file-upload__dropzone--disabled {
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.file-upload__input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.file-upload__content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 12px;
+}
+
+.file-upload__label {
+  cursor: pointer;
+}
+
+.file-upload__dropzone--disabled .file-upload__label {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Browse button - Buttons/Secondary */
+.file-upload__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #374151;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.file-upload__label:hover .file-upload__button {
+  background: #f7f7f7;
+  border-color: #d1d5db;
+}
+
+.file-upload__label:active .file-upload__button {
+  background: #dfdfdf;
+  border-color: #c0c0c0;
+}
+
+/* "Or drop files here" - Foreground/content-text-color-alt2 */
+.file-upload__placeholder {
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.file-upload__dropzone--drag .file-upload__placeholder {
+  color: #111827;
+}
+
+.file-upload__label:hover .file-upload__button {
+  background: #f7f7f7;
+  border-color: #d1d5db;
+}
+
+.file-upload__label:active .file-upload__button {
+  background: #dfdfdf;
+  border-color: #c0c0c0;
+}
+
+.file-upload__list {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.file-upload__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  margin-top: 4px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #111827;
+}
+
+.file-upload__item:first-child {
+  margin-top: 0;
+}
+
+.file-upload__filename {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-upload__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: #616161;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.file-upload__remove:hover {
+  background: #efefef;
+  color: #111827;
+}
+
+.file-upload__message {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.file-upload__message--error {
+  color: #e61c1d;
+}
+
+.file-upload__message--success {
+  color: #15803d;
+}

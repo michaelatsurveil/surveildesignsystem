@@ -1,0 +1,107 @@
+/**
+ * Toast styles from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=176-590
+ *
+ * Variants: default (grey), success, info, warning, error
+ */
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid;
+  /* $Shadow-md from Figma */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  min-width: 280px;
+  max-width: 480px;
+  font-family: Roboto, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: border-color 0.15s;
+}
+
+/* Default/Neutral - white bg, grey text & icons, with border */
+.toast--default {
+  background: #ffffff;
+  color: #272727;
+  border-color: #dfdfdf;
+}
+
+.toast--default:hover {
+  border-color: #a0a0a0;
+}
+
+/* Success - Surface/Success, Text/Success, no border */
+.toast--success {
+  background: #effff5;
+  color: #15803d;
+  border-color: transparent;
+}
+
+/* Info - Surface/Information, Text/Information, no border */
+.toast--info {
+  background: #e5eefa;
+  color: #3165ad;
+  border-color: transparent;
+}
+
+/* Warning - Surface/Warning, Text/Warning, no border */
+.toast--warning {
+  background: #fdf9e9;
+  color: #db9315;
+  border-color: transparent;
+}
+
+/* Error - Surface/Error, Text/Error, no border */
+.toast--error {
+  background: #fff3f3;
+  color: #e61c1d;
+  border-color: transparent;
+}
+
+.toast__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  line-height: 0;
+}
+
+.toast__icon svg {
+  display: block;
+}
+
+.toast__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast__action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  color: inherit;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+
+.toast__action:hover {
+  opacity: 1;
+}
+
+.toast__action:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
