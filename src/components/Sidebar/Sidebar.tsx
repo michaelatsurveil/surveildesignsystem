@@ -27,7 +27,7 @@ export interface SidebarUser {
 }
 
 export interface SidebarProps {
-  /** Brand/logo in header; defaults to Surveil Logo (dark variant) */
+  /** Brand/logo in header; defaults to Surveil Logo (light variant on white background) */
   header?: React.ReactNode;
   /** Main navigation items */
   navItems: SidebarNavItem[];
@@ -44,7 +44,9 @@ export interface SidebarProps {
 }
 
 const defaultHeader = (
-  <Logo variant="dark" height={32} />
+  <div className="sidebar__logo-wrap">
+    <Logo variant="light" height={32} />
+  </div>
 );
 
 export function Sidebar({

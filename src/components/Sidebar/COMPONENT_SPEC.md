@@ -1,6 +1,6 @@
 # Sidebar
 
-**Figma:** [Component Library → Sidebar (89-428)](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=89-428)
+**Figma:** [Component Library → Sidebar (443-15372)](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=443-15372)
 
 ## Overview
 

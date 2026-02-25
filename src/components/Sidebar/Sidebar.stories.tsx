@@ -17,13 +17,13 @@ const stroke = 2;
 
 const defaultNavItems: SidebarNavItem[] = [
   { label: 'Home', icon: <Home size={iconSize} strokeWidth={stroke} />, href: '#' },
-  { label: 'Azure', icon: <Cloud size={iconSize} strokeWidth={stroke} />, href: '#' },
-  { label: 'MultiCloud', icon: <CloudCog size={iconSize} strokeWidth={stroke} />, href: '#' },
+  { label: 'Azure', icon: <Cloud size={iconSize} strokeWidth={stroke} />, href: '#', children: [{ label: 'Sub-item', href: '#' }] },
+  { label: 'MultiCloud', icon: <CloudCog size={iconSize} strokeWidth={stroke} />, href: '#', children: [{ label: 'Sub-item', href: '#' }] },
   { label: 'Microsoft 365', icon: <Cloud size={iconSize} strokeWidth={stroke} />, href: '#' },
-  { label: 'Alerts and Metrics', icon: <Bell size={iconSize} strokeWidth={stroke} />, href: '#' },
+  { label: 'Alerts and Metrics', icon: <Bell size={iconSize} strokeWidth={stroke} />, href: '#', children: [{ label: 'Sub-item', href: '#' }] },
   { label: 'Custom Analytics', icon: <BarChart2 size={iconSize} strokeWidth={stroke} />, href: '#' },
   { label: 'Partner', icon: <Users size={iconSize} strokeWidth={stroke} />, href: '#' },
-  { label: 'Configuration', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#' },
+  { label: 'Configuration', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', children: [{ label: 'Sub-item', href: '#' }] },
   { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#' },
 ];
 
@@ -35,12 +35,12 @@ const meta: Meta<typeof Sidebar> = {
     layout: 'fullscreen',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=89-428',
+      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=443-15372',
     },
     docs: {
       description: {
         component:
-          'App sidebar with logo, navigation links (with optional icons and expand caret), user block, and footer. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=89-428)',
+          'App sidebar with logo, navigation links (with optional icons and expand caret), user block, and footer. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=443-15372)',
       },
     },
   },
