@@ -16,15 +16,15 @@ const iconSize = 20;
 const stroke = 2;
 
 const defaultNavItems: SidebarNavItem[] = [
-  { label: 'Home', icon: <Home size={iconSize} strokeWidth={stroke} />, href: '#' },
-  { label: 'Azure', icon: <Cloud size={iconSize} strokeWidth={stroke} />, href: '#', children: [{ label: 'Sub-item', href: '#' }] },
-  { label: 'MultiCloud', icon: <CloudCog size={iconSize} strokeWidth={stroke} />, href: '#', children: [{ label: 'Sub-item', href: '#' }] },
-  { label: 'Microsoft 365', icon: <Cloud size={iconSize} strokeWidth={stroke} />, href: '#' },
-  { label: 'Alerts and Metrics', icon: <Bell size={iconSize} strokeWidth={stroke} />, href: '#', children: [{ label: 'Sub-item', href: '#' }] },
-  { label: 'Custom Analytics', icon: <BarChart2 size={iconSize} strokeWidth={stroke} />, href: '#' },
-  { label: 'Partner', icon: <Users size={iconSize} strokeWidth={stroke} />, href: '#' },
-  { label: 'Configuration', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', children: [{ label: 'Sub-item', href: '#' }] },
-  { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#' },
+  { label: 'Home', icon: <Home size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
+  { label: 'Azure', icon: <Cloud size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'MultiCloud', icon: <CloudCog size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Microsoft 365', icon: <Cloud size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Alerts and Metrics', icon: <Bell size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Custom Analytics', icon: <BarChart2 size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Partner', icon: <Users size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Configuration', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
 ];
 
 const meta: Meta<typeof Sidebar> = {
@@ -99,8 +99,8 @@ export const WithActiveItem: Story = {
 export const Minimal: Story = {
   args: {
     navItems: [
-      { label: 'Home', icon: <Home size={iconSize} strokeWidth={stroke} />, href: '#' },
-      { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Home', icon: <Home size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
+      { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
     ],
     user: undefined,
     poweredBy: false,

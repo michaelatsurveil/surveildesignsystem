@@ -15,6 +15,8 @@ export interface SidebarNavItem {
   active?: boolean;
   /** Optional sub-items (expandable section) */
   children?: SidebarNavItem[];
+  /** Show chevron on the right (default: true except when explicitly false) */
+  showCaret?: boolean;
 }
 
 export interface SidebarUser {
@@ -127,11 +129,12 @@ export function Sidebar({
 
 function SidebarNavLink({ item }: { item: SidebarNavItem }) {
   const hasChildren = item.children && item.children.length > 0;
+  const showCaret = item.showCaret !== false && (item.showCaret === true || hasChildren);
   const content = (
     <>
       {item.icon && <span className="sidebar__nav-icon" aria-hidden>{item.icon}</span>}
       <span className="sidebar__nav-label">{item.label}</span>
-      {hasChildren && <ChevronDown size={16} className="sidebar__nav-caret" aria-hidden />}
+      {showCaret && <ChevronDown size={16} className="sidebar__nav-caret" aria-hidden />}
     </>
   );
 

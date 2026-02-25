@@ -30,6 +30,7 @@ Vertical app navigation sidebar: dark blue background, logo header, list of nav 
 - `onClick?: () => void` – Renders as `<button>` when no href.
 - `active?: boolean` – Highlights current page.
 - `children?: SidebarNavItem[]` – Sub-items; shows expand caret.
+- `showCaret?: boolean` – When `true`, show chevron on the right; when `false`, hide (e.g. for Home). Default behaviour: show when `true` or when item has `children`.
 
 ## Tokens
 
