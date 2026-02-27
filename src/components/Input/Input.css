@@ -1,6 +1,6 @@
 /**
  * Input component from Figma Component Library
- * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-3801
+ * Single default size: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=466-2643
  *
  * VARIANT STRUCTURE
  * ─────────────────────────────────────────────────────────────────────────
@@ -10,23 +10,20 @@
  * Prefix:       None | Icon
  * Suffix:       None | Icon | Password toggle
  * Message:      None | Helper | Error | Success
- * Size:         XS (26) | S (30) | M (34) | L (38)  - Numbers-TC/Inputs-TC
  *
- * STATES
+ * STATES (border tokens)
  * ─────────────────────────────────────────────────────────────────────────
- * Default      - Border #d1d5db, bg #ffffff
- * Hover        - Border darkens slightly
- * Focus        - Border #3165ad, focus ring
- * Disabled     - Bg #f9fafb, border #e5e7eb, cursor not-allowed
- * Error        - Border #e61c1d, message with icon
- * Success      - Border #15803d, message with icon
+ * Default      - --color-grey-200, bg --color-white
+ * Hover        - --color-grey-300
+ * Focus        - --color-primary, focus ring
+ * Disabled     - --color-bg-alt, border --color-grey-100
+ * Error        - --color-error, message with icon
+ * Success      - --color-success, message with icon
  *
  * TOKENS
  * ─────────────────────────────────────────────────────────────────────────
- * Text/Body: #3a3a3a, Text/Subtext: #818181
- * Border/border: #d1d5db
- * Icons/Error: #e61c1d, Icons/Success: #15803d, Icon/icon-color: #6b7280
- * Radius/S: 4, Numbers-TC/Inputs-TC: 26, 30, 34, 38
+ * Border: --border-width-sm, --color-grey-200 (default), --color-grey-300 (hover), --color-primary (focus), --color-grey-100 (disabled), --color-error, --color-success
+ * Radius: --radius-md. Text/body: --color-grey-600, placeholder: --color-grey-400
  */
 
 .input {
@@ -62,17 +59,18 @@
 }
 
 /* ─── Wrapper (Default + Hover + Focus + Disabled + Error + Success) ─────── */
+/* Default border colour: --color-grey-200 (design system default for inputs) */
 .input__wrapper {
   display: flex;
   align-items: stretch;
-  border: 1px solid var(--color-grey-200, #d1d5db);
-  border-radius: var(--radius-sm, 4px);
+  border: var(--border-width-sm, 1px) solid var(--color-grey-200, #c0c0c0);
+  border-radius: var(--radius-md, 4px);
   background: var(--color-white, #ffffff);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .input:not(.input--disabled) .input__wrapper:hover {
-  border-color: var(--color-grey-300, #9ca3af);
+  border-color: var(--color-grey-300, #a0a0a0);
 }
 
 .input__wrapper:focus-within {
@@ -82,12 +80,12 @@
 
 .input--disabled .input__wrapper {
   background: var(--color-bg-alt, #f9fafb);
-  border-color: var(--color-grey-100, #e5e7eb);
+  border-color: var(--color-grey-100, #dfdfdf);
   cursor: not-allowed;
 }
 
 .input--disabled .input__wrapper:hover {
-  border-color: var(--color-grey-100, #e5e7eb);
+  border-color: var(--color-grey-100, #dfdfdf);
 }
 
 .input--disabled {
@@ -122,6 +120,15 @@
   flex-shrink: 0;
 }
 
+/* Prefix: 8px from border to icon, no gap between icon and text */
+.input__prefix {
+  padding-left: var(--scale-200, 8px);
+  padding-right: 0;
+}
+.input__field--has-prefix {
+  padding-left: 0;
+}
+
 .input__suffix-btn {
   display: flex;
   align-items: center;
@@ -140,7 +147,7 @@
 .input__field {
   flex: 1;
   min-width: 0;
-  padding: 0 var(--scale-300, 12px);
+  padding: var(--scale-200, 8px) var(--scale-300, 12px);
   border: none;
   background: transparent;
   font-family: inherit;
@@ -163,32 +170,7 @@
   color: var(--color-grey-400, #818181);
 }
 
-/* ─── Sizes (Numbers-TC/Inputs-TC) ──────────────────────────────────────── */
-.input--xs .input__field {
-  min-height: 26px;
-}
-
-.input--xs .input__prefix,
-.input--xs .input__suffix {
-  padding: 0 var(--scale-200, 8px);
-}
-
-.input--s .input__field {
-  min-height: 30px;
-}
-
-.input--s .input__prefix,
-.input--s .input__suffix {
-  padding: 0 10px;
-}
-
-.input--m .input__field {
-  min-height: 34px;
-}
-
-.input--l .input__field {
-  min-height: 38px;
-}
+/* Single default size — Figma 466-2643 (one size only) */
 
 /* ─── Messages ─────────────────────────────────────────────────────────── */
 .input__messages {

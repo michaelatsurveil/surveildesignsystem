@@ -2,14 +2,8 @@ import { forwardRef, useState } from 'react';
 import { Info, Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
 import './Input.css';
 
-/** Size: Numbers-TC/Inputs-TC (XS: 26, S: 30, M: 34, L: 38) */
-export type InputSize = 'xs' | 's' | 'm' | 'l';
-
 /** Validation/feedback state */
 export type InputValidationState = 'default' | 'error' | 'success';
-
-/** Interaction state (for styling) */
-export type InputInteractionState = 'default' | 'hover' | 'focus' | 'disabled';
 
 /** Message type below input */
 export type InputMessageType = 'none' | 'helper' | 'error' | 'success';
@@ -38,8 +32,6 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   successMessage?: string;
 
   // ─── Variants ──────────────────────────────────────────────────────────
-  /** Size: xs (26px), s (30px), m (34px), l (38px) */
-  size?: InputSize;
   /** Show password visibility toggle when type="password" */
   showPasswordToggle?: boolean;
 }
@@ -54,7 +46,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     helperText,
     error,
     successMessage,
-    size = 'm',
     showPasswordToggle = true,
     type = 'text',
     disabled,
@@ -92,7 +83,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 
   return (
     <div
-      className={`input input--${size} input--${validationState} ${disabled ? 'input--disabled' : ''} ${className}`.trim()}
+      className={`input input--${validationState} ${disabled ? 'input--disabled' : ''} ${className}`.trim()}
     >
       {label != null && (
         <div className="input__label-row">

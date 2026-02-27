@@ -20,12 +20,19 @@ export interface StatisticCardProps {
   };
   /** Optional supporting text below the value */
   supportingText?: string;
-  /** Primary footer button (left) */
+  /** Optional labels/tags below supporting text (e.g. Tag components). Figma 90-682 exploded state. */
+  labels?: React.ReactNode[];
+  /** Primary footer button (right) */
   primaryAction?: { label: string; onClick?: () => void };
-  /** Secondary footer button (right) */
+  /** Secondary footer button (left) */
   secondaryAction?: { label: string; onClick?: () => void };
 }
 
+/**
+ * Statistic card — Figma 90-682 (exploded state).
+ * Structure: header (icon + title + badge) → value + comparison → supporting text → labels / actions.
+ * When not all pieces are used, vertical sizing hugs content.
+ */
 export function StatisticCard({
   title,
   icon,
@@ -33,19 +40,31 @@ export function StatisticCard({
   value,
   comparison,
   supportingText,
+  labels,
   primaryAction,
   secondaryAction,
 }: StatisticCardProps) {
   const hasFooterActions = primaryAction || secondaryAction;
+  const hasLabels = labels != null && labels.length > 0;
+  const hasFooter = hasFooterActions || hasLabels;
+  const hasSupporting = supportingText != null && supportingText.length > 0;
+
+  const rootClass = [
+    'statistic-card',
+    hasSupporting && 'statistic-card--has-supporting',
+    hasFooter && 'statistic-card--has-footer',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <article className="statistic-card">
+    <article className={rootClass}>
       <header className="statistic-card__header">
         <div className="statistic-card__header-left">
           {icon && <span className="statistic-card__icon" aria-hidden>{icon}</span>}
           <h3 className="statistic-card__title">{title}</h3>
         </div>
-        {badge && <span className="statistic-card__badge">{badge}</span>}
+        {badge != null && badge !== '' && <span className="statistic-card__badge">{badge}</span>}
       </header>
 
       <div className="statistic-card__value-row">
@@ -60,34 +79,45 @@ export function StatisticCard({
         )}
       </div>
 
-      {supportingText && (
+      {hasSupporting && (
         <p className="statistic-card__supporting">{supportingText}</p>
       )}
 
-      {hasFooterActions && (
+      {hasFooter && (
         <footer className="statistic-card__footer">
-          {secondaryAction && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                secondaryAction.onClick?.();
-              }}
-            >
-              {secondaryAction.label}
-            </Button>
+          {hasLabels && (
+            <div className="statistic-card__labels">
+              {labels.map((label, i) => (
+                <span key={i} className="statistic-card__label">{label}</span>
+              ))}
+            </div>
           )}
-          {primaryAction && (
-            <Button
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                primaryAction.onClick?.();
-              }}
-            >
-              {primaryAction.label}
-            </Button>
+          {hasFooterActions && (
+            <div className="statistic-card__actions">
+              {secondaryAction && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    secondaryAction.onClick?.();
+                  }}
+                >
+                  {secondaryAction.label}
+                </Button>
+              )}
+              {primaryAction && (
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    primaryAction.onClick?.();
+                  }}
+                >
+                  {primaryAction.label}
+                </Button>
+              )}
+            </div>
           )}
         </footer>
       )}

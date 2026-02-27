@@ -1,4 +1,7 @@
-/* Button styles from Figma Component Library design tokens */
+/**
+ * Button styles from Figma Component Library
+ * Small button: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=153-1427
+ */
 
 .btn {
   display: inline-flex;
@@ -125,22 +128,25 @@
   border-color: var(--color-error-300, #f07777);
 }
 
-/* Sizes */
+/* Sizes — Figma 153-1427 (Input > Buttons). Small & medium use body small (14px / 16px). */
 .btn--sm {
-  padding: var(--scale-300, 6px) var(--scale-300, 14px);
+  padding: calc(var(--scale-100, 4px) + var(--scale-50, 2px)) var(--scale-300, 12px);
+  min-height: var(--scale-600, 24px);
   font-size: 14px;
   font-weight: var(--font-weight-medium, 500);
-  line-height: 20px;
+  line-height: 16px;
 }
 .btn--md {
-  padding: var(--scale-200, 8px) var(--scale-400, 16px);
-  font-size: var(--scale-400, 16px);
+  padding: var(--scale-200, 8px) var(--scale-300, 12px);
+  min-height: var(--scale-800, 32px);
+  font-size: 14px;
   font-weight: var(--font-weight-medium, 500);
-  line-height: 24px;
+  line-height: 16px;
 }
 .btn--lg {
-  padding: var(--scale-200, 10px) var(--scale-500, 20px);
+  padding: calc(var(--scale-200, 8px) + var(--scale-50, 2px)) var(--scale-500, 20px);
+  min-height: var(--scale-900, 40px);
   font-size: var(--scale-400, 16px);
   font-weight: var(--font-weight-medium, 500);
-  line-height: 24px;
+  line-height: var(--scale-600, 24px);
 }

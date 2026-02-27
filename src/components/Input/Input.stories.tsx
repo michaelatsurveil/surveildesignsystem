@@ -11,21 +11,16 @@ const meta: Meta<typeof Input> = {
     layout: 'padded',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-3801',
+      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=466-2643',
     },
     docs: {
       description: {
         component:
-          'Text input with optional label, prefix/suffix icons, validation states, and helper text. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-3801)',
+          'Text input with optional label, prefix/suffix icons, validation states, and helper text. Single default size. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=466-2643)',
       },
     },
   },
   argTypes: {
-    size: {
-      control: 'radio',
-      options: ['xs', 's', 'm', 'l'],
-      description: 'Numbers-TC/Inputs-TC: XS (26px), S (30px), M (34px), L (38px)',
-    },
     disabled: {
       control: 'boolean',
     },
@@ -147,17 +142,6 @@ export const Disabled: Story = {
     disabled: true,
     value: 'Disabled value',
   },
-};
-
-export const AllSizes: Story = {
-  render: () => (
-    <div style={{ maxWidth: 400, display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <Input label="XS (26px)" size="xs" placeholder="Input value" />
-      <Input label="S (30px)" size="s" placeholder="Input value" />
-      <Input label="M (34px)" size="m" placeholder="Input value" />
-      <Input label="L (38px)" size="l" placeholder="Input value" />
-    </div>
-  ),
 };
 
 export const AllStates: Story = {

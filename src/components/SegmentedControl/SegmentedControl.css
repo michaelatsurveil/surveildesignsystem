@@ -58,11 +58,11 @@
 }
 
 .segmented-control--rectangular .segmented-control__segment:first-child {
-  border-radius: 4px 0 0 4px;
+  border-radius: var(--radius-md, 4px) 0 0 var(--radius-md, 4px);
 }
 
 .segmented-control--rectangular .segmented-control__segment:last-child {
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--radius-md, 4px) var(--radius-md, 4px) 0;
 }
 
 .segmented-control--rectangular .segmented-control__segment:not(:first-child):not(:last-child) {
@@ -82,9 +82,9 @@
 }
 
 .segmented-control__segment {
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-  color: #374151;
+  border: 1px solid var(--color-grey-200, #d1d5db);
+  background: var(--color-white, #ffffff);
+  color: var(--color-grey-600, #374151);
   cursor: pointer;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s;
   font-family: inherit;
@@ -98,13 +98,13 @@
 
 /* Surface/Button/tertiary-hover */
 .segmented-control__segment:hover:not(.segmented-control__segment--selected):not(:disabled) {
-  background: #f7f7f7;
+  background: var(--color-grey-50, #f7f7f7);
 }
 
 /* Surface/Button/tertiary-pressed, Border/Button/secondary-pressed */
 .segmented-control__segment:active:not(.segmented-control__segment--selected):not(:disabled) {
-  background: #dfdfdf;
-  border-color: #c0c0c0;
+  background: var(--color-grey-100, #dfdfdf);
+  border-color: var(--color-grey-200, #c0c0c0);
 }
 
 .segmented-control__segment + .segmented-control__segment {
@@ -112,22 +112,22 @@
 }
 
 .segmented-control__segment--selected {
-  background: #ffffff;
-  border-color: #3165ad;
-  color: #3165ad;
+  background: var(--color-white, #ffffff);
+  border-color: var(--color-primary, #3165ad);
+  color: var(--color-primary, #3165ad);
   z-index: 1;
 }
 
 .segmented-control__segment:focus-visible {
-  outline: 2px solid #3165ad;
+  outline: 2px solid var(--color-primary, #3165ad);
   outline-offset: 2px;
   z-index: 2;
 }
 
 /* Buttons/Secondary secondary-bg-color-disabled, secondary-border-color-disabled, Text/Disabled */
 .segmented-control__segment:disabled {
-  background: #ffffff;
-  border-color: #e5e7eb;
-  color: #818181;
+  background: var(--color-white, #ffffff);
+  border-color: var(--color-grey-100, #e5e7eb);
+  color: var(--color-grey-400, #818181);
   cursor: not-allowed;
 }
