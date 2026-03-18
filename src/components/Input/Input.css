@@ -1,0 +1,219 @@
+/**
+ * Input component from Figma Component Library
+ * Single default size: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=466-2643
+ *
+ * VARIANT STRUCTURE
+ * ─────────────────────────────────────────────────────────────────────────
+ * Label:        On | Off
+ * Required:     On | Off
+ * Info:         On | Off
+ * Prefix:       None | Icon
+ * Suffix:       None | Icon | Password toggle
+ * Message:      None | Helper | Error | Success
+ *
+ * STATES (border tokens)
+ * ─────────────────────────────────────────────────────────────────────────
+ * Default      - --color-grey-200, bg --color-white
+ * Hover        - --color-grey-300
+ * Focus        - --color-primary, focus ring
+ * Disabled     - --color-bg-alt, border --color-grey-100
+ * Error        - --color-error, message with icon
+ * Success      - --color-success, message with icon
+ *
+ * TOKENS
+ * ─────────────────────────────────────────────────────────────────────────
+ * Border: --border-width-sm, --color-grey-200 (default), --color-grey-300 (hover), --color-primary (focus), --color-grey-100 (disabled), --color-error, --color-success
+ * Radius: --radius-md. Text/body: --color-grey-600, placeholder: --color-grey-400
+ */
+
+.input {
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-100, 4px);
+}
+
+.input__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-100, 4px);
+}
+
+.input__label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--color-grey-600, #3a3a3a);
+}
+
+.input__required {
+  color: var(--color-error, #e61c1d);
+}
+
+.input__info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-grey-400, #6b7280);
+  cursor: help;
+}
+
+/* ─── Wrapper (Default + Hover + Focus + Disabled + Error + Success) ─────── */
+/* Default border colour: --color-grey-200 (design system default for inputs) */
+.input__wrapper {
+  display: flex;
+  align-items: stretch;
+  border: var(--border-width-sm, 1px) solid var(--color-grey-200, #c0c0c0);
+  border-radius: var(--radius-md, 4px);
+  background: var(--color-white, #ffffff);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input:not(.input--disabled) .input__wrapper:hover {
+  border-color: var(--color-grey-300, #a0a0a0);
+}
+
+.input__wrapper:focus-within {
+  border-color: var(--color-primary, #3165ad);
+  box-shadow: 0 0 0 4px rgba(49, 101, 173, 0.2);
+}
+
+.input--disabled .input__wrapper {
+  background: var(--color-bg-alt, #f9fafb);
+  border-color: var(--color-grey-100, #dfdfdf);
+  cursor: not-allowed;
+}
+
+.input--disabled .input__wrapper:hover {
+  border-color: var(--color-grey-100, #dfdfdf);
+}
+
+.input--disabled {
+  opacity: 0.65;
+}
+
+.input--error .input__wrapper {
+  border-color: var(--color-error, #e61c1d);
+}
+
+.input--error .input__wrapper:focus-within {
+  border-color: var(--color-error, #e61c1d);
+  box-shadow: 0 0 0 4px rgba(230, 28, 29, 0.2);
+}
+
+.input--success .input__wrapper {
+  border-color: var(--color-success, #15803d);
+}
+
+.input--success .input__wrapper:focus-within {
+  border-color: var(--color-success, #15803d);
+  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.2);
+}
+
+.input__prefix,
+.input__suffix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--scale-300, 12px);
+  color: var(--color-grey-400, #6b7280);
+  flex-shrink: 0;
+}
+
+/* Prefix: 8px from border to icon, no gap between icon and text */
+.input__prefix {
+  padding-left: var(--scale-200, 8px);
+  padding-right: 0;
+}
+.input__field--has-prefix {
+  padding-left: 0;
+}
+
+.input__suffix-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.input__suffix-btn:hover {
+  color: var(--color-grey-600, #3a3a3a);
+}
+
+.input__field {
+  flex: 1;
+  min-width: 0;
+  padding: var(--scale-200, 8px) var(--scale-300, 12px);
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--color-grey-600, #3a3a3a);
+}
+
+.input__field::placeholder {
+  color: var(--color-grey-400, #818181);
+}
+
+.input__field:focus {
+  outline: none;
+}
+
+.input__field:disabled {
+  cursor: not-allowed;
+  color: var(--color-grey-400, #818181);
+}
+
+/* Single default size — Figma 466-2643 (one size only) */
+
+/* ─── Messages ─────────────────────────────────────────────────────────── */
+.input__messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-50, 2px);
+}
+
+.input__message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.input__message--error {
+  color: var(--color-error, #e61c1d);
+}
+
+.input__message--success {
+  color: var(--color-success, #15803d);
+}
+
+.input__message--helper {
+  color: var(--color-grey-400, #6b7280);
+}
+
+.input__message--helper .input__message-icon {
+  color: var(--color-success-300, #76bd91);
+}
+
+.input__message-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.input__message--error .input__message-icon {
+  color: var(--color-error, #e61c1d);
+}
+
+.input__message--success .input__message-icon {
+  color: var(--color-success, #15803d);
+}

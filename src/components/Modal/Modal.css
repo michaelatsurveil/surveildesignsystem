@@ -1,0 +1,142 @@
+/**
+ * Modal component from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=333-308
+ *
+ * A dialog box that appears on top of the main content to capture user attention.
+ * Used for forms, alerts, or additional information.
+ *
+ * Size variants: sm (366px), md (525px), lg (768px)
+ * Spacing: Scale/400 (16px), Scale/600 (24px), spacing-12 (12px)
+ * Radius: Radius/S (4px), Shadow: shadow-lg
+ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--scale-400, 16px);
+  pointer-events: none;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+  animation: modal-backdrop-in 0.2s ease-out;
+}
+
+.modal__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 32px);
+  background: var(--color-white, #ffffff);
+  border-radius: var(--radius-sm, 4px);
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  animation: modal-content-in 0.2s ease-out;
+}
+
+.modal__content--sm {
+  width: 366px;
+  max-width: 100%;
+}
+
+.modal__content--md {
+  width: 525px;
+  max-width: 100%;
+}
+
+.modal__content--lg {
+  width: 768px;
+  max-width: 100%;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scale-400, 16px);
+  padding: var(--scale-400, 16px) var(--scale-300, 12px) var(--scale-300, 12px) var(--scale-400, 16px);
+  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+  flex-shrink: 0;
+}
+
+.modal__title {
+  margin: 0;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--color-grey-700, #272727);
+}
+
+.modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  background: transparent;
+  color: var(--color-grey-400, #6b7280);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.modal__close:hover {
+  background: var(--color-grey-50, #f7f7f7);
+  color: var(--color-grey-600, #3a3a3a);
+}
+
+.modal__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+
+.modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--scale-600, 24px);
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-grey-600, #3a3a3a);
+}
+
+.modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--scale-300, 12px);
+  padding: var(--scale-400, 16px);
+  border-top: 1px solid var(--color-grey-100, #e5e7eb);
+  flex-shrink: 0;
+}
+
+@keyframes modal-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-content-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

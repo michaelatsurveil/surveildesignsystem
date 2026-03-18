@@ -1,0 +1,34 @@
+/**
+ * Scale and spacing tokens from Figma Component Library
+ * Scale/0 through Scale/1000
+ */
+
+:root {
+  /* Scale - base spacing/sizing */
+  --scale-0: 0;
+  --scale-25: 1px;
+  --scale-50: 2px;
+  --scale-100: 4px;
+  --scale-200: 8px;
+  --scale-300: 12px;
+  --scale-400: 16px;
+  --scale-500: 20px;
+  --scale-600: 24px;
+  --scale-700: 28px;
+  --scale-800: 32px;
+  --scale-900: 40px;
+  --scale-1000: 48px;
+
+  /* Border width (Border Width: none, sm, md, lg) */
+  --border-width-none: 0;
+  --border-width-sm: var(--scale-25);
+  --border-width-md: var(--scale-50);
+  --border-width-lg: var(--scale-100);
+
+  /* Border radius (Border Radius: none, sm, md, lg) */
+  --radius-none: var(--scale-0);
+  --radius-sm: var(--scale-50);
+  --radius-md: var(--scale-100);
+  --radius-lg: var(--scale-200);
+  --radius-full: 9999px;
+}

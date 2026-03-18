@@ -1,0 +1,152 @@
+/**
+ * Button styles from Figma Component Library
+ * Small button: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=153-1427
+ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg, 8px);
+  cursor: pointer;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  outline: none;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+/* Primary */
+.btn--primary {
+  background-color: var(--color-primary, #3165ad);
+  color: var(--color-white, #ffffff);
+  border-color: var(--color-primary, #3165ad);
+}
+.btn--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-600, #27518c);
+  border-color: var(--color-primary-600, #27518c);
+}
+.btn--primary:active:not(:disabled) {
+  background-color: var(--color-primary-700, #203b61);
+  border-color: var(--color-primary-700, #203b61);
+}
+.btn--primary:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+.btn--primary:disabled {
+  background-color: var(--color-grey-100, #dfdfdf);
+  color: var(--color-grey-400, #818181);
+  border-color: var(--color-grey-200, #c0c0c0);
+}
+
+/* Secondary */
+.btn--secondary {
+  background-color: var(--color-white, #ffffff);
+  color: var(--color-grey-600, #3a3a3a);
+  border: 1px solid var(--color-grey-200, #d1d5db);
+}
+.btn--secondary:hover:not(:disabled) {
+  background-color: var(--color-grey-50, #f7f7f7);
+  border-color: var(--color-grey-200, #d1d5db);
+}
+.btn--secondary:active:not(:disabled) {
+  background-color: var(--color-grey-100, #dfdfdf);
+  border-color: var(--color-grey-300, #9ca3af);
+}
+.btn--secondary:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 2px var(--color-grey-200, #d1d5db);
+}
+.btn--secondary:disabled {
+  background-color: var(--color-white, #ffffff);
+  color: var(--color-grey-300, #a0a0a0);
+  border-color: var(--color-grey-100, #e5e7eb);
+}
+
+/* Outline */
+.btn--outline {
+  background-color: var(--color-white, #ffffff);
+  color: var(--color-primary-700, #203b61);
+  border-color: var(--color-primary, #3165ad);
+}
+.btn--outline:hover:not(:disabled) {
+  background-color: var(--color-grey-50, #f7f7f7);
+  border-color: var(--color-primary-600, #27518c);
+}
+.btn--outline:active:not(:disabled) {
+  background-color: var(--color-primary-50, #e5eefa);
+  border-color: var(--color-primary-700, #203b61);
+}
+.btn--outline:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(49, 101, 173, 0.2), 0 0 0 2px var(--color-white, #ffffff);
+}
+.btn--outline:disabled {
+  color: var(--color-grey-300, #a0a0a0);
+  border-color: var(--color-grey-200, #c0c0c0);
+}
+
+/* Tertiary */
+.btn--tertiary {
+  background-color: transparent;
+  color: var(--color-primary-700, #203b61);
+  border-color: transparent;
+}
+.btn--tertiary:hover:not(:disabled) {
+  background-color: var(--color-grey-50, #f7f7f7);
+}
+.btn--tertiary:active:not(:disabled) {
+  background-color: var(--color-grey-100, #dfdfdf);
+}
+.btn--tertiary:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 2px var(--color-grey-200, #d1d5db);
+}
+.btn--tertiary:disabled {
+  color: var(--color-grey-300, #a0a0a0);
+}
+
+/* Danger */
+.btn--danger {
+  background-color: var(--color-error, #e61c1d);
+  color: var(--color-white, #ffffff);
+  border-color: var(--color-error, #e61c1d);
+}
+.btn--danger:hover:not(:disabled) {
+  background-color: var(--color-error-600, #c51516);
+  border-color: var(--color-error-600, #c51516);
+}
+.btn--danger:active:not(:disabled) {
+  background-color: var(--color-error-700, #8a1111);
+  border-color: var(--color-error-700, #8a1111);
+}
+.btn--danger:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+.btn--danger:disabled {
+  background-color: var(--color-error-200, #ffbbbc);
+  border-color: var(--color-error-300, #f07777);
+}
+
+/* Sizes — Figma 153-1427 (Input > Buttons). Small & medium use body small (14px / 16px). */
+.btn--sm {
+  padding: calc(var(--scale-100, 4px) + var(--scale-50, 2px)) var(--scale-300, 12px);
+  min-height: var(--scale-600, 24px);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 16px;
+}
+.btn--md {
+  padding: var(--scale-200, 8px) var(--scale-300, 12px);
+  min-height: var(--scale-800, 32px);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 16px;
+}
+.btn--lg {
+  padding: calc(var(--scale-200, 8px) + var(--scale-50, 2px)) var(--scale-500, 20px);
+  min-height: var(--scale-900, 40px);
+  font-size: var(--scale-400, 16px);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: var(--scale-600, 24px);
+}

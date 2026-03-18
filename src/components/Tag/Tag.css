@@ -1,0 +1,68 @@
+/**
+ * Tag (pill) styles — implements Figma Component Library
+ * Default pill: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=465-10005
+ * Token mapping: background → --color-grey-50, text → --color-grey-700, border → --color-grey-100, border-width → --border-width-sm, radius → --radius-full, padding/sizing → --scale-*
+ */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  border-radius: var(--radius-full, 9999px);
+  border: none;
+  white-space: nowrap;
+}
+
+/* Sizes — scale tokens per Figma */
+.tag--sm {
+  padding: var(--scale-50, 2px) var(--scale-200, 8px);
+  font-size: 12px;
+  line-height: 1.25;
+  min-height: var(--scale-500, 20px);
+}
+
+.tag--md {
+  padding: var(--scale-100, 4px) var(--scale-300, 12px);
+  font-size: 14px;
+  line-height: 1.25;
+  min-height: var(--scale-600, 24px);
+}
+
+/* Default pill — Figma 465-10005: colour and border from design tokens */
+.tag--default {
+  background-color: var(--color-grey-50, #efefef);
+  color: var(--color-grey-700, #272727);
+  border: var(--border-width-sm, 1px) solid var(--color-grey-100, #dfdfdf);
+}
+
+/* Info */
+.tag--info {
+  background-color: var(--color-primary-50, #e5eefa);
+  color: var(--color-primary-700, #203b61);
+}
+
+/* Success */
+.tag--success {
+  background-color: var(--color-success-50, #effff5);
+  color: var(--color-success-700, #0d4d25);
+}
+
+/* Critical */
+.tag--critical {
+  background-color: var(--color-error-50, #fff3f3);
+  color: var(--color-error-700, #8a1111);
+}
+
+/* Attention */
+.tag--attention {
+  background-color: var(--color-warning-50, #fdf9e9);
+  color: var(--color-warning-700, #7f4014);
+}
+
+/* Warning */
+.tag--warning {
+  background-color: var(--color-warning-100, #fbf1c6);
+  color: var(--color-warning-800, #6c3517);
+}

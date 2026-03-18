@@ -1,0 +1,149 @@
+/**
+ * Statistic Card — Figma 90-682 (exploded state)
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=90-682
+ *
+ * Structure: header (icon + title + badge) → value + comparison → supporting text → labels / actions.
+ * Vertical sizing hugs content when optional pieces are omitted (conditional margins).
+ */
+
+.statistic-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+  background: var(--color-white, #ffffff);
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid var(--color-grey-100, #e5e7eb);
+  padding: var(--scale-400, 16px);
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+}
+
+.statistic-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scale-400, 16px);
+  margin-bottom: var(--scale-400, 16px);
+  min-width: 0;
+}
+
+.statistic-card__header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-300, 12px);
+  min-width: 0;
+}
+
+.statistic-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-warning, #db9315);
+}
+
+.statistic-card__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: 20px;
+  color: var(--color-grey-700, #272727);
+}
+
+.statistic-card__badge {
+  flex-shrink: 0;
+  padding: var(--scale-100, 4px) 10px;
+  border-radius: var(--radius-lg, 8px);
+  background: var(--color-grey-50, #efefef);
+  color: var(--color-grey, #616161);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 16px;
+}
+
+/* Value row: only add bottom margin when supporting text or footer follows (vertical hug) */
+.statistic-card__value-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--scale-300, 12px);
+  margin-bottom: 0;
+}
+.statistic-card--has-supporting .statistic-card__value-row,
+.statistic-card--has-footer .statistic-card__value-row {
+  margin-bottom: var(--scale-200, 8px);
+}
+
+.statistic-card__value {
+  font-size: 24px;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: 32px;
+  color: var(--color-grey-700, #272727);
+}
+
+.statistic-card__comparison {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-100, 4px);
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 20px;
+}
+
+.statistic-card__comparison--up {
+  color: var(--color-success, #15803d);
+}
+
+.statistic-card__comparison--down {
+  color: var(--color-error, #e61c1d);
+}
+
+.statistic-card__comparison--neutral {
+  color: var(--color-grey, #616161);
+}
+
+/* Supporting text: only add bottom margin when footer follows (vertical hug) */
+.statistic-card__supporting {
+  margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 20px;
+  color: var(--color-grey-400, #818181);
+}
+.statistic-card--has-footer .statistic-card__supporting {
+  margin-bottom: var(--scale-600, 24px);
+}
+
+.statistic-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scale-300, 12px);
+  padding-top: 0;
+  margin-top: 0;
+}
+.statistic-card--has-footer .statistic-card__footer {
+  padding-top: var(--scale-400, 16px);
+}
+
+.statistic-card__labels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+}
+
+.statistic-card__label {
+  display: inline-flex;
+}
+
+.statistic-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--scale-300, 12px);
+  margin-left: auto;
+}
