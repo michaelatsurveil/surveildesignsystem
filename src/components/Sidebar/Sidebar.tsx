@@ -46,32 +46,44 @@ export interface SidebarProps {
   width?: number;
   /** Additional class name */
   className?: string;
+  /**
+   * Visual variant.
+   * - `default` — dark navy background (primary sidebar)
+   * - `navigator` — white background with dark text (secondary/contextual sidebar)
+   */
+  variant?: 'default' | 'navigator';
 }
 
-const defaultHeader = (
-  <div className="sidebar__logo-wrap">
-    <Logo variant="light" height={32} />
-  </div>
-);
-
 export function Sidebar({
-  header = defaultHeader,
+  header,
   navItems,
   user,
   poweredBy = true,
   footer,
   width = 260,
   className = '',
+  variant = 'default',
 }: SidebarProps) {
+  const isNavigator = variant === 'navigator';
+  // Both sidebar variants have a white header background → always use the light-background logo
+  const resolvedHeader = header ?? (
+    <div className="sidebar__logo-wrap">
+      <Logo variant="light" height={32} />
+    </div>
+  );
   return (
     <aside
-      className={`sidebar ${className}`.trim()}
+      className={[
+        'sidebar',
+        isNavigator ? 'sidebar--navigator' : '',
+        className,
+      ].filter(Boolean).join(' ')}
       style={{ width: width ? `${width}px` : undefined }}
       role="navigation"
       aria-label="Main navigation"
     >
       <div className="sidebar__header">
-        {header}
+        {resolvedHeader}
       </div>
 
       <nav className="sidebar__nav">
@@ -117,10 +129,11 @@ export function Sidebar({
             )}
           </div>
         )}
-        {poweredBy && (
+        {poweredBy && !isNavigator && (
           <div className="sidebar__powered">
-            <span className="sidebar__powered-label">Powered by</span>
-            <Logo variant="dark" height={20} />
+            {/* Figma: two stacked text nodes, no logo. Both white at 40% opacity */}
+            <span className="sidebar__powered-by">Powered by</span>
+            <span className="sidebar__powered-name">Surveil</span>
           </div>
         )}
         {footer && (
@@ -144,6 +157,16 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
     depth > 0 ? 'sidebar__nav-link--child' : '',
   ].filter(Boolean).join(' ');
 
+  // Figma: L1=12px, L2=20px, L3=28px, L4=36px, L5=44px → 12px + depth × 8px
+  // Fully explicit so inline style wins over CSS shorthand on all levels
+  const indentStyle: React.CSSProperties = {
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    paddingLeft: `${12 + depth * 8}px`,
+    paddingRight: '12px',
+    borderRadius: '8px',
+  };
+
   const handleToggle = () => {
     if (hasChildren) setExpanded(prev => !prev);
   };
@@ -166,21 +189,22 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
     <button
       type="button"
       className={linkClass}
+      style={indentStyle}
       onClick={handleToggle}
       aria-expanded={expanded}
     >
       {content}
     </button>
   ) : item.href ? (
-    <a href={item.href} className={linkClass}>
+    <a href={item.href} className={linkClass} style={indentStyle}>
       {content}
     </a>
   ) : item.onClick ? (
-    <button type="button" className={linkClass} onClick={item.onClick}>
+    <button type="button" className={linkClass} style={indentStyle} onClick={item.onClick}>
       {content}
     </button>
   ) : (
-    <span className={linkClass}>{content}</span>
+    <span className={linkClass} style={indentStyle}>{content}</span>
   );
 
   return (

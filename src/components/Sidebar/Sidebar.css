@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden; /* prevent horizontal scroll at sidebar level */
   background-color: var(--color-primary-700, #203b61);
   color: var(--color-white, #fff);
 }
@@ -27,7 +28,9 @@
 .sidebar__nav {
   flex: 1;
   overflow-y: auto;
-  padding: var(--scale-200, 8px) 0;
+  overflow-x: hidden; /* prevent horizontal scroll */
+  padding: 12px; /* 12px container padding around all nav items */
+  box-sizing: border-box;
 }
 
 .sidebar__nav-list {
@@ -43,15 +46,16 @@
 .sidebar__nav-link {
   display: flex;
   align-items: center;
-  gap: var(--scale-300, 12px);
+  gap: var(--scale-400, 16px); /* 16px between left icon and label text */
   width: 100%;
-  padding: var(--scale-300, 12px) var(--scale-500, 20px);
+  box-sizing: border-box; /* ensure padding stays inside the 100% width */
+  /* padding + border-radius are set via inline style on every level (L1–L5) */
   border: none;
   background: none;
   color: inherit;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   font-size: 14px;
-  font-weight: var(--font-weight-medium, 500);
+  font-weight: var(--font-weight-regular, 400);
   line-height: 1.25;
   text-align: left;
   text-decoration: none;
@@ -87,6 +91,7 @@
   height: 20px;
 }
 
+
 .sidebar__nav-label {
   flex: 1;
 }
@@ -95,6 +100,7 @@
   flex-shrink: 0;
   opacity: 0.8;
   transition: transform 0.2s ease;
+  margin-left: 12px; /* 4px gap + 12px margin = 16px between label and caret */
 }
 
 .sidebar__nav-caret--open {
@@ -106,13 +112,17 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  background-color: rgba(0, 0, 0, 0.15);
+  width: 100%;
+}
+
+.sidebar__subnav-list .sidebar__nav-item {
+  width: 100%;
 }
 
 .sidebar__nav-link--child {
-  padding-left: calc(var(--scale-500, 20px) + 20px + var(--scale-300, 12px));
-  font-size: 13px;
-  opacity: 0.9;
+  /* padding-left is set via inline style: 12px + (depth × 8px) — matches Figma L2=20px, L3=28px, etc. */
+  font-size: 14px;
+  opacity: 1;
 }
 
 .sidebar__nav-link--child.sidebar__nav-link--active {
@@ -175,7 +185,7 @@
 .sidebar__user-name {
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   font-size: 14px;
-  font-weight: var(--font-weight-medium, 500);
+  font-weight: var(--font-weight-regular, 400);
   line-height: 1.25;
 }
 
@@ -195,19 +205,31 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--scale-100, 4px);
+  gap: 0;
   margin: 0 0 var(--scale-300, 12px);
 }
 
-.sidebar__powered-label {
+/* Figma: "Powered by" — 8px Roboto Thin (weight 100), white at 40% opacity */
+.sidebar__powered-by {
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
-  font-size: 10px;
+  font-size: 8px;
+  font-weight: 100;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+  line-height: 12px;
+  text-align: center;
+}
+
+/* Figma: "Surveil" — 11px Roboto Regular (weight 400), white at 40% opacity, -2px tighter to row above */
+.sidebar__powered-name {
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 11px;
   font-weight: var(--font-weight-regular, 400);
-  color: var(--color-white, #ffffff);
-  opacity: 0.5;
-  line-height: 1.25;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+  line-height: 16.5px;
+  margin-top: -2px;
+  text-align: center;
 }
 
 .sidebar__footer {
@@ -218,15 +240,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  gap: var(--scale-200, 8px);
+  gap: var(--scale-400, 16px);
   width: 100%;
-  padding: var(--scale-300, 12px) var(--scale-500, 20px);
+  padding: var(--scale-200, 8px) var(--scale-500, 20px);
   border: none;
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: transparent;
   color: inherit;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   font-size: 14px;
-  font-weight: var(--font-weight-medium, 500);
+  font-weight: var(--font-weight-regular, 400);
   cursor: pointer;
   border-radius: var(--radius-md, 4px);
   transition: background-color 0.15s;
@@ -234,10 +256,136 @@
 }
 
 .sidebar__footer .sidebar__logout:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .sidebar__footer .sidebar__logout:focus-visible {
   outline: 2px solid var(--color-white, #fff);
   outline-offset: 2px;
+}
+
+/* Circular icon container — matches Figma "Overlay" frame (cornerRadius: 9999) */
+.sidebar__logout-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full, 9999px);
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+/* ─── Navigator variant (Secondary Side Bar) ─────────────────────────────────
+ * Figma: Component Library → Secondary Side Bar (153:3673)
+ * White background, primary-800 text, grey hover/pressed states.
+ * Nav item hover:   rgba(239,239,239) = --color-grey-50
+ * Nav item pressed: rgba(223,223,223) = --color-grey-100
+ * Nav item active:  rgba(49,101,173)  = --color-primary
+ */
+
+.sidebar--navigator {
+  background-color: var(--color-white, #ffffff);
+  color: var(--color-primary-900, #111827); /* text/body */
+  border-right: 1px solid var(--color-grey-200, #c0c0c0);
+}
+
+.sidebar--navigator .sidebar__header {
+  background-color: var(--color-white, #ffffff);
+  border-bottom: 1px solid var(--color-grey-200, #c0c0c0);
+}
+
+.sidebar--navigator .sidebar__nav-link {
+  color: var(--color-primary-900, #111827); /* text/body */
+}
+
+/* Icon colour: icon/default = #616161 */
+.sidebar--navigator .sidebar__nav-icon {
+  color: var(--color-grey, #616161);
+}
+
+.sidebar--navigator .sidebar__nav-link:hover:not(.sidebar__nav-link--active) {
+  background-color: var(--color-grey-50, #efefef);
+}
+
+.sidebar--navigator .sidebar__nav-link:active:not(.sidebar__nav-link--active) {
+  background-color: var(--color-grey-100, #dfdfdf);
+}
+
+.sidebar--navigator .sidebar__nav-link:focus-visible {
+  outline-color: var(--color-primary, #3165ad);
+}
+
+.sidebar--navigator .sidebar__nav-link--active {
+  background-color: var(--color-primary, #3165ad);
+  color: var(--color-white, #ffffff);
+}
+
+/* Icon on selected tab: icon/on-action = white (on primary bg) */
+.sidebar--navigator .sidebar__nav-link--active .sidebar__nav-icon {
+  color: var(--color-white, #ffffff);
+}
+
+.sidebar--navigator .sidebar__nav-caret {
+  opacity: 1;
+}
+
+.sidebar--navigator .sidebar__subnav-list {
+  background-color: transparent;
+}
+
+.sidebar--navigator .sidebar__nav-link--child {
+  opacity: 1;
+  color: var(--color-primary-900, #111827); /* text/body */
+}
+
+.sidebar--navigator .sidebar__nav-link--child.sidebar__nav-link--active {
+  color: var(--color-white, #ffffff);
+}
+
+.sidebar--navigator .sidebar__bottom {
+  border-top-color: var(--color-grey-200, #c0c0c0);
+}
+
+.sidebar--navigator .sidebar__user-link,
+.sidebar--navigator .sidebar__user-block {
+  color: var(--color-primary-900, #111827); /* text/body */
+}
+
+.sidebar--navigator .sidebar__user-link:focus-visible {
+  outline-color: var(--color-primary, #3165ad);
+}
+
+.sidebar--navigator .sidebar__user-icon {
+  background-color: var(--color-primary, #3165ad);
+  color: var(--color-white, #ffffff);
+}
+
+.sidebar--navigator .sidebar__user-arrow {
+  opacity: 1;
+  color: var(--color-grey, #616161); /* icon/default */
+}
+
+.sidebar--navigator .sidebar__powered-by,
+.sidebar--navigator .sidebar__powered-name {
+  color: rgba(32, 59, 97, 0.4); /* primary-800 at 40% opacity on white bg */
+}
+
+.sidebar--navigator .sidebar__footer .sidebar__logout {
+  background-color: transparent;
+  color: var(--color-grey-600, #3a3a3a);
+}
+
+.sidebar--navigator .sidebar__footer .sidebar__logout:hover {
+  background-color: var(--color-grey-50, #efefef);
+}
+
+.sidebar--navigator .sidebar__footer .sidebar__logout:focus-visible {
+  outline-color: var(--color-primary, #3165ad);
+}
+
+/* Navigator logout icon — grey, no dark circle (Figma: stroke rgba(97,97,97)) */
+.sidebar--navigator .sidebar__logout-icon {
+  background-color: transparent;
+  color: var(--color-grey-500, #616161);
 }
