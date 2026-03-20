@@ -59,33 +59,33 @@
 }
 
 /* ─── Wrapper (Default + Hover + Focus + Disabled + Error + Success) ─────── */
-/* Default border colour: --color-grey-200 (design system default for inputs) */
+/* Default border colour: border/border = #D1D5DB (Figma stroke_CMH7HO) */
 .input__wrapper {
   display: flex;
   align-items: stretch;
-  border: var(--border-width-sm, 1px) solid var(--color-grey-200, #c0c0c0);
+  border: var(--border-width-sm, 1px) solid var(--color-grey-200, #d1d5db);
   border-radius: var(--radius-md, 4px);
   background: var(--color-white, #ffffff);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
+/* Hover border: primary-600 #27518C (Figma stroke_82HBUT) */
 .input:not(.input--disabled) .input__wrapper:hover {
-  border-color: var(--color-grey-300, #a0a0a0);
+  border-color: var(--color-primary-600, #27518c);
 }
 
 .input__wrapper:focus-within {
   border-color: var(--color-primary, #3165ad);
-  box-shadow: 0 0 0 4px rgba(49, 101, 173, 0.2);
 }
 
 .input--disabled .input__wrapper {
   background: var(--color-bg-alt, #f9fafb);
-  border-color: var(--color-grey-100, #dfdfdf);
+  border-color: var(--color-grey-200, #d1d5db); /* same as default per Figma */
   cursor: not-allowed;
 }
 
 .input--disabled .input__wrapper:hover {
-  border-color: var(--color-grey-100, #dfdfdf);
+  border-color: var(--color-grey-200, #d1d5db);
 }
 
 .input--disabled {
@@ -96,18 +96,24 @@
   border-color: var(--color-error, #e61c1d);
 }
 
+.input--error:not(.input--disabled) .input__wrapper:hover {
+  border-color: var(--color-error-600, #c51516);
+}
+
 .input--error .input__wrapper:focus-within {
   border-color: var(--color-error, #e61c1d);
-  box-shadow: 0 0 0 4px rgba(230, 28, 29, 0.2);
 }
 
 .input--success .input__wrapper {
   border-color: var(--color-success, #15803d);
 }
 
+.input--success:not(.input--disabled) .input__wrapper:hover {
+  border-color: var(--color-success-600, #116631);
+}
+
 .input--success .input__wrapper:focus-within {
   border-color: var(--color-success, #15803d);
-  box-shadow: 0 0 0 4px rgba(21, 128, 61, 0.2);
 }
 
 .input__prefix,

@@ -55,6 +55,13 @@
   cursor: not-allowed;
 }
 
+/* Selected + disabled: strip the active underline, weight and colour — tab shouldn't look active */
+.tabs__tab--selected:disabled {
+  color: var(--color-grey-400, #818181);
+  font-weight: var(--font-weight-medium, 500);
+  border-bottom-color: transparent;
+}
+
 .tabs__tab-icon,
 .tabs__tab-chevron {
   display: inline-flex;
