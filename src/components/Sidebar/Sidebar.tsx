@@ -157,14 +157,14 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
     depth > 0 ? 'sidebar__nav-link--child' : '',
   ].filter(Boolean).join(' ');
 
-  // Figma: L1=12px, L2=20px, L3=28px, L4=36px, L5=44px → 12px + depth × 8px
-  // Fully explicit so inline style wins over CSS shorthand on all levels
+  // Figma nav item: padding 8px 16px 8px 12px, borderRadius 6px
+  // L1=12px left, L2=20px, L3=28px, L4=36px, L5=44px → 12px + depth × 8px
   const indentStyle: React.CSSProperties = {
     paddingTop: '8px',
     paddingBottom: '8px',
     paddingLeft: `${12 + depth * 8}px`,
-    paddingRight: '12px',
-    borderRadius: '8px',
+    paddingRight: '16px',
+    borderRadius: '6px',
   };
 
   const handleToggle = () => {
