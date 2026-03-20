@@ -1,6 +1,14 @@
 /**
  * Segmented Control styles from Figma Component Library
  * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=429-13641
+ * Component set: _Atom / Button First (296:3702)
+ *
+ * Figma state fills:
+ *   Enabled:  bg #FFFFFF,  border #DFDFDF, text #616161
+ *   Hover:    bg #F7F7F7,  border #DFDFDF, text #616161
+ *   Active:   bg #DFDFDF,  border #DFDFDF, text #616161
+ *   Focus:    bg #F7F7F7,  border #C0C0C0, text #616161, ring: 4px primary + 2px white
+ *   Disabled: bg #FFFFFF,  border #E5E7EB, text #818181
  *
  * Sizes: Numbers-TC/Inputs-TC (XS: 26, S: 30, M: 34, L: 38)
  * Typography: Text-X Small (12px), Text-Small (14px), Text-Base (16px)
@@ -21,7 +29,7 @@
 
 .segmented-control--xs .segmented-control__segment {
   min-height: 26px;
-  padding: 4px 12px;
+  padding: 4px 8px;
 }
 
 /* S: 30px height, Text-Small/Medium (14px, 20px) */
@@ -43,7 +51,7 @@
 
 .segmented-control--m .segmented-control__segment {
   min-height: 34px;
-  padding: 7px 16px;
+  padding: 7px 14px;
 }
 
 /* L: 38px height, Text-Base/Medium (16px, 24px) */
@@ -81,10 +89,11 @@
   border-radius: 0;
 }
 
+/* Base segment — Figma: bg #FFFFFF, border #DFDFDF, text #616161 */
 .segmented-control__segment {
-  border: 1px solid var(--color-grey-200, #d1d5db);
+  border: 1px solid var(--color-grey-100, #dfdfdf);
   background: var(--color-white, #ffffff);
-  color: var(--color-grey-600, #374151);
+  color: var(--color-grey, #616161);
   cursor: pointer;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s;
   font-family: inherit;
@@ -94,37 +103,46 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
 }
 
-/* Surface/Button/tertiary-hover */
-.segmented-control__segment:hover:not(.segmented-control__segment--selected):not(:disabled) {
-  background: var(--color-grey-50, #f7f7f7);
-}
-
-/* Surface/Button/tertiary-pressed, Border/Button/secondary-pressed */
-.segmented-control__segment:active:not(.segmented-control__segment--selected):not(:disabled) {
-  background: var(--color-grey-100, #dfdfdf);
-  border-color: var(--color-grey-200, #c0c0c0);
-}
-
+/* Adjacent segment borders overlap by 1px to avoid double borders */
 .segmented-control__segment + .segmented-control__segment {
   margin-left: -1px;
 }
 
-.segmented-control__segment--selected {
-  background: var(--color-white, #ffffff);
-  border-color: var(--color-primary, #3165ad);
-  color: var(--color-primary, #3165ad);
+/* Hover — Figma: bg #F7F7F7, border #DFDFDF, text #616161 */
+.segmented-control__segment:hover:not(.segmented-control__segment--selected):not(:disabled) {
+  background: var(--color-grey-50, #f7f7f7);
+  border-color: var(--color-grey-100, #dfdfdf);
   z-index: 1;
 }
 
+/* Pressed — Figma: bg #DFDFDF, border #DFDFDF, text #616161 */
+.segmented-control__segment:active:not(.segmented-control__segment--selected):not(:disabled) {
+  background: var(--color-grey-100, #dfdfdf);
+  border-color: var(--color-grey-100, #dfdfdf);
+  z-index: 1;
+}
+
+/* Selected/Active — Figma: bg #DFDFDF, border #DFDFDF, text #616161 */
+.segmented-control__segment--selected {
+  background: var(--color-grey-100, #dfdfdf);
+  border-color: var(--color-grey-100, #dfdfdf);
+  color: var(--color-grey, #616161);
+  z-index: 1;
+}
+
+/* Focus — Figma: bg #F7F7F7, border #C0C0C0, double ring (4px primary + 2px white) */
 .segmented-control__segment:focus-visible {
-  outline: 2px solid var(--color-primary, #3165ad);
-  outline-offset: 2px;
+  outline: none;
+  background: var(--color-grey-50, #f7f7f7);
+  border-color: var(--color-grey-200, #c0c0c0);
+  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 1), 0px 0px 0px 4px rgba(49, 101, 173, 1);
   z-index: 2;
 }
 
-/* Buttons/Secondary secondary-bg-color-disabled, secondary-border-color-disabled, Text/Disabled */
+/* Disabled — Figma: bg #FFFFFF, border #E5E7EB, text #818181 */
 .segmented-control__segment:disabled {
   background: var(--color-white, #ffffff);
   border-color: var(--color-grey-100, #e5e7eb);
