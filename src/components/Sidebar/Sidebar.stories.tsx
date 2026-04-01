@@ -306,16 +306,3 @@ export const NavigatorAllLevels: Story = {
     ),
   },
 };
-
-export const Minimal: Story = {
-  args: {
-    navItems: [
-      { label: 'Home', icon: <Home size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
-      { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
-    ],
-    user: undefined,
-    poweredBy: false,
-    footer: undefined,
-    width: 260,
-  },
-};
