@@ -1,0 +1,97 @@
+/**
+ * Progress Bar styles from Figma Component Library
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=379-399
+ *
+ * Types:    linear | circle
+ * Sizes:    sm | lg
+ * Statuses: default | success | error
+ */
+
+/* ─── Shared colour tokens ───────────────────────────────────────────────────── */
+
+:root {
+  --progress-track:   var(--color-grey-50,    #efefef);
+  --progress-default: var(--color-primary,    #3165ad);
+  --progress-success: var(--color-success,    #15803d);
+  --progress-error:   var(--color-error,      #e61c1d);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   LINEAR
+══════════════════════════════════════════════════════════════════════════════ */
+
+.progress-linear {
+  width: 100%;
+  border-radius: 20px;
+  background: var(--progress-track);
+  overflow: hidden;
+  display: block;
+}
+
+/* Small — 2 px track */
+.progress-linear--sm {
+  height: 2px;
+}
+
+/* Large — 4 px track */
+.progress-linear--lg {
+  height: 4px;
+}
+
+/* Fill bar */
+.progress-linear__fill {
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.progress-linear--default .progress-linear__fill { background: var(--progress-default); }
+.progress-linear--success .progress-linear__fill { background: var(--progress-success); }
+.progress-linear--error   .progress-linear__fill { background: var(--progress-error);   }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   CIRCLE
+══════════════════════════════════════════════════════════════════════════════ */
+
+.progress-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Small — 80 × 80 */
+.progress-circle--sm {
+  width:  80px;
+  height: 80px;
+}
+
+/* Large — 120 × 120 */
+.progress-circle--lg {
+  width:  120px;
+  height: 120px;
+}
+
+.progress-circle__svg {
+  transform: rotate(-90deg);
+  display: block;
+}
+
+/* Track ring */
+.progress-circle__track {
+  fill:         none;
+  stroke:       var(--progress-track);
+  stroke-linecap: round;
+}
+
+/* Progress ring */
+.progress-circle__fill {
+  fill:         none;
+  stroke-linecap: round;
+  transition:   stroke-dashoffset 0.35s ease;
+}
+
+.progress-circle--default .progress-circle__fill { stroke: var(--progress-default); }
+.progress-circle--success .progress-circle__fill { stroke: var(--progress-success); }
+.progress-circle--error   .progress-circle__fill { stroke: var(--progress-error);   }
