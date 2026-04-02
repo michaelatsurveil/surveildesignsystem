@@ -6,18 +6,28 @@ import {
   type ReactNode,
 } from 'react';
 import { Toast } from './Toast';
-import type { ToastVariant } from './Toast';
+import type { ToastVariant, ToastSize } from './Toast';
 
 export interface ToastItem {
   id: string;
   variant: ToastVariant;
+  size: ToastSize;
+  shadow: boolean;
   message: string;
   showIcon?: boolean;
 }
 
 interface ToastContextValue {
   toasts: ToastItem[];
-  toast: (message: string, options?: { variant?: ToastVariant; showIcon?: boolean }) => void;
+  toast: (
+    message: string,
+    options?: {
+      variant?: ToastVariant;
+      size?: ToastSize;
+      shadow?: boolean;
+      showIcon?: boolean;
+    }
+  ) => void;
   dismiss: (id: string) => void;
 }
 
@@ -27,7 +37,15 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
   const toast = useCallback(
-    (message: string, options?: { variant?: ToastVariant; showIcon?: boolean }) => {
+    (
+      message: string,
+      options?: {
+        variant?: ToastVariant;
+        size?: ToastSize;
+        shadow?: boolean;
+        showIcon?: boolean;
+      }
+    ) => {
       const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2)}`;
       setToasts((prev) => [
         ...prev,
@@ -35,6 +53,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           id,
           message,
           variant: options?.variant ?? 'default',
+          size: options?.size ?? 'sm',
+          shadow: options?.shadow ?? false,
           showIcon: options?.showIcon ?? true,
         },
       ]);
@@ -66,6 +86,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           <Toast
             key={t.id}
             variant={t.variant}
+            size={t.size}
+            shadow={t.shadow}
             message={t.message}
             showIcon={t.showIcon}
             onClose={() => dismiss(t.id)}

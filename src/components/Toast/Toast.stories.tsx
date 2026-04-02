@@ -12,14 +12,21 @@ const meta: Meta<typeof Toast> = {
     docs: {
       description: {
         component:
-          'Toaster displays small, temporary, non-disruptive messages that provide feedback on an operation.',
+          'Toaster displays small, temporary, non-disruptive messages that provide feedback on an operation. Sourced from Figma: Sizes × Types × Shadow.',
       },
     },
   },
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'success', 'info', 'warning', 'error'],
+      options: ['default', 'success', 'info', 'warning', 'danger', 'error'],
+    },
+    size: {
+      control: 'radio',
+      options: ['sm', 'lg'],
+    },
+    shadow: {
+      control: 'boolean',
     },
     showIcon: {
       control: 'boolean',
@@ -31,10 +38,66 @@ export default meta;
 
 type Story = StoryObj<typeof Toast>;
 
+// ─── Small (default) ────────────────────────────────────────────────────────
+
 export const Default: Story = {
   args: {
-    message: 'Toast Notification Here',
+    message: 'Toast Notification Alert',
     variant: 'default',
+    size: 'sm',
+    shadow: false,
+    showIcon: true,
+    onClose: () => {},
+  },
+};
+
+export const DefaultShadow: Story = {
+  name: 'Default (with shadow)',
+  args: {
+    message: 'Toast Notification Alert',
+    variant: 'default',
+    size: 'sm',
+    shadow: true,
+    showIcon: true,
+    onClose: () => {},
+  },
+};
+
+export const Success: Story = {
+  args: {
+    message: 'Toast Notification Alert',
+    variant: 'success',
+    size: 'sm',
+    showIcon: true,
+    onClose: () => {},
+  },
+};
+
+export const Info: Story = {
+  args: {
+    message: 'Toast Notification Alert',
+    variant: 'info',
+    size: 'sm',
+    showIcon: true,
+    onClose: () => {},
+  },
+};
+
+export const Warning: Story = {
+  args: {
+    message: 'Toast Notification Alert',
+    variant: 'warning',
+    size: 'sm',
+    showIcon: true,
+    onClose: () => {},
+  },
+};
+
+export const Danger: Story = {
+  args: {
+    message: 'Toast Notification Alert',
+    variant: 'danger',
+    size: 'sm',
     showIcon: true,
     onClose: () => {},
   },
@@ -42,56 +105,126 @@ export const Default: Story = {
 
 export const WithoutIcon: Story = {
   args: {
-    message: 'Toast Notification Here',
+    message: 'Toast Notification Alert',
     variant: 'default',
+    size: 'sm',
     showIcon: false,
     onClose: () => {},
   },
 };
 
-export const Success: Story = {
+// ─── Large ───────────────────────────────────────────────────────────────────
+
+export const LargeDefault: Story = {
+  name: 'Large — Default',
   args: {
-    message: 'Toast Notification Here',
+    message: 'Toast Notification Alert',
+    variant: 'default',
+    size: 'lg',
+    shadow: false,
+    showIcon: true,
+    onClose: () => {},
+  },
+};
+
+export const LargeDefaultShadow: Story = {
+  name: 'Large — Default (with shadow)',
+  args: {
+    message: 'Toast Notification Alert',
+    variant: 'default',
+    size: 'lg',
+    shadow: true,
+    showIcon: true,
+    onClose: () => {},
+  },
+};
+
+export const LargeSuccess: Story = {
+  name: 'Large — Success',
+  args: {
+    message: 'Toast Notification Alert',
     variant: 'success',
+    size: 'lg',
+    showIcon: true,
     onClose: () => {},
   },
 };
 
-export const Info: Story = {
+export const LargeInfo: Story = {
+  name: 'Large — Info',
   args: {
-    message: 'Toast Notification Here',
+    message: 'Toast Notification Alert',
     variant: 'info',
+    size: 'lg',
+    showIcon: true,
     onClose: () => {},
   },
 };
 
-export const Warning: Story = {
+export const LargeWarning: Story = {
+  name: 'Large — Warning',
   args: {
-    message: 'Toast Notification Here',
+    message: 'Toast Notification Alert',
     variant: 'warning',
+    size: 'lg',
+    showIcon: true,
     onClose: () => {},
   },
 };
 
-export const Error: Story = {
+export const LargeDanger: Story = {
+  name: 'Large — Danger',
   args: {
-    message: 'Toast Notification Here',
-    variant: 'error',
+    message: 'Toast Notification Alert',
+    variant: 'danger',
+    size: 'lg',
+    showIcon: true,
     onClose: () => {},
   },
 };
 
-export const AllVariants: Story = {
+// ─── All Variants ─────────────────────────────────────────────────────────────
+
+export const AllVariantsSmall: Story = {
+  name: 'All Variants — Small',
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <Toast message="Toast Notification Here" variant="default" onClose={() => {}} />
-      <Toast message="Toast Notification Here" variant="success" onClose={() => {}} />
-      <Toast message="Toast Notification Here" variant="info" onClose={() => {}} />
-      <Toast message="Toast Notification Here" variant="warning" onClose={() => {}} />
-      <Toast message="Toast Notification Here" variant="error" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="default" size="sm" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="success" size="sm" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="info"    size="sm" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="warning" size="sm" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="danger"  size="sm" onClose={() => {}} />
     </div>
   ),
 };
+
+export const AllVariantsLarge: Story = {
+  name: 'All Variants — Large',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <Toast message="Toast Notification Alert" variant="default" size="lg" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="success" size="lg" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="info"    size="lg" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="warning" size="lg" onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="danger"  size="lg" onClose={() => {}} />
+    </div>
+  ),
+};
+
+export const AllVariantsShadow: Story = {
+  name: 'All Variants — Small + Shadow',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <Toast message="Toast Notification Alert" variant="default" size="sm" shadow onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="success" size="sm" shadow onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="info"    size="sm" shadow onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="warning" size="sm" shadow onClose={() => {}} />
+      <Toast message="Toast Notification Alert" variant="danger"  size="sm" shadow onClose={() => {}} />
+    </div>
+  ),
+};
+
+// ─── Interactive ──────────────────────────────────────────────────────────────
 
 function ToastDemo() {
   const { toast } = useToast();
@@ -109,8 +242,8 @@ function ToastDemo() {
       <Button variant="secondary" onClick={() => toast('Please review before continuing', { variant: 'warning' })}>
         Warning
       </Button>
-      <Button variant="danger" onClick={() => toast('Something went wrong', { variant: 'error' })}>
-        Error
+      <Button variant="danger" onClick={() => toast('Something went wrong', { variant: 'danger' })}>
+        Danger
       </Button>
     </div>
   );
