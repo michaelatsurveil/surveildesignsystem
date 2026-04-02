@@ -17,7 +17,7 @@ const meta: Meta<typeof Logo> = {
   argTypes: {
     variant: {
       control: 'radio',
-      options: ['light', 'dark'],
+      options: ['light', 'dark', 'symbol'],
     },
     height: {
       control: { type: 'number', min: 24, max: 96, step: 4 },
@@ -32,6 +32,16 @@ type Story = StoryObj<typeof Logo>;
 export const Light: Story = {
   args: {
     variant: 'light',
+    height: 40,
+  },
+  parameters: {
+    backgrounds: { default: 'light' },
+  },
+};
+
+export const Symbol: Story = {
+  args: {
+    variant: 'symbol',
     height: 40,
   },
   parameters: {
@@ -83,6 +93,12 @@ export const Sizes: Story = {
           48px
         </div>
       </div>
+      <div>
+        <Logo variant="symbol" height={40} />
+        <div className="text-body-sm" style={{ marginTop: 4, color: '#616161' }}>
+          Symbol 40px
+        </div>
+      </div>
     </div>
   ),
 };
@@ -130,6 +146,9 @@ export const Usage: Story = {
           <strong>Dark variant:</strong> Use on dark gray (#131313) or black backgrounds
         </li>
         <li style={{ marginBottom: 8 }}>
+          <strong>Symbol variant:</strong> Icon-only mark for favicons, avatars, or app icons
+        </li>
+        <li style={{ marginBottom: 8 }}>
           Maintain clear space around the logo—at least the height of the "S" on all sides
         </li>
         <li>Do not stretch, rotate, or alter the logo proportions</li>
@@ -153,7 +172,10 @@ export const Usage: Story = {
 <Logo variant="light" height={40} />
 
 // Dark background
-<Logo variant="dark" height={40} />`}
+<Logo variant="dark" height={40} />
+
+// Icon symbol only (square)
+<Logo variant="symbol" height={40} />`}
       </pre>
     </div>
   ),
