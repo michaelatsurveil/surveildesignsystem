@@ -7,8 +7,16 @@
  * Separator: Slash icon 16×16, stroke #6B7280
  */
 
-import { Slash } from 'lucide-react';
 import './Breadcrumb.css';
+
+/** Matches Figma Icon/Slash: 4×11px diagonal line in a 16×16 frame, stroke #6B7280 */
+function SlashSeparator() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+      <line x1="10" y1="2.5" x2="6" y2="13.5" stroke="#6B7280" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 export type BreadcrumbSize = 'sm' | 'lg';
 
@@ -54,7 +62,7 @@ export function Breadcrumb({ items, size = 'sm' }: BreadcrumbProps) {
             <li key={index} className="breadcrumb__entry">
               {index > 0 && (
                 <span className="breadcrumb__separator" aria-hidden>
-                  <Slash size={16} color="#6B7280" strokeWidth={1.5} />
+                  <SlashSeparator />
                 </span>
               )}
               {item.disabled || isActive ? (
