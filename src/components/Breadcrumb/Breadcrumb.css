@@ -1,0 +1,131 @@
+/**
+ * Breadcrumb styles
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=469-1209
+ *
+ * Sizes:  sm (24px height, 14px text) | lg (28px height, 16px text)
+ * Separator: Slash icon 16×16, stroke #6B7280
+ */
+
+.breadcrumb {
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+}
+
+.breadcrumb__list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Each entry = separator + item side by side */
+.breadcrumb__entry {
+  display: flex;
+  align-items: center;
+}
+
+/* ── Separator ─────────────────────────────────────────────────────────────── */
+
+.breadcrumb__separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ── Item (shared) ─────────────────────────────────────────────────────────── */
+
+.breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--color-grey, #616161);
+  font-weight: var(--font-weight-regular, 400);
+  font-size: 14px;
+  line-height: 1;
+  transition: background-color 0.15s, border-color 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Small size — 24px height */
+.breadcrumb--sm .breadcrumb__item {
+  height: 24px;
+  font-size: 14px;
+  gap: 4px;
+}
+
+/* Large size — 28px height */
+.breadcrumb--lg .breadcrumb__item {
+  height: 28px;
+  font-size: 16px;
+  gap: 8px;
+}
+
+/* ── States ────────────────────────────────────────────────────────────────── */
+
+/* Hover */
+.breadcrumb__item:hover:not(.breadcrumb__item--active):not(.breadcrumb__item--disabled) {
+  background-color: var(--color-grey-50, #efefef);
+}
+
+/* Pressed */
+.breadcrumb__item:active:not(.breadcrumb__item--active):not(.breadcrumb__item--disabled) {
+  background-color: transparent;
+  border-color: #374151;
+}
+
+/* Focus */
+.breadcrumb__item:focus-visible {
+  outline: none;
+  border-color: #374151;
+}
+
+/* Active (current page) */
+.breadcrumb__item--active {
+  cursor: default;
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.breadcrumb--sm .breadcrumb__item--active {
+  font-size: 12px;
+}
+
+.breadcrumb--lg .breadcrumb__item--active {
+  font-size: 16px;
+}
+
+/* Disabled */
+.breadcrumb__item--disabled {
+  color: var(--color-grey-400, #818181);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Icon ──────────────────────────────────────────────────────────────────── */
+
+.breadcrumb__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.breadcrumb--sm .breadcrumb__icon {
+  width: 12px;
+  height: 12px;
+}
+
+.breadcrumb--lg .breadcrumb__icon {
+  width: 16px;
+  height: 16px;
+}
