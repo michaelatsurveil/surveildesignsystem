@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, Minus } from 'lucide-react';
+import { ArrowDown, ArrowUp, Minus } from 'lucide-react';
 import { Button } from '../Button/Button';
 import './StatisticCard.css';
 
@@ -71,8 +71,8 @@ export function StatisticCard({
         <span className="statistic-card__value">{value}</span>
         {comparison && (
           <span className={`statistic-card__comparison statistic-card__comparison--${comparison.trend}`}>
-            {comparison.trend === 'up' && <ChevronUp size={16} strokeWidth={2} aria-hidden />}
-            {comparison.trend === 'down' && <ChevronDown size={16} strokeWidth={2} aria-hidden />}
+            {comparison.trend === 'up' && <ArrowUp size={16} strokeWidth={2} aria-hidden />}
+            {comparison.trend === 'down' && <ArrowDown size={16} strokeWidth={2} aria-hidden />}
             {comparison.trend === 'neutral' && <Minus size={16} strokeWidth={2} aria-hidden />}
             <span>{comparison.text}</span>
           </span>
