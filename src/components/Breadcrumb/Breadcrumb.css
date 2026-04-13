@@ -95,9 +95,10 @@
   color: var(--color-primary-600, #27518c);
 }
 
-/* Current page (last item) — same size as Default, non-interactive */
+/* Current page (last item) — medium weight, non-interactive */
 .breadcrumb__item--current {
   cursor: default;
+  font-weight: var(--font-weight-medium, 500);
 }
 
 /* Disabled */
