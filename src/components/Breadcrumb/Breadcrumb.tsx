@@ -22,8 +22,10 @@ export type BreadcrumbSize = 'sm' | 'lg';
 
 export interface BreadcrumbItem {
   label: string;
-  /** Omit for the active (current) item */
+  /** Real URL for navigation. Omit for the active (current) item. */
   href?: string;
+  /** Click handler — use instead of href in Storybook or SPA routing */
+  onClick?: (e: React.MouseEvent) => void;
   icon?: React.ReactNode;
   disabled?: boolean;
 }
@@ -73,10 +75,14 @@ export function Breadcrumb({ items, size = 'sm' }: BreadcrumbProps) {
                 >
                   {content}
                 </span>
-              ) : (
-                <a href={item.href ?? '#'} className={itemClass} onClick={e => e.preventDefault()}>
+              ) : item.href ? (
+                <a href={item.href} className={itemClass} onClick={item.onClick}>
                   {content}
                 </a>
+              ) : (
+                <button type="button" className={itemClass} onClick={item.onClick}>
+                  {content}
+                </button>
               )}
             </li>
           );

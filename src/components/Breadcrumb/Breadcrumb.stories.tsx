@@ -37,8 +37,8 @@ export const Small: Story = {
   args: {
     size: 'sm',
     items: [
-      { label: 'Home', href: '#' },
-      { label: 'Settings', href: '#' },
+      { label: 'Home', onClick: () => {} },
+      { label: 'Settings', onClick: () => {} },
       { label: 'Profile' },
     ],
   },
@@ -48,8 +48,8 @@ export const Large: Story = {
   args: {
     size: 'lg',
     items: [
-      { label: 'Home', href: '#' },
-      { label: 'Settings', href: '#' },
+      { label: 'Home', onClick: () => {} },
+      { label: 'Settings', onClick: () => {} },
       { label: 'Profile' },
     ],
   },
@@ -61,8 +61,8 @@ export const WithIcons: Story = {
   args: {
     size: 'sm',
     items: [
-      { label: 'Home', href: '#', icon: <Home size={12} strokeWidth={1.5} /> },
-      { label: 'Users', href: '#', icon: <Users size={12} strokeWidth={1.5} /> },
+      { label: 'Home', onClick: () => {}, icon: <Home size={12} strokeWidth={1.5} /> },
+      { label: 'Users', onClick: () => {}, icon: <Users size={12} strokeWidth={1.5} /> },
       { label: 'Profile', icon: <Settings size={12} strokeWidth={1.5} /> },
     ],
   },
@@ -73,8 +73,8 @@ export const WithIconsLarge: Story = {
   args: {
     size: 'lg',
     items: [
-      { label: 'Home', href: '#', icon: <Home size={16} strokeWidth={1.5} /> },
-      { label: 'Users', href: '#', icon: <Users size={16} strokeWidth={1.5} /> },
+      { label: 'Home', onClick: () => {}, icon: <Home size={16} strokeWidth={1.5} /> },
+      { label: 'Users', onClick: () => {}, icon: <Users size={16} strokeWidth={1.5} /> },
       { label: 'Profile', icon: <Settings size={16} strokeWidth={1.5} /> },
     ],
   },
@@ -86,7 +86,7 @@ export const TwoItems: Story = {
   args: {
     size: 'sm',
     items: [
-      { label: 'Home', href: '#' },
+      { label: 'Home', onClick: () => {} },
       { label: 'Profile' },
     ],
   },
@@ -103,11 +103,11 @@ export const LongTrail: Story = {
   args: {
     size: 'sm',
     items: [
-      { label: 'Home', href: '#' },
-      { label: 'Organisation', href: '#' },
-      { label: 'Department', href: '#' },
-      { label: 'Team', href: '#' },
-      { label: 'Documents', href: '#' },
+      { label: 'Home', onClick: () => {} },
+      { label: 'Organisation', onClick: () => {} },
+      { label: 'Department', onClick: () => {} },
+      { label: 'Team', onClick: () => {} },
+      { label: 'Documents', onClick: () => {} },
       { label: 'Report.pdf' },
     ],
   },
@@ -116,15 +116,15 @@ export const LongTrail: Story = {
 /* ── Interactive states ────────────────────────────────────────────────────── */
 
 const baseItems = [
-  { label: 'Home', href: '#' },
-  { label: 'Settings', href: '#' },
+  { label: 'Home', onClick: () => {} },
+  { label: 'Settings', onClick: () => {} },
   { label: 'Profile' },
 ];
 
 export const Hovered: Story = {
   args: { size: 'sm', items: baseItems },
   play: async ({ canvasElement }) => {
-    const links = within(canvasElement).getAllByRole('link');
+    const links = within(canvasElement).getAllByRole('button');
     await userEvent.pointer({ target: links[0] });
   },
 };
@@ -132,7 +132,7 @@ export const Hovered: Story = {
 export const Focused: Story = {
   args: { size: 'sm', items: baseItems },
   play: async ({ canvasElement }) => {
-    within(canvasElement).getAllByRole('link')[0].focus();
+    within(canvasElement).getAllByRole('button')[0].focus();
   },
 };
 
@@ -140,7 +140,7 @@ export const Pressed: Story = {
   args: { size: 'sm', items: baseItems },
   play: async ({ canvasElement }) => {
     await userEvent.pointer({
-      target: within(canvasElement).getAllByRole('link')[0],
+      target: within(canvasElement).getAllByRole('button')[0],
       keys: '[MouseLeft>]',
     });
   },
@@ -157,8 +157,8 @@ export const WithDisabledItem: Story = {
   args: {
     size: 'sm',
     items: [
-      { label: 'Home', href: '#' },
-      { label: 'Restricted', href: '#', disabled: true },
+      { label: 'Home', onClick: () => {} },
+      { label: 'Restricted', onClick: () => {}, disabled: true },
       { label: 'Profile' },
     ],
   },
@@ -175,8 +175,8 @@ export const AllSizes: Story = {
         <Breadcrumb
           size="sm"
           items={[
-            { label: 'Home', href: '#' },
-            { label: 'Settings', href: '#' },
+            { label: 'Home', onClick: () => {} },
+            { label: 'Settings', onClick: () => {} },
             { label: 'Profile' },
           ]}
         />
@@ -186,8 +186,8 @@ export const AllSizes: Story = {
         <Breadcrumb
           size="lg"
           items={[
-            { label: 'Home', href: '#' },
-            { label: 'Settings', href: '#' },
+            { label: 'Home', onClick: () => {} },
+            { label: 'Settings', onClick: () => {} },
             { label: 'Profile' },
           ]}
         />
@@ -234,8 +234,8 @@ export const DocumentTrail: Story = {
   args: {
     size: 'sm',
     items: [
-      { label: 'Home', href: '#', icon: <Home size={12} strokeWidth={1.5} /> },
-      { label: 'Documents', href: '#', icon: <FileText size={12} strokeWidth={1.5} /> },
+      { label: 'Home', onClick: () => {}, icon: <Home size={12} strokeWidth={1.5} /> },
+      { label: 'Documents', onClick: () => {}, icon: <FileText size={12} strokeWidth={1.5} /> },
       { label: 'Annual Report 2024', icon: <FileText size={12} strokeWidth={1.5} /> },
     ],
   },
