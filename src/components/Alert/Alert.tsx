@@ -46,6 +46,7 @@ export function Alert({
             className="alert__action"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={e => e.preventDefault()}
           >
             {action.label}
             <ExternalLink size={14} strokeWidth={2} />

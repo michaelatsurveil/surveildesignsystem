@@ -100,7 +100,7 @@ export function Sidebar({
         {user && (
           <div className="sidebar__user">
             {user.href ? (
-              <a href={user.href} className="sidebar__user-link">
+              <a href={user.href} className="sidebar__user-link" onClick={e => e.preventDefault()}>
                 <span className="sidebar__user-icon" aria-hidden>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
@@ -196,7 +196,7 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
       {content}
     </button>
   ) : item.href ? (
-    <a href={item.href} className={linkClass} style={indentStyle}>
+    <a href={item.href} className={linkClass} style={indentStyle} onClick={e => e.preventDefault()}>
       {content}
     </a>
   ) : item.onClick ? (

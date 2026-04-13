@@ -74,7 +74,7 @@ export function Breadcrumb({ items, size = 'sm' }: BreadcrumbProps) {
                   {content}
                 </span>
               ) : (
-                <a href={item.href ?? '#'} className={itemClass}>
+                <a href={item.href ?? '#'} className={itemClass} onClick={e => e.preventDefault()}>
                   {content}
                 </a>
               )}
