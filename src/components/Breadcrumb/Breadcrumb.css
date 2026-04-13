@@ -73,21 +73,26 @@
 
 /* ── States ────────────────────────────────────────────────────────────────── */
 
-/* Hover */
+/* Hover — text #27518C, bg #efefef */
 .breadcrumb__item:hover:not(.breadcrumb__item--current):not(.breadcrumb__item--disabled) {
   background-color: var(--color-grey-50, #efefef);
+  color: var(--color-primary-600, #27518c);
 }
 
-/* Pressed */
+/* Pressed — text #203B61, border #203B61, bg white, padding 3px 8px */
 .breadcrumb__item:active:not(.breadcrumb__item--current):not(.breadcrumb__item--disabled) {
-  background-color: transparent;
-  border-color: #374151;
+  background-color: var(--color-neutral-white, #ffffff);
+  border-color: var(--color-primary-700, #203b61);
+  color: var(--color-primary-700, #203b61);
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
-/* Focus */
+/* Focus — text #27518C, border #27518C */
 .breadcrumb__item:focus-visible {
   outline: none;
-  border-color: #374151;
+  border-color: var(--color-primary-600, #27518c);
+  color: var(--color-primary-600, #27518c);
 }
 
 /* Current page (last item) — same size as Default, non-interactive */

@@ -211,9 +211,9 @@ export const AllStates: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'Roboto, sans-serif' }}>
         {[
           { label: 'Default',      style: itemStyle() },
-          { label: 'Hovered',      style: itemStyle({ backgroundColor: '#efefef' }) },
-          { label: 'Pressed',      style: itemStyle({ borderColor: '#374151' }) },
-          { label: 'Focused',      style: itemStyle({ borderColor: '#374151' }) },
+          { label: 'Hovered',      style: itemStyle({ backgroundColor: '#efefef', color: '#27518c' }) },
+          { label: 'Pressed',      style: itemStyle({ backgroundColor: '#ffffff', borderColor: '#203b61', color: '#203b61', paddingTop: 3, paddingBottom: 3 }) },
+          { label: 'Focused',      style: itemStyle({ borderColor: '#27518c', color: '#27518c' }) },
           { label: 'Current page', style: itemStyle({ cursor: 'default' }) },
           { label: 'Disabled',     style: itemStyle({ color: '#818181', cursor: 'not-allowed' }) },
         ].map(({ label, style }) => (
