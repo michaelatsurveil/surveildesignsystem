@@ -65,7 +65,7 @@
 /* Value row: only add bottom margin when supporting text or footer follows (vertical hug) */
 .statistic-card__value-row {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: var(--scale-300, 12px);
   margin-bottom: 0;
 }
@@ -78,7 +78,7 @@
   font-size: 24px;
   font-weight: var(--font-weight-bold, 700);
   line-height: 32px;
-  color: var(--color-grey-700, #272727);
+  color: var(--color-primary-900, #111827);
 }
 
 .statistic-card__comparison {
