@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, within } from '@storybook/test';
 import { Home, Settings, Users, FileText } from 'lucide-react';
 import { Breadcrumb } from './Breadcrumb';
 
@@ -112,7 +113,45 @@ export const LongTrail: Story = {
   },
 };
 
-/* ── States ────────────────────────────────────────────────────────────────── */
+/* ── Interactive states ────────────────────────────────────────────────────── */
+
+const baseItems = [
+  { label: 'Home', href: '#' },
+  { label: 'Settings', href: '#' },
+  { label: 'Profile' },
+];
+
+export const Hovered: Story = {
+  args: { size: 'sm', items: baseItems },
+  play: async ({ canvasElement }) => {
+    const links = within(canvasElement).getAllByRole('link');
+    await userEvent.pointer({ target: links[0] });
+  },
+};
+
+export const Focused: Story = {
+  args: { size: 'sm', items: baseItems },
+  play: async ({ canvasElement }) => {
+    within(canvasElement).getAllByRole('link')[0].focus();
+  },
+};
+
+export const Pressed: Story = {
+  args: { size: 'sm', items: baseItems },
+  play: async ({ canvasElement }) => {
+    await userEvent.pointer({
+      target: within(canvasElement).getAllByRole('link')[0],
+      keys: '[MouseLeft>]',
+    });
+  },
+};
+
+export const CurrentPage: Story = {
+  name: 'Current Page (last item)',
+  args: { size: 'sm', items: baseItems },
+};
+
+/* ── Disabled ──────────────────────────────────────────────────────────────── */
 
 export const WithDisabledItem: Story = {
   args: {
@@ -155,6 +194,37 @@ export const AllSizes: Story = {
       </div>
     </div>
   ),
+};
+
+/* ── All states overview ───────────────────────────────────────────────────── */
+
+export const AllStates: Story = {
+  name: 'All States',
+  render: () => {
+    const itemStyle = (extra?: React.CSSProperties): React.CSSProperties => ({
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      padding: '4px 8px', borderRadius: 2, border: '1px solid transparent',
+      fontFamily: 'Roboto, sans-serif', fontSize: 14, fontWeight: 400,
+      color: '#616161', cursor: 'pointer', ...extra,
+    });
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'Roboto, sans-serif' }}>
+        {[
+          { label: 'Default',      style: itemStyle() },
+          { label: 'Hovered',      style: itemStyle({ backgroundColor: '#efefef' }) },
+          { label: 'Pressed',      style: itemStyle({ borderColor: '#374151' }) },
+          { label: 'Focused',      style: itemStyle({ borderColor: '#374151' }) },
+          { label: 'Current page', style: itemStyle({ cursor: 'default' }) },
+          { label: 'Disabled',     style: itemStyle({ color: '#818181', cursor: 'not-allowed' }) },
+        ].map(({ label, style }) => (
+          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <span style={{ width: 100, fontSize: 12, color: '#9ca3af' }}>{label}</span>
+            <span style={style}>{label}</span>
+          </div>
+        ))}
+      </div>
+    );
+  },
 };
 
 /* ── With document icons ───────────────────────────────────────────────────── */
