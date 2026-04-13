@@ -43,7 +43,7 @@ export function Breadcrumb({ items, size = 'sm' }: BreadcrumbProps) {
 
           const itemClass = [
             'breadcrumb__item',
-            isActive && 'breadcrumb__item--active',
+            isLast && 'breadcrumb__item--current',
             item.disabled && 'breadcrumb__item--disabled',
           ]
             .filter(Boolean)
@@ -65,10 +65,10 @@ export function Breadcrumb({ items, size = 'sm' }: BreadcrumbProps) {
                   <SlashSeparator />
                 </span>
               )}
-              {item.disabled || isActive ? (
+              {item.disabled || isLast ? (
                 <span
                   className={itemClass}
-                  aria-current={isActive ? 'page' : undefined}
+                  aria-current={isLast ? 'page' : undefined}
                   aria-disabled={item.disabled ? true : undefined}
                 >
                   {content}

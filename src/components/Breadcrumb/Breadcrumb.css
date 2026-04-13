@@ -74,12 +74,12 @@
 /* ── States ────────────────────────────────────────────────────────────────── */
 
 /* Hover */
-.breadcrumb__item:hover:not(.breadcrumb__item--active):not(.breadcrumb__item--disabled) {
+.breadcrumb__item:hover:not(.breadcrumb__item--current):not(.breadcrumb__item--disabled) {
   background-color: var(--color-grey-50, #efefef);
 }
 
 /* Pressed */
-.breadcrumb__item:active:not(.breadcrumb__item--active):not(.breadcrumb__item--disabled) {
+.breadcrumb__item:active:not(.breadcrumb__item--current):not(.breadcrumb__item--disabled) {
   background-color: transparent;
   border-color: #374151;
 }
@@ -90,18 +90,9 @@
   border-color: #374151;
 }
 
-/* Active (current page) */
-.breadcrumb__item--active {
+/* Current page (last item) — same size as Default, non-interactive */
+.breadcrumb__item--current {
   cursor: default;
-  font-weight: var(--font-weight-medium, 500);
-}
-
-.breadcrumb--sm .breadcrumb__item--active {
-  font-size: 12px;
-}
-
-.breadcrumb--lg .breadcrumb__item--active {
-  font-size: 16px;
 }
 
 /* Disabled */
