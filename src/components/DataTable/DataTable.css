@@ -121,6 +121,112 @@
   box-shadow: 0 0 0 4px rgba(49, 101, 173, 0.2), 0 0 0 2px var(--color-white, #ffffff);
 }
 
+/* ── Pagination ─────────────────────────────────────────────────────────────── */
+
+.data-table__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-top: 1px solid var(--color-grey-100, #dfdfdf);
+  background: var(--color-neutral-white, #ffffff);
+  border-radius: 0 0 var(--radius-lg, 8px) var(--radius-lg, 8px);
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  color: var(--color-grey-600, #3a3a3a);
+  gap: var(--scale-400, 16px);
+}
+
+.data-table__pagination-right {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-400, 16px);
+}
+
+.data-table__pagination-label {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+  font-size: 14px;
+  color: var(--color-grey-600, #3a3a3a);
+  white-space: nowrap;
+}
+
+.data-table__pagination-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 4px 28px 4px 10px;
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border-radius: var(--radius-md, 4px);
+  background: var(--color-neutral-white, #ffffff)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23616161' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
+    no-repeat right 8px center;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-grey-600, #3a3a3a);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.data-table__pagination-select:hover {
+  border-color: var(--color-grey-200, #c0c0c0);
+}
+
+.data-table__pagination-select:focus-visible {
+  border-color: var(--color-primary, #3165ad);
+  box-shadow: 0 0 0 3px rgba(49, 101, 173, 0.15);
+}
+
+.data-table__pagination-summary {
+  font-size: 14px;
+  color: var(--color-grey, #616161);
+  white-space: nowrap;
+}
+
+.data-table__pagination-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-100, 4px);
+}
+
+.data-table__pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border-radius: var(--radius-md, 4px);
+  background: var(--color-neutral-white, #ffffff);
+  color: var(--color-grey-600, #3a3a3a);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.data-table__pagination-btn:hover:not(:disabled) {
+  background: var(--color-button-secondary-bgHover, #f7f7f7);
+  border-color: var(--color-grey-200, #c0c0c0);
+}
+
+.data-table__pagination-btn:active:not(:disabled) {
+  background: var(--color-button-secondary-bgPressed, #dfdfdf);
+}
+
+.data-table__pagination-btn:focus-visible {
+  outline: none;
+  border-color: var(--color-primary, #3165ad);
+  box-shadow: 0 0 0 3px rgba(49, 101, 173, 0.15);
+}
+
+.data-table__pagination-btn:disabled {
+  color: var(--color-grey-300, #a0a0a0);
+  border-color: var(--color-grey-50, #efefef);
+  background: var(--color-neutral-white, #ffffff);
+  cursor: not-allowed;
+}
+
 /* Badge-style cell (e.g. Status) */
 .data-table__badge {
   display: inline-flex;

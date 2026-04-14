@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { DataTable } from './DataTable';
+import type { DataTablePagination } from './DataTable';
 
 type TenantRow = {
   tenant: string;
@@ -9,6 +10,14 @@ type TenantRow = {
   source: string;
   status: string;
 };
+
+const allRows: TenantRow[] = Array.from({ length: 50 }, (_, i) => ({
+  tenant: `Tenant ${i + 1}`,
+  tenantEmail: `user${i + 1}@email.com`,
+  type: i % 2 === 0 ? 'M365' : 'Google',
+  source: 'Navigator',
+  status: i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Pending' : 'Default',
+}));
 
 const sampleRows: TenantRow[] = Array.from({ length: 7 }, (_, i) => ({
   tenant: 'Name',
@@ -61,6 +70,62 @@ export const Default: Story = {
     columns,
     rows: sampleRows,
     getRowId: (row) => row.tenantEmail,
+  },
+};
+
+export const WithPagination: Story = {
+  render: function WithPagination() {
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const pagedRows = allRows.slice((page - 1) * pageSize, page * pageSize);
+
+    const pagination: DataTablePagination = {
+      page,
+      pageSize,
+      total: allRows.length,
+      pageSizeOptions: [10, 25, 50],
+      onPageChange: setPage,
+      onPageSizeChange: (size) => { setPageSize(size); setPage(1); },
+    };
+
+    return (
+      <DataTable<TenantRow>
+        columns={columns}
+        rows={pagedRows}
+        getRowId={(row) => row.tenantEmail}
+        pagination={pagination}
+      />
+    );
+  },
+};
+
+export const WithSelectionAndPagination: Story = {
+  render: function WithSelectionAndPagination() {
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+    const pagedRows = allRows.slice((page - 1) * pageSize, page * pageSize);
+
+    const pagination: DataTablePagination = {
+      page,
+      pageSize,
+      total: allRows.length,
+      pageSizeOptions: [10, 25, 50],
+      onPageChange: setPage,
+      onPageSizeChange: (size) => { setPageSize(size); setPage(1); },
+    };
+
+    return (
+      <DataTable<TenantRow>
+        columns={columns}
+        rows={pagedRows}
+        getRowId={(row) => row.tenantEmail}
+        selectable
+        selectedRowIds={selectedIds}
+        onSelectionChange={setSelectedIds}
+        pagination={pagination}
+      />
+    );
   },
 };
 

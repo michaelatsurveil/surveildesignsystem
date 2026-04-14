@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { MoreVertical } from 'lucide-react';
+import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import './DataTable.css';
 
 export interface DataTableColumn<T = Record<string, unknown>> {
@@ -11,6 +11,21 @@ export interface DataTableColumn<T = Record<string, unknown>> {
   sortable?: boolean;
   /** Custom cell renderer */
   render?: (value: unknown, row: T) => React.ReactNode;
+}
+
+export interface DataTablePagination {
+  /** Current page (1-based) */
+  page: number;
+  /** Rows per page */
+  pageSize: number;
+  /** Total number of rows across all pages */
+  total: number;
+  /** Available page size options */
+  pageSizeOptions?: number[];
+  /** Called when page changes */
+  onPageChange: (page: number) => void;
+  /** Called when page size changes */
+  onPageSizeChange?: (size: number) => void;
 }
 
 export interface DataTableProps<T = Record<string, unknown>> {
@@ -26,6 +41,8 @@ export interface DataTableProps<T = Record<string, unknown>> {
   selectedRowIds?: Set<string>;
   /** Selection change callback */
   onSelectionChange?: (selectedIds: Set<string>) => void;
+  /** Pagination configuration */
+  pagination?: DataTablePagination;
   /** Optional additional class name for the wrapper */
   className?: string;
 }
@@ -37,6 +54,7 @@ export function DataTable<T extends Record<string, unknown>>({
   selectable = false,
   selectedRowIds = new Set(),
   onSelectionChange,
+  pagination,
   className = '',
 }: DataTableProps<T>) {
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
@@ -64,6 +82,12 @@ export function DataTable<T extends Record<string, unknown>>({
     else next.add(id);
     onSelectionChange(next);
   };
+
+  // Pagination calculations
+  const totalPages = pagination ? Math.max(1, Math.ceil(pagination.total / pagination.pageSize)) : 1;
+  const rangeStart = pagination ? (pagination.page - 1) * pagination.pageSize + 1 : 1;
+  const rangeEnd = pagination ? Math.min(pagination.page * pagination.pageSize, pagination.total) : rows.length;
+  const pageSizeOptions = pagination?.pageSizeOptions ?? [10, 25, 50, 100];
 
   return (
     <div className={`data-table__wrap ${className}`.trim()}>
@@ -129,6 +153,68 @@ export function DataTable<T extends Record<string, unknown>>({
           })}
         </tbody>
       </table>
+
+      {pagination && (
+        <div className="data-table__pagination">
+          <div className="data-table__pagination-nav">
+            <button
+              type="button"
+              className="data-table__pagination-btn"
+              onClick={() => pagination.onPageChange(1)}
+              disabled={pagination.page <= 1}
+              aria-label="First page"
+            >
+              <ChevronsLeft size={16} strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              className="data-table__pagination-btn"
+              onClick={() => pagination.onPageChange(pagination.page - 1)}
+              disabled={pagination.page <= 1}
+              aria-label="Previous page"
+            >
+              <ChevronLeft size={16} strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              className="data-table__pagination-btn"
+              onClick={() => pagination.onPageChange(pagination.page + 1)}
+              disabled={pagination.page >= totalPages}
+              aria-label="Next page"
+            >
+              <ChevronRight size={16} strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              className="data-table__pagination-btn"
+              onClick={() => pagination.onPageChange(totalPages)}
+              disabled={pagination.page >= totalPages}
+              aria-label="Last page"
+            >
+              <ChevronsRight size={16} strokeWidth={2} />
+            </button>
+          </div>
+
+          <div className="data-table__pagination-right">
+            <label className="data-table__pagination-label">
+              Rows per page:
+              <select
+                className="data-table__pagination-select"
+                value={pagination.pageSize}
+                onChange={(e) => pagination.onPageSizeChange?.(Number(e.target.value))}
+                aria-label="Rows per page"
+              >
+                {pageSizeOptions.map((opt) => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
+            </label>
+            <span className="data-table__pagination-summary">
+              {rangeStart}–{rangeEnd} of {pagination.total}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
