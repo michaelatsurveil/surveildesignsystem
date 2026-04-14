@@ -52,6 +52,7 @@
   font-weight: var(--font-weight-regular, 400);
   font-size: 14px;
   line-height: 1;
+  background: transparent;
   transition: background-color 0.15s, border-color 0.15s;
   -webkit-user-select: none;
   user-select: none;
