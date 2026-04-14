@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, within } from '@storybook/test';
 import { Tabs } from './Tabs';
 
 const meta: Meta<typeof Tabs> = {
@@ -53,6 +54,18 @@ export const WithDropdown: Story = {
     return (
       <Tabs options={tabOptionsWithDropdown} value={value} onChange={setValue} />
     );
+  },
+};
+
+export const Pressed: Story = {
+  args: {
+    options: tabOptions,
+    value: 'overview',
+    onChange: () => {},
+  },
+  play: async ({ canvasElement }) => {
+    const tabs = within(canvasElement).getAllByRole('tab');
+    await userEvent.pointer({ target: tabs[1], keys: '[MouseLeft>]' });
   },
 };
 
