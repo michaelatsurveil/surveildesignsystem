@@ -35,12 +35,12 @@
   line-height: inherit;
 }
 
-.tabs__tab:hover:not(.tabs__tab--selected):not(:disabled) {
-  background: var(--color-grey-50, #f7f7f7);
+.tabs__tab:hover:not(:disabled) {
+  background: var(--color-button-secondary-bgHover, #f7f7f7);
 }
 
 .tabs__tab:active:not(:disabled) {
-  background: var(--color-grey-100, #dfdfdf);
+  background: var(--color-button-secondary-bgPressed, #dfdfdf);
 }
 
 .tabs__tab:focus-visible {

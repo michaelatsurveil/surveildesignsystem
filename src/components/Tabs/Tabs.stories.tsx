@@ -57,6 +57,18 @@ export const WithDropdown: Story = {
   },
 };
 
+export const Hovered: Story = {
+  args: {
+    options: tabOptions,
+    value: 'overview',
+    onChange: () => {},
+  },
+  play: async ({ canvasElement }) => {
+    const tabs = within(canvasElement).getAllByRole('tab');
+    await userEvent.hover(tabs[1]);
+  },
+};
+
 export const Pressed: Story = {
   args: {
     options: tabOptions,
