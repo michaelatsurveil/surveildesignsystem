@@ -93,6 +93,18 @@ const errorColors = [
   { name: '800', value: 'var(--color-error-800)', hex: '#5c0b0c' },
 ];
 
+const infoColors = [
+  { name: '50', value: 'var(--color-info-50)', hex: '#e5eefa' },
+  { name: '100', value: 'var(--color-info-100)', hex: '#c6d7f0' },
+  { name: '200', value: 'var(--color-info-200)', hex: '#9fb9e0' },
+  { name: '300', value: 'var(--color-info-300)', hex: '#81a5d9' },
+  { name: '400', value: 'var(--color-info-400)', hex: '#527db6' },
+  { name: 'Default', value: 'var(--color-info)', hex: '#3165ad' },
+  { name: '600', value: 'var(--color-info-600)', hex: '#27518c' },
+  { name: '700', value: 'var(--color-info-700)', hex: '#203b61' },
+  { name: '800', value: 'var(--color-info-800)', hex: '#142845' },
+];
+
 const warningColors = [
   { name: '50', value: 'var(--color-warning-50)', hex: '#fdf9e9' },
   { name: '100', value: 'var(--color-warning-100)', hex: '#fbf1c6' },
@@ -129,6 +141,12 @@ export const Error: StoryObj = {
   ),
 };
 
+export const Info: StoryObj = {
+  render: () => (
+    <ColorScale title="Info (Blue)" colors={infoColors} />
+  ),
+};
+
 export const Warning: StoryObj = {
   render: () => (
     <ColorScale title="Warning (Yellow)" colors={warningColors} />
@@ -142,6 +160,7 @@ export const AllPalettes: StoryObj = {
       <ColorScale title="Grey" colors={greyColors} />
       <ColorScale title="Success (Green)" colors={successColors} />
       <ColorScale title="Error (Red)" colors={errorColors} />
+      <ColorScale title="Info (Blue)" colors={infoColors} />
       <ColorScale title="Warning (Yellow)" colors={warningColors} />
     </div>
   ),

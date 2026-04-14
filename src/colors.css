@@ -61,6 +61,17 @@
   --color-warning-700: #7f4014;
   --color-warning-800: #6c3517;
 
+  /* Info / Blue (same scale as Primary) */
+  --color-info-50: #e5eefa;
+  --color-info-100: #c6d7f0;
+  --color-info-200: #9fb9e0;
+  --color-info-300: #81a5d9;
+  --color-info-400: #527db6;
+  --color-info: #3165ad;
+  --color-info-600: #27518c;
+  --color-info-700: #203b61;
+  --color-info-800: #142845;
+
   /* Neutral */
   --color-white: #ffffff;
 
