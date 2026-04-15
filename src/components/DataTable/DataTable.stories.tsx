@@ -73,6 +73,73 @@ export const Default: Story = {
   },
 };
 
+export const WithToolbar: Story = {
+  render: function WithToolbar() {
+    const [query, setQuery] = useState('');
+    const filtered = allRows.filter(
+      (r) =>
+        !query ||
+        r.tenant.toLowerCase().includes(query.toLowerCase()) ||
+        r.tenantEmail.toLowerCase().includes(query.toLowerCase())
+    );
+    return (
+      <DataTable<TenantRow>
+        columns={columns}
+        rows={filtered.slice(0, 10)}
+        getRowId={(row) => row.tenantEmail}
+        toolbar={{
+          title: 'Tenants',
+          onFilter: () => {},
+          onRefresh: () => {},
+          onDownload: () => {},
+          onSearch: setQuery,
+          searchPlaceholder: 'Search tenants…',
+        }}
+      />
+    );
+  },
+};
+
+export const WithToolbarAndPagination: Story = {
+  render: function WithToolbarAndPagination() {
+    const [query, setQuery] = useState('');
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+
+    const filtered = allRows.filter(
+      (r) =>
+        !query ||
+        r.tenant.toLowerCase().includes(query.toLowerCase()) ||
+        r.tenantEmail.toLowerCase().includes(query.toLowerCase())
+    );
+    const pagedRows = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+    return (
+      <DataTable<TenantRow>
+        columns={columns}
+        rows={pagedRows}
+        getRowId={(row) => row.tenantEmail}
+        toolbar={{
+          title: 'Tenants',
+          onFilter: () => {},
+          onRefresh: () => {},
+          onDownload: () => {},
+          onSearch: (q) => { setQuery(q); setPage(1); },
+          searchPlaceholder: 'Search tenants…',
+        }}
+        pagination={{
+          page,
+          pageSize,
+          total: filtered.length,
+          pageSizeOptions: [10, 25, 50],
+          onPageChange: setPage,
+          onPageSizeChange: (size) => { setPageSize(size); setPage(1); },
+        }}
+      />
+    );
+  },
+};
+
 export const WithPagination: Story = {
   render: function WithPagination() {
     const [page, setPage] = useState(1);

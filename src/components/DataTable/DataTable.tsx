@@ -1,6 +1,21 @@
-import { useEffect, useRef } from 'react';
-import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search } from 'lucide-react';
 import './DataTable.css';
+
+export interface DataTableToolbar {
+  /** Table title shown on the left */
+  title?: string;
+  /** Called when filter icon is clicked */
+  onFilter?: () => void;
+  /** Called when refresh icon is clicked */
+  onRefresh?: () => void;
+  /** Called when download icon is clicked */
+  onDownload?: () => void;
+  /** Called when search query changes */
+  onSearch?: (query: string) => void;
+  /** Search placeholder text */
+  searchPlaceholder?: string;
+}
 
 export interface DataTableColumn<T = Record<string, unknown>> {
   /** Column key (matches row data keys) */
@@ -41,6 +56,8 @@ export interface DataTableProps<T = Record<string, unknown>> {
   selectedRowIds?: Set<string>;
   /** Selection change callback */
   onSelectionChange?: (selectedIds: Set<string>) => void;
+  /** Toolbar configuration */
+  toolbar?: DataTableToolbar;
   /** Pagination configuration */
   pagination?: DataTablePagination;
   /** Optional additional class name for the wrapper */
@@ -54,9 +71,11 @@ export function DataTable<T extends Record<string, unknown>>({
   selectable = false,
   selectedRowIds = new Set(),
   onSelectionChange,
+  toolbar,
   pagination,
   className = '',
 }: DataTableProps<T>) {
+  const [searchQuery, setSearchQuery] = useState('');
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
   const someSelected = selectable && selectedRowIds.size > 0;
   const indeterminate = someSelected && !allSelected;
@@ -91,6 +110,50 @@ export function DataTable<T extends Record<string, unknown>>({
 
   return (
     <div className={`data-table__wrap ${className}`.trim()}>
+      {toolbar && (
+        <div className="data-table__toolbar">
+          <div className="data-table__toolbar-left">
+            {toolbar.title && (
+              <span className="data-table__toolbar-title">{toolbar.title}</span>
+            )}
+          </div>
+          <div className="data-table__toolbar-right">
+            <div className="data-table__toolbar-icons">
+              {toolbar.onFilter && (
+                <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onFilter} aria-label="Filter">
+                  <Filter size={16} strokeWidth={2} />
+                </button>
+              )}
+              {toolbar.onRefresh && (
+                <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onRefresh} aria-label="Refresh">
+                  <RefreshCw size={16} strokeWidth={2} />
+                </button>
+              )}
+              {toolbar.onDownload && (
+                <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onDownload} aria-label="Download">
+                  <Download size={16} strokeWidth={2} />
+                </button>
+              )}
+            </div>
+            {toolbar.onSearch && (
+              <div className="data-table__toolbar-search">
+                <Search size={12} strokeWidth={2} className="data-table__toolbar-search-icon" aria-hidden />
+                <input
+                  type="text"
+                  className="data-table__toolbar-search-input"
+                  placeholder={toolbar.searchPlaceholder ?? 'Search…'}
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    toolbar.onSearch?.(e.target.value);
+                  }}
+                  aria-label="Search table"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <table className="data-table">
         <thead className="data-table__head">
           <tr>
