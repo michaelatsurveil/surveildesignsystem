@@ -204,10 +204,6 @@ export const tokens = {
     sm: 2,
     md: 4,
     lg: 8,
-    /** Alias for md - backward compatibility */
-    s: 4,
-    /** Alias for lg - backward compatibility */
-    m: 8,
     /** For pill shapes */
     full: 9999,
   },
