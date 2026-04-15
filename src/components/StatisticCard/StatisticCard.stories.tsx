@@ -110,3 +110,40 @@ export const TitleAndValueOnly: Story = {
     value: '1,234',
   },
 };
+
+/** Responsive grid: cards reflow across breakpoints using auto-fill columns. */
+export const ResponsiveGrid: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+      <StatisticCard
+        title="Revenue"
+        value="£12,450"
+        comparison={{ trend: 'up', text: '12% vs last month' }}
+        supportingText="Monthly recurring revenue"
+        primaryAction={{ label: 'View report' }}
+        secondaryAction={{ label: 'Export' }}
+      />
+      <StatisticCard
+        title="Orders"
+        value="1,234"
+        comparison={{ trend: 'down', text: '3% vs last month' }}
+        supportingText="Total orders placed"
+        primaryAction={{ label: 'View orders' }}
+      />
+      <StatisticCard
+        title="Active users"
+        value="892"
+        comparison={{ trend: 'neutral', text: 'No change' }}
+        supportingText="Active this week"
+      />
+      <StatisticCard
+        title="Conversion"
+        badge="Default"
+        value="4.2%"
+        comparison={{ trend: 'up', text: '0.5% vs last week' }}
+        supportingText="Checkout conversion rate"
+        primaryAction={{ label: 'View' }}
+      />
+    </div>
+  ),
+};

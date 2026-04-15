@@ -171,3 +171,30 @@
   gap: var(--scale-300, 12px);
   margin-left: auto;
 }
+
+/* ── Responsive container queries ───────────────────────────────────────────── */
+
+/* Narrow card: wrap header badge onto its own line */
+@container (max-width: 280px) {
+  .statistic-card__header {
+    flex-wrap: wrap;
+  }
+  .statistic-card__header-left {
+    flex: 1 1 100%;
+  }
+}
+
+/* Narrow card: stack footer labels + actions vertically, full-width buttons */
+@container (max-width: 400px) {
+  .statistic-card__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .statistic-card__actions {
+    margin-left: 0;
+    justify-content: stretch;
+  }
+  .statistic-card__actions > * {
+    flex: 1;
+  }
+}
