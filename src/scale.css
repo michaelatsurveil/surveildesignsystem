@@ -30,5 +30,4 @@
   --radius-sm: var(--scale-50);
   --radius-md: var(--scale-100);
   --radius-lg: var(--scale-200);
-  --radius-full: 9999px;
 }

@@ -10,7 +10,7 @@
   justify-content: center;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   font-weight: var(--font-weight-medium, 500);
-  border-radius: var(--radius-full, 9999px);
+  border-radius: 9999px;
   border: none;
   white-space: nowrap;
 }

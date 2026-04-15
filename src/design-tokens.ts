@@ -204,8 +204,6 @@ export const tokens = {
     sm: 2,
     md: 4,
     lg: 8,
-    /** For pill shapes */
-    full: 9999,
   },
   focusRing: {
     primary: '0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px #ffffff',
