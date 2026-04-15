@@ -174,12 +174,14 @@ export function DataTable<T extends Record<string, unknown>>({
             )}
             {columns.map((col) => (
               <th key={col.id} className="data-table__cell data-table__cell--head" scope="col">
-                <span className="data-table__head-text">{col.header}</span>
-                {col.sortable && (
-                  <span className="data-table__head-icon" aria-hidden>
-                    <MoreVertical size={16} strokeWidth={2} />
-                  </span>
-                )}
+                <span className="data-table__head-text">
+                  {col.header}
+                  {col.sortable && (
+                    <span className="data-table__head-icon" aria-hidden>
+                      <MoreVertical size={16} strokeWidth={2} />
+                    </span>
+                  )}
+                </span>
               </th>
             ))}
           </tr>
