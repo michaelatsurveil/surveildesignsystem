@@ -10,7 +10,10 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  width: 100%;
   min-height: 0;
+  box-sizing: border-box;
+  container-type: inline-size; /* enables container queries on this card */
   background: var(--color-white, #ffffff);
   border-radius: 8px;
   box-shadow: none;
@@ -44,6 +47,8 @@
 }
 
 .statistic-card__title {
+  flex: 1;
+  min-width: 0;
   margin: 0;
   font-size: 14px;
   font-weight: var(--font-weight-semibold, 600);
@@ -65,9 +70,28 @@
 /* Value row: only add bottom margin when supporting text or footer follows (vertical hug) */
 .statistic-card__value-row {
   display: flex;
+  flex-direction: row;
   align-items: flex-end;
   gap: var(--scale-300, 12px);
   margin-bottom: 0;
+}
+
+/* Stack comparison below value on tablet and mobile viewports */
+@media (max-width: 768px) {
+  .statistic-card__value-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--scale-100, 4px);
+  }
+}
+
+/* Also stack when the card itself is narrow (e.g. in a grid column) */
+@container (max-width: 360px) {
+  .statistic-card__value-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--scale-100, 4px);
+  }
 }
 .statistic-card--has-supporting .statistic-card__value-row,
 .statistic-card--has-footer .statistic-card__value-row {
