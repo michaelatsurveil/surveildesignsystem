@@ -97,7 +97,7 @@ export const tokens = {
       200: '#f8e090',
       300: '#f4c750',
       400: '#f0b537',
-      default: '#db9315',
+      default: '#ac5c11',
       600: '#99510f',
       700: '#7f4014',
       800: '#6c3517',
@@ -119,7 +119,7 @@ export const tokens = {
       primary: '#3165ad',
       success: '#15803d',
       error: '#e61c1d',
-      warning: '#db9315',
+      warning: '#ac5c11',
     },
 
     // Button (semantic aliases - kept for components)
