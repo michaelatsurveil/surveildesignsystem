@@ -193,10 +193,6 @@ export const tokens = {
     'body.md-bold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '16px', fontWeight: 700, lineHeight: '24px', letterSpacing: 0 },
     'body.lg-bold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '20px', fontWeight: 700, lineHeight: '28px', letterSpacing: 0 },
 
-    // Button (kept for backward compatibility)
-    'button.md': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '16px', fontWeight: 500, lineHeight: '24px' },
-    'button.sm': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '14px', fontWeight: 500, lineHeight: '20px' },
-    'button.lg': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '16px', fontWeight: 500, lineHeight: '24px' },
   },
   /** Border radius (Border Radius: none, sm, md, lg → Scale/0, 50, 100, 200) */
   radius: {
