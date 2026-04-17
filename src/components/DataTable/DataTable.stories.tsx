@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, within } from '@storybook/test';
+import { ExternalLink } from 'lucide-react';
 import { DataTable } from './DataTable';
 import type { DataTablePagination } from './DataTable';
 
@@ -212,4 +214,89 @@ export const WithSelection: Story = {
       />
     );
   },
+};
+
+/** Header row — shows column header cells with sort affordance (Emphasis=High). */
+export const HeaderRow: Story = {
+  args: {
+    columns,
+    rows: [],
+    getRowId: (row) => row.tenantEmail,
+  },
+};
+
+/** Row hover — background transitions to grey-25 on pointer enter. */
+export const RowHover: Story = {
+  args: {
+    columns,
+    rows: sampleRows,
+    getRowId: (row) => row.tenantEmail,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const rows = canvas.getAllByRole('row');
+    // Hover the first body row (index 0 is the header row)
+    if (rows[1]) await userEvent.hover(rows[1]);
+  },
+};
+
+/** Cell types — Text, Badge, and Link Button cell variants in a single table. */
+type CellTypeRow = {
+  id: string;
+  name: string;
+  status: string;
+  action: string;
+};
+
+const cellTypeRows: CellTypeRow[] = [
+  { id: '1', name: 'Acme Corp', status: 'Active', action: 'View details' },
+  { id: '2', name: 'Globex Inc', status: 'Pending', action: 'View details' },
+  { id: '3', name: 'Initech', status: 'Default', action: 'View details' },
+  { id: '4', name: 'Umbrella Ltd', status: 'Active', action: 'View details' },
+];
+
+const cellTypeColumns = [
+  {
+    id: 'name',
+    header: 'Name',
+    sortable: true,
+    // Text cell — plain string (default)
+  },
+  {
+    id: 'status',
+    header: 'Status',
+    sortable: true,
+    // Badge cell
+    render: (value: unknown) => (
+      <span className="data-table__badge">{String(value)}</span>
+    ),
+  },
+  {
+    id: 'action',
+    header: 'Action',
+    // Link Button cell
+    render: (value: unknown) => (
+      <button type="button" className="data-table__cell-link" onClick={() => {}}>
+        {String(value)}
+        <ExternalLink size={12} strokeWidth={2} aria-hidden />
+      </button>
+    ),
+  },
+];
+
+export const CellTypes: StoryObj<typeof DataTable<CellTypeRow>> = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstrates the three Data Cell variants from Figma: **Text** (plain), **Badge** (status chip), and **Link Button** (inline action).',
+      },
+    },
+  },
+  render: () => (
+    <DataTable<CellTypeRow>
+      columns={cellTypeColumns}
+      rows={cellTypeRows}
+      getRowId={(row) => row.id}
+    />
+  ),
 };
