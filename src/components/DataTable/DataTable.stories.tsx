@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within } from '@storybook/test';
-import { ExternalLink, TrendingUp, MoreVertical, ChevronRight } from 'lucide-react';
+import { ExternalLink, TrendingUp, MoreVertical, ChevronRight, ChevronDown } from 'lucide-react';
 import { DataTable } from './DataTable';
 import type { DataTablePagination } from './DataTable';
 import { Avatar } from '../Avatar/Avatar';
@@ -432,4 +432,212 @@ export const CellTypes: StoryObj<typeof DataTable<CellDemoRow>> = {
       getRowId={(row) => row.id}
     />
   ),
+};
+
+/**
+ * ExampleTable — realistic account management table combining all cell types.
+ * Parent rows are expandable (Tree Item); child rows indent beneath them (Child Tree Item).
+ * Demonstrates: tree hierarchy, avatars, badges, toggles, numbers w/ icons, link buttons, more menu.
+ */
+type ExampleRow = {
+  id: string;
+  parentId?: string;
+  isParent?: boolean;
+  name: string;
+  owner: string;
+  status: 'Active' | 'Pending' | 'Inactive';
+  users: number;
+  plan: string;
+  active: boolean;
+  tags: string[];
+};
+
+const exampleAllRows: ExampleRow[] = [
+  { id: 'acme',       isParent: true, name: 'Acme Corp',       owner: 'JD', status: 'Active',   users: 142, plan: 'Enterprise', active: true,  tags: ['M365', 'Navigator'] },
+  { id: 'acme-uk',    parentId: 'acme',    name: 'Acme Corp — UK', owner: 'AB', status: 'Active',   users: 63,  plan: 'Enterprise', active: true,  tags: ['M365'] },
+  { id: 'acme-us',    parentId: 'acme',    name: 'Acme Corp — US', owner: 'MC', status: 'Active',   users: 79,  plan: 'Enterprise', active: true,  tags: ['M365'] },
+  { id: 'globex',     isParent: true, name: 'Globex Inc',      owner: 'RK', status: 'Pending',  users: 34,  plan: 'Growth',     active: false, tags: ['Google'] },
+  { id: 'globex-apac',parentId: 'globex',  name: 'Globex — APAC', owner: 'TL', status: 'Pending',  users: 34,  plan: 'Growth',     active: false, tags: ['Google'] },
+  { id: 'initech',    isParent: true, name: 'Initech',         owner: 'SP', status: 'Active',   users: 8,   plan: 'Starter',    active: true,  tags: ['M365', 'Google'] },
+  { id: 'umbrella',   isParent: true, name: 'Umbrella Ltd',    owner: 'NU', status: 'Inactive', users: 0,   plan: 'Enterprise', active: false, tags: [] },
+];
+
+const statusVariant: Record<string, 'success' | 'attention' | 'default'> = {
+  Active: 'success',
+  Pending: 'attention',
+  Inactive: 'default',
+};
+
+export const ExampleTable: StoryObj<typeof DataTable<ExampleRow>> = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Realistic account management table combining all major cell types. Click the chevron on a parent row to expand/collapse its children. Demonstrates Tree Item / Child Tree Item hierarchy alongside avatars, badges, toggles, number+icon, link buttons, and a more menu.',
+      },
+    },
+  },
+  render: function ExampleTable() {
+    const [expanded, setExpanded] = useState<Set<string>>(new Set(['acme']));
+    const [activeRows, setActiveRows] = useState<Set<string>>(
+      new Set(exampleAllRows.filter((r) => r.active).map((r) => r.id))
+    );
+
+    const toggle = (id: string) =>
+      setExpanded((prev) => {
+        const next = new Set(prev);
+        next.has(id) ? next.delete(id) : next.add(id);
+        return next;
+      });
+
+    const toggleActive = (id: string) =>
+      setActiveRows((prev) => {
+        const next = new Set(prev);
+        next.has(id) ? next.delete(id) : next.add(id);
+        return next;
+      });
+
+    // Filter: always show parents; show children only when parent is expanded
+    const visibleRows = exampleAllRows.filter(
+      (r) => !r.parentId || expanded.has(r.parentId)
+    );
+
+    const exampleColumns = [
+      {
+        id: 'name',
+        header: 'Account',
+        render: (_: unknown, row: ExampleRow) => {
+          if (row.isParent) {
+            const isExpanded = expanded.has(row.id);
+            const hasChildren = exampleAllRows.some((r) => r.parentId === row.id);
+            return (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                {hasChildren ? (
+                  <button
+                    type="button"
+                    onClick={() => toggle(row.id)}
+                    style={{ display: 'inline-flex', alignItems: 'center', background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--color-grey-400, #818181)', flexShrink: 0 }}
+                    aria-label={isExpanded ? 'Collapse' : 'Expand'}
+                  >
+                    {isExpanded
+                      ? <ChevronDown size={14} strokeWidth={2} />
+                      : <ChevronRight size={14} strokeWidth={2} />}
+                  </button>
+                ) : (
+                  <span style={{ width: 14, flexShrink: 0 }} />
+                )}
+                <span style={{ fontWeight: 600 }}>{row.name}</span>
+              </span>
+            );
+          }
+          // Child tree item — indented
+          return (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, paddingLeft: 22 }}>
+              <span>{row.name}</span>
+            </span>
+          );
+        },
+      },
+      {
+        id: 'owner',
+        header: 'Owner',
+        render: (_: unknown, row: ExampleRow) => (
+          <Avatar initials={row.owner} size="xs" />
+        ),
+      },
+      {
+        id: 'status',
+        header: 'Status',
+        render: (_: unknown, row: ExampleRow) => (
+          <Tag variant={statusVariant[row.status]} size="sm">{row.status}</Tag>
+        ),
+      },
+      {
+        id: 'users',
+        header: 'Users',
+        render: (_: unknown, row: ExampleRow) => (
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 4 }}>
+            {row.users > 0 && (
+              <TrendingUp size={12} strokeWidth={2} color="var(--color-success, #15803d)" aria-hidden />
+            )}
+            <span className="data-table__cell-number">{row.users.toLocaleString()}</span>
+          </span>
+        ),
+      },
+      {
+        id: 'tags',
+        header: 'Tags',
+        render: (_: unknown, row: ExampleRow) =>
+          row.tags.length > 0 ? (
+            <span style={{ display: 'inline-flex', gap: 4, flexWrap: 'wrap' as const }}>
+              {row.tags.map((t) => (
+                <span key={t} className="data-table__badge">{t}</span>
+              ))}
+            </span>
+          ) : (
+            <span style={{ color: 'var(--color-grey-300, #a0a0a0)' }}>—</span>
+          ),
+      },
+      {
+        id: 'plan',
+        header: 'Plan',
+        render: (_: unknown, row: ExampleRow) => (
+          <>
+            <span>{row.plan}</span>
+            <span className="data-table__cell-subtext">Billed monthly</span>
+          </>
+        ),
+      },
+      {
+        id: 'active',
+        header: 'Active',
+        render: (_: unknown, row: ExampleRow) => {
+          const on = activeRows.has(row.id);
+          return (
+            <button
+              type="button"
+              className="data-table__cell-toggle"
+              onClick={() => toggleActive(row.id)}
+              aria-label={on ? 'Deactivate' : 'Activate'}
+              aria-pressed={on}
+            >
+              <span
+                className="data-table__cell-toggle-track"
+                style={{ background: on ? 'var(--color-primary, #3165ad)' : 'var(--color-grey-200, #c0c0c0)' }}
+              >
+                <span
+                  className="data-table__cell-toggle-thumb"
+                  style={{ right: on ? 2 : undefined, left: on ? undefined : 2 }}
+                />
+              </span>
+            </button>
+          );
+        },
+      },
+      {
+        id: 'actions',
+        header: '',
+        render: (_: unknown, row: ExampleRow) => (
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <button type="button" className="data-table__cell-link" onClick={() => alert(`View ${row.name}`)}>
+              View
+              <ExternalLink size={11} strokeWidth={2} aria-hidden />
+            </button>
+            <button type="button" className="data-table__cell-more" aria-label="More options">
+              <MoreVertical size={16} strokeWidth={2} />
+            </button>
+          </span>
+        ),
+      },
+    ];
+
+    return (
+      <DataTable<ExampleRow>
+        columns={exampleColumns}
+        rows={visibleRows}
+        getRowId={(row) => row.id}
+        toolbar={{ title: 'Accounts', onFilter: () => {}, onRefresh: () => {}, onDownload: () => {} }}
+      />
+    );
+  },
 };
