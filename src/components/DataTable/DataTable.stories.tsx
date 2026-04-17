@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within } from '@storybook/test';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, TrendingUp, MoreVertical, ChevronRight } from 'lucide-react';
 import { DataTable } from './DataTable';
 import type { DataTablePagination } from './DataTable';
+import { Avatar } from '../Avatar/Avatar';
+import { Button } from '../Button/Button';
+import { Tag } from '../Tag/Tag';
 
 type TenantRow = {
   tenant: string;
@@ -240,62 +243,192 @@ export const RowHover: Story = {
   },
 };
 
-/** Cell types — Text, Badge, and Link Button cell variants in a single table. */
-type CellTypeRow = {
-  id: string;
-  name: string;
-  status: string;
-  action: string;
-};
+/**
+ * Cell Types — all 22 Data Cell variants from the Figma component set (496:4747).
+ * Each row demonstrates a different cell type.
+ */
+type CellDemoRow = { id: string; label: string };
 
-const cellTypeRows: CellTypeRow[] = [
-  { id: '1', name: 'Acme Corp', status: 'Active', action: 'View details' },
-  { id: '2', name: 'Globex Inc', status: 'Pending', action: 'View details' },
-  { id: '3', name: 'Initech', status: 'Default', action: 'View details' },
-  { id: '4', name: 'Umbrella Ltd', status: 'Active', action: 'View details' },
+const cellDemoRows: CellDemoRow[] = [
+  { id: 'text',                 label: 'Text' },
+  { id: 'text-bold',            label: 'Text (Bold)' },
+  { id: 'summary',              label: 'Summary' },
+  { id: 'summary-bold',         label: 'Summary (Bold)' },
+  { id: 'text-subtext',         label: 'Text + Subtext' },
+  { id: 'number',               label: 'Number' },
+  { id: 'number-icon',          label: 'Number w/ Icon' },
+  { id: 'badge',                label: 'Badge' },
+  { id: 'multiple-badges',      label: 'Multiple Badges' },
+  { id: 'button',               label: 'Button' },
+  { id: 'icon-button',          label: 'Icon Button' },
+  { id: 'link-button',          label: 'Link Button' },
+  { id: 'link-button-multiple', label: 'Link Button (Multiple)' },
+  { id: 'toggle',               label: 'Toggle' },
+  { id: 'input',                label: 'Input' },
+  { id: 'avatar',               label: 'Avatar' },
+  { id: 'avatar-group',         label: 'Avatar Group' },
+  { id: 'checkbox',             label: 'Checkbox' },
+  { id: 'tree-item',            label: 'Tree Item' },
+  { id: 'child-tree-item',      label: 'Child Tree Item' },
+  { id: 'more',                 label: 'More' },
+  { id: 'empty',                label: 'Empty' },
 ];
 
-const cellTypeColumns = [
+function renderCellPreview(id: string) {
+  switch (id) {
+    case 'text':
+      return <span>Sample text</span>;
+
+    case 'text-bold':
+      return <span style={{ fontWeight: 600 }}>Sample text</span>;
+
+    case 'summary':
+      return <span className="data-table__cell-summary">Summary content</span>;
+
+    case 'summary-bold':
+      return <span className="data-table__cell-summary" style={{ fontWeight: 600 }}>Summary content</span>;
+
+    case 'text-subtext':
+      return (
+        <>
+          <span>Primary text</span>
+          <span className="data-table__cell-subtext">Supporting subtext</span>
+        </>
+      );
+
+    case 'number':
+      return <span className="data-table__cell-number" style={{ display: 'block', textAlign: 'right' }}>10,000</span>;
+
+    case 'number-icon':
+      return (
+        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 4 }}>
+          <TrendingUp size={14} strokeWidth={2} color="var(--color-success, #15803d)" aria-hidden />
+          <span className="data-table__cell-number">10,000</span>
+        </span>
+      );
+
+    case 'badge':
+      return <span className="data-table__badge">Active</span>;
+
+    case 'multiple-badges':
+      return (
+        <span style={{ display: 'inline-flex', gap: 6, flexWrap: 'wrap' }}>
+          <Tag variant="success" size="sm">Active</Tag>
+          <Tag variant="info" size="sm">Synced</Tag>
+        </span>
+      );
+
+    case 'button':
+      return <Button size="sm">Action</Button>;
+
+    case 'icon-button':
+      return (
+        <button type="button" className="data-table__toolbar-btn" aria-label="More options">
+          <MoreVertical size={16} strokeWidth={2} />
+        </button>
+      );
+
+    case 'link-button':
+      return (
+        <button type="button" className="data-table__cell-link">
+          View details
+          <ExternalLink size={12} strokeWidth={2} aria-hidden />
+        </button>
+      );
+
+    case 'link-button-multiple':
+      return (
+        <span style={{ display: 'inline-flex', gap: 12 }}>
+          <button type="button" className="data-table__cell-link">Edit</button>
+          <button type="button" className="data-table__cell-link">Delete</button>
+        </span>
+      );
+
+    case 'toggle':
+      return (
+        <button type="button" className="data-table__cell-toggle" aria-label="Toggle on">
+          <span className="data-table__cell-toggle-track">
+            <span className="data-table__cell-toggle-thumb" />
+          </span>
+        </button>
+      );
+
+    case 'input':
+      return <input type="text" className="data-table__cell-input" defaultValue="Editable value" />;
+
+    case 'avatar':
+      return <Avatar initials="JD" size="xs" />;
+
+    case 'avatar-group':
+      return (
+        <span className="data-table__cell-avatar-group">
+          <Avatar initials="JD" size="xs" />
+          <Avatar initials="AB" size="xs" />
+          <Avatar initials="MC" size="xs" />
+        </span>
+      );
+
+    case 'checkbox':
+      return (
+        <label className="data-table__checkbox-label">
+          <input type="checkbox" className="data-table__checkbox-input" defaultChecked />
+          <span className="data-table__checkbox-box" aria-hidden />
+        </label>
+      );
+
+    case 'tree-item':
+      return (
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <ChevronRight size={14} strokeWidth={2} color="var(--color-grey-400, #818181)" aria-hidden />
+          <span>Parent item</span>
+        </span>
+      );
+
+    case 'child-tree-item':
+      return (
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, paddingLeft: 20 }}>
+          <span>Child item</span>
+        </span>
+      );
+
+    case 'more':
+      return (
+        <button type="button" className="data-table__cell-more" aria-label="More options">
+          <MoreVertical size={16} strokeWidth={2} />
+        </button>
+      );
+
+    case 'empty':
+    default:
+      return <span style={{ color: 'var(--color-grey-300, #a0a0a0)' }}>—</span>;
+  }
+}
+
+const cellDemoColumns = [
   {
-    id: 'name',
-    header: 'Name',
-    sortable: true,
-    // Text cell — plain string (default)
+    id: 'label',
+    header: 'Cell Type',
   },
   {
-    id: 'status',
-    header: 'Status',
-    sortable: true,
-    // Badge cell
-    render: (value: unknown) => (
-      <span className="data-table__badge">{String(value)}</span>
-    ),
-  },
-  {
-    id: 'action',
-    header: 'Action',
-    // Link Button cell
-    render: (value: unknown) => (
-      <button type="button" className="data-table__cell-link" onClick={() => {}}>
-        {String(value)}
-        <ExternalLink size={12} strokeWidth={2} aria-hidden />
-      </button>
-    ),
+    id: 'id',
+    header: 'Preview',
+    render: (_value: unknown, row: CellDemoRow) => renderCellPreview(row.id),
   },
 ];
 
-export const CellTypes: StoryObj<typeof DataTable<CellTypeRow>> = {
+export const CellTypes: StoryObj<typeof DataTable<CellDemoRow>> = {
   parameters: {
     docs: {
       description: {
-        story: 'Demonstrates the three Data Cell variants from Figma: **Text** (plain), **Badge** (status chip), and **Link Button** (inline action).',
+        story:
+          'All 22 Data Cell variants from the Figma component set. Each row shows a different type: Text, Text (Bold), Summary, Summary (Bold), Text + Subtext, Number, Number w/ Icon, Badge, Multiple Badges, Button, Icon Button, Link Button, Link Button (Multiple), Toggle, Input, Avatar, Avatar Group, Checkbox, Tree Item, Child Tree Item, More, and Empty.',
       },
     },
   },
   render: () => (
-    <DataTable<CellTypeRow>
-      columns={cellTypeColumns}
-      rows={cellTypeRows}
+    <DataTable<CellDemoRow>
+      columns={cellDemoColumns}
+      rows={cellDemoRows}
       getRowId={(row) => row.id}
     />
   ),

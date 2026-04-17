@@ -218,6 +218,115 @@
   padding: 8px 16px;
 }
 
+/* ── Cell type helpers ──────────────────────────────────────────────────────── */
+
+/* Number: right-aligned tabular numerals */
+.data-table__cell--right {
+  text-align: right;
+}
+
+.data-table__cell-number {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtext: secondary line beneath primary text */
+.data-table__cell-subtext {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-grey-400, #818181);
+  font-weight: var(--font-weight-regular, 400);
+}
+
+/* Summary: muted body text */
+.data-table__cell-summary {
+  color: var(--color-grey-400, #818181);
+}
+
+/* Tree item: indent child rows */
+.data-table__cell--child-tree {
+  padding-left: var(--scale-800, 32px);
+}
+
+/* Inline toggle (no standalone Toggle component) */
+.data-table__cell-toggle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.data-table__cell-toggle-track {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--color-primary, #3165ad);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.data-table__cell-toggle-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-neutral-white, #ffffff);
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Avatar group: stacked overlapping avatars */
+.data-table__cell-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.data-table__cell-avatar-group > * + * {
+  margin-left: -8px;
+}
+
+/* More button (⋮) */
+.data-table__cell-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-icon, #616161);
+  border-radius: var(--radius-md, 4px);
+  transition: background-color 0.15s;
+}
+
+.data-table__cell-more:hover {
+  background: var(--color-grey-50, #efefef);
+}
+
+/* Input cell: full-height flush input */
+.data-table__cell-input {
+  width: 100%;
+  height: 100%;
+  padding: 0 4px;
+  border: none;
+  border-radius: var(--radius-sm, 2px);
+  background: transparent;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  color: var(--color-grey-600, #3a3a3a);
+  outline: none;
+}
+
+.data-table__cell-input:focus {
+  background: var(--color-neutral-white, #ffffff);
+  box-shadow: 0 0 0 2px var(--color-primary, #3165ad);
+}
+
 .data-table__checkbox-label {
   display: inline-flex;
   align-items: center;
