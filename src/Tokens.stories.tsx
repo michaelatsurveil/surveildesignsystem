@@ -72,6 +72,30 @@ const TokenRow = ({
   </div>
 );
 
+/**
+ * Re-orders palette entries so non-numeric keys (e.g. "default") are inserted
+ * after the last numeric step ≤ 500 — keeping them between 400 and 600.
+ */
+function orderPaletteEntries(obj: Record<string, unknown>): [string, unknown][] {
+  const entries = Object.entries(obj);
+  const numeric = entries
+    .filter(([k]) => !isNaN(Number(k)))
+    .sort((a, b) => Number(a[0]) - Number(b[0]));
+  const strings = entries.filter(([k]) => isNaN(Number(k)));
+
+  const result: [string, unknown][] = [];
+  let inserted = false;
+  for (const entry of numeric) {
+    if (!inserted && Number(entry[0]) > 500) {
+      result.push(...strings);
+      inserted = true;
+    }
+    result.push(entry);
+  }
+  if (!inserted) result.push(...strings);
+  return result;
+}
+
 export const AllTokens: StoryObj = {
   render: () => (
     <div style={{ maxWidth: 900 }}>
@@ -214,12 +238,12 @@ export const AllTokens: StoryObj = {
                   >
                     {key}
                   </div>
-                  {Object.entries(val as Record<string, string>).map(
+                  {orderPaletteEntries(val as Record<string, unknown>).map(
                     ([subKey, subVal]) => (
                       <TokenRow
                         key={`${key}.${subKey}`}
                         name={`color.${key}.${subKey}`}
-                        value={subVal}
+                        value={subVal as string}
                         preview={
                           typeof subVal === 'string' &&
                           subVal.startsWith('#') ? (
