@@ -5,11 +5,11 @@
  * Single size: 18px box
  *
  * STATE MATRIX (Unchecked | Checked | Indeterminate × Default | Hover | Pressed | Focus | Disabled)
- * Unchecked Default:  Border #d1d5db, bg #ffffff
+ * Unchecked Default:  Border --color-border-dark (#d1d5db), bg #ffffff
  * Unchecked Hover:    Border #9ca3af
  * Unchecked Pressed:  Border #9ca3af
  * Unchecked Focus:    Focus ring
- * Unchecked Disabled: Border #e5e7eb, bg #f7f7f7, label #818181
+ * Unchecked Disabled: Border --color-border-light (#e5e7eb), bg #f7f7f7, label #818181
  *
  * Checked Default:    Border #3165ad, bg #3165ad, check #ffffff
  * Checked Hover:      Border #27518c, bg #27518c
@@ -57,7 +57,7 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  border: 1.5px solid var(--color-grey-200, #d1d5db);
+  border: 1.5px solid var(--color-border-dark, #d1d5db);
   border-radius: var(--radius-md, 4px);
   background: var(--color-white, #ffffff);
   transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
@@ -107,11 +107,11 @@
 }
 
 .checkbox:not(.checkbox--disabled):hover .checkbox__box {
-  border-color: var(--color-grey-300, #9ca3af);
+  border-color: #9ca3af;
 }
 
 .checkbox:not(.checkbox--disabled):active .checkbox__box {
-  border-color: var(--color-grey-300, #9ca3af);
+  border-color: #9ca3af;
 }
 
 .checkbox:not(.checkbox--disabled):hover .checkbox__input:checked + .checkbox__box,
@@ -127,7 +127,7 @@
 }
 
 .checkbox--disabled .checkbox__box {
-  border-color: var(--color-grey-100, #e5e7eb);
+  border-color: var(--color-border-light, #e5e7eb);
   background: var(--color-grey-50, #f7f7f7);
 }
 
