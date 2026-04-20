@@ -111,6 +111,11 @@ export const tokens = {
       default: '#ffffff',
       alt: '#f9fafb',
     },
+    // Border
+    border: {
+      light: '#e5e7eb',
+      dark: '#d1d5db',
+    },
 
     // Icons (Lucide)
     icon: {

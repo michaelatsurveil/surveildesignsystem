@@ -76,6 +76,8 @@
   --color-neutral-white: #ffffff;
   --color-background: #ffffff;
   --color-background-alt: #f9fafb;
+  --color-border-light: #e5e7eb;
+  --color-border-dark: #d1d5db;
   --color-icon: #616161;
   --color-icon-muted: #a0a0a0;
   --color-icon-primary: #3165ad;
