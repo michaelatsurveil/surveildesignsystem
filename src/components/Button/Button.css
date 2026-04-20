@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid transparent;
-  border-radius: var(--radius-lg, 8px);
+  border-radius: var(--radius-md, 4px);
   cursor: pointer;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   outline: none;
@@ -128,25 +128,29 @@
   border-color: var(--color-error-300, #f07777);
 }
 
-/* Sizes — Figma 153-1427 (Input > Buttons). Small & medium use body small (14px / 16px). */
+/* Sizes — Figma node 241-13331 (Button component set).
+   Heights are fixed (no vertical padding); content centred via flexbox. */
 .btn--sm {
-  padding: calc(var(--scale-100, 4px) + var(--scale-50, 2px)) var(--scale-300, 12px);
-  min-height: var(--scale-600, 24px);
-  font-size: 14px;
+  height: var(--scale-600, 24px);
+  padding: 0 var(--scale-300, 12px);
+  gap: var(--scale-100, 4px);
+  font-size: 12px;
   font-weight: var(--font-weight-medium, 500);
   line-height: 16px;
 }
 .btn--md {
-  padding: var(--scale-200, 8px) var(--scale-300, 12px);
-  min-height: var(--scale-800, 32px);
+  height: var(--scale-700, 28px);
+  padding: 0 var(--scale-300, 12px);
+  gap: var(--scale-100, 4px);
   font-size: 14px;
   font-weight: var(--font-weight-medium, 500);
   line-height: 16px;
 }
 .btn--lg {
-  padding: calc(var(--scale-200, 8px) + var(--scale-50, 2px)) var(--scale-500, 20px);
-  min-height: var(--scale-900, 40px);
-  font-size: var(--scale-400, 16px);
+  height: var(--scale-800, 32px);
+  padding: 0 var(--scale-400, 16px);
+  gap: var(--scale-200, 8px);
+  font-size: 16px;
   font-weight: var(--font-weight-medium, 500);
-  line-height: var(--scale-600, 24px);
+  line-height: 24px;
 }
