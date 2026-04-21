@@ -13,6 +13,7 @@
   gap: 12px;
   padding: 6px;
   box-sizing: border-box;
+  min-height: 620px;
   background-color: transparent;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
 }
@@ -78,6 +79,8 @@
 
 .secondary-sidebar__nav {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .secondary-sidebar__list {
@@ -87,6 +90,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1;
 }
 
 /* ─── Nav item ───────────────────────────────────────────────────────────────── */
