@@ -1,0 +1,226 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import {
+  Users,
+  ShieldCheck,
+  Settings,
+  FileText,
+  ArrowLeft,
+  Bell,
+  BarChart2,
+  Lock,
+} from 'lucide-react';
+import { SecondarySidebar } from './SecondarySidebar';
+
+const iconSize = 20;
+const stroke = 2;
+
+const meta: Meta<typeof SecondarySidebar> = {
+  title: 'Navigation/SecondarySidebar',
+  component: SecondarySidebar,
+  tags: ['autodocs'],
+  parameters: {
+    layout: 'padded',
+    backgrounds: {
+      default: 'light-grey',
+      values: [
+        { name: 'light-grey', value: '#f9fafb' },
+        { name: 'white', value: '#ffffff' },
+      ],
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=168-4711',
+    },
+    docs: {
+      description: {
+        component:
+          'Compact contextual sidebar (250px) used alongside the primary navigation. Contains an account header, flat nav items, an optional version label, a divider, and footer links. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=168-4711)',
+      },
+    },
+  },
+  argTypes: {
+    account: { control: false },
+    items: { control: false },
+    footerItems: { control: false },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof SecondarySidebar>;
+
+// ─── Default (matches Figma exactly) ─────────────────────────────────────────
+
+export const Default: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Matches Figma node 168-4711 exactly — Settings sub-navigation for ITEXACT Limited.',
+      },
+    },
+  },
+  args: {
+    account: {
+      name: 'ITEXACT Limited',
+      email: 'jade.chau@surveil.co',
+    },
+    items: [
+      { label: 'Manage Users',       icon: <Users size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Manage Permissions', icon: <Lock  size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Manage Recommendation Restrictions', icon: <ShieldCheck size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Platform Settings',  icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', active: true },
+      { label: 'Audit Logs',         icon: <FileText size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ],
+    version: 'Version 4.3.3',
+    footerItems: [
+      { label: 'Back to Homepage', icon: <ArrowLeft size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ],
+  },
+};
+
+// ─── No Account ──────────────────────────────────────────────────────────────
+
+export const NoAccount: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Without an account header — just nav items and footer.',
+      },
+    },
+  },
+  args: {
+    items: [
+      { label: 'Notifications', icon: <Bell      size={iconSize} strokeWidth={stroke} />, href: '#', active: true },
+      { label: 'Analytics',     icon: <BarChart2 size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Users',         icon: <Users     size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Permissions',   icon: <Lock      size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Audit Logs',    icon: <FileText  size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ],
+    version: 'Version 4.3.3',
+    footerItems: [
+      { label: 'Back to Homepage', icon: <ArrowLeft size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ],
+  },
+};
+
+// ─── No Icons ─────────────────────────────────────────────────────────────────
+
+export const NoIcons: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Nav items without icons — text-only list.',
+      },
+    },
+  },
+  args: {
+    account: {
+      name: 'ITEXACT Limited',
+      email: 'jade.chau@surveil.co',
+    },
+    items: [
+      { label: 'Manage Users',       href: '#' },
+      { label: 'Manage Permissions', href: '#', active: true },
+      { label: 'Platform Settings',  href: '#' },
+      { label: 'Audit Logs',         href: '#' },
+    ],
+  },
+};
+
+// ─── With Disabled Item ───────────────────────────────────────────────────────
+
+export const WithDisabledItem: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'One item in the disabled state — muted text, no pointer cursor.',
+      },
+    },
+  },
+  args: {
+    account: {
+      name: 'ITEXACT Limited',
+      email: 'jade.chau@surveil.co',
+    },
+    items: [
+      { label: 'Manage Users',       icon: <Users      size={iconSize} strokeWidth={stroke} />, href: '#', active: true },
+      { label: 'Manage Permissions', icon: <Lock       size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Platform Settings',  icon: <Settings   size={iconSize} strokeWidth={stroke} />, disabled: true },
+      { label: 'Audit Logs',         icon: <FileText   size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ],
+    version: 'Version 4.3.3',
+    footerItems: [
+      { label: 'Back to Homepage', icon: <ArrowLeft size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ],
+  },
+};
+
+// ─── Side-by-side with Primary Sidebar ───────────────────────────────────────
+
+export const InContext: Story = {
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story: 'Shows the secondary sidebar as it appears in a real layout — flush against a dark primary sidebar.',
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', height: '100vh', background: '#f9fafb' }}>
+      {/* Simulated primary sidebar */}
+      <div style={{
+        width: 260,
+        background: '#203b61',
+        flexShrink: 0,
+        padding: '16px 12px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 4,
+      }}>
+        <div style={{ padding: '8px 12px', color: 'rgba(255,255,255,0.5)', fontSize: 12, fontFamily: 'Roboto, sans-serif', textTransform: 'uppercase', letterSpacing: 1 }}>
+          Primary Nav
+        </div>
+        {['Home', 'Azure', 'MultiCloud', 'Settings'].map((label, i) => (
+          <div key={label} style={{
+            padding: '8px 12px',
+            borderRadius: 6,
+            color: i === 3 ? '#fff' : 'rgba(255,255,255,0.7)',
+            background: i === 3 ? '#3165ad' : 'transparent',
+            fontSize: 14,
+            fontFamily: 'Roboto, sans-serif',
+            cursor: 'pointer',
+          }}>
+            {label}
+          </div>
+        ))}
+      </div>
+
+      {/* Secondary sidebar */}
+      <div style={{ borderRight: '1px solid #efefef', background: '#fff' }}>
+        <SecondarySidebar
+          account={{ name: 'ITEXACT Limited', email: 'jade.chau@surveil.co' }}
+          items={[
+            { label: 'Manage Users',       icon: <Users      size={iconSize} strokeWidth={stroke} />, href: '#' },
+            { label: 'Manage Permissions', icon: <Lock       size={iconSize} strokeWidth={stroke} />, href: '#' },
+            { label: 'Platform Settings',  icon: <Settings   size={iconSize} strokeWidth={stroke} />, href: '#', active: true },
+            { label: 'Audit Logs',         icon: <FileText   size={iconSize} strokeWidth={stroke} />, href: '#' },
+          ]}
+          version="Version 4.3.3"
+          footerItems={[
+            { label: 'Back to Homepage', icon: <ArrowLeft size={iconSize} strokeWidth={stroke} />, href: '#' },
+          ]}
+        />
+      </div>
+
+      {/* Main content area */}
+      <div style={{ flex: 1, padding: 32 }}>
+        <h1 style={{ fontFamily: 'Roboto, sans-serif', fontSize: 24, fontWeight: 700, color: '#131313', margin: '0 0 8px' }}>
+          Platform Settings
+        </h1>
+        <p style={{ fontFamily: 'Roboto, sans-serif', fontSize: 14, color: '#616161', margin: 0 }}>
+          Configure global platform behaviour and defaults.
+        </p>
+      </div>
+    </div>
+  ),
+};
