@@ -1,0 +1,158 @@
+/**
+ * Topbar — Figma Component Library → Navigation → Topbar (1554:8129)
+ *
+ * Height:     56px
+ * Padding:    11.5px top/bottom, 12px left/right
+ * Background: rgba(255,255,255,0.80) + backdrop-filter: blur(4px)
+ * Border:     1px bottom, rgba(16,23,39,0.10)
+ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 11.5px 12px;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-bottom: 1px solid rgba(16, 23, 39, 0.10);
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+}
+
+/* ─── Breadcrumb ─────────────────────────────────────────────────────────── */
+
+.topbar__breadcrumb {
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar__breadcrumb-list {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.topbar__breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.topbar__breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
+  color: var(--color-grey, #616161);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s;
+}
+
+a.topbar__breadcrumb-link:hover {
+  background-color: var(--color-grey-50, #efefef);
+}
+
+.topbar__breadcrumb-link--active {
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-grey, #616161);
+}
+
+.topbar__breadcrumb-separator {
+  color: var(--color-grey-400, #6b7280);
+  flex-shrink: 0;
+}
+
+/* ─── Right section ──────────────────────────────────────────────────────── */
+
+.topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+/* ─── Search bar ─────────────────────────────────────────────────────────── */
+
+.topbar__search {
+  display: flex;
+  align-items: center;
+  width: 208px;
+  height: 30px;
+  background: var(--color-white, #ffffff);
+  border: 1px solid var(--color-grey-100, #d1d5db);
+  border-radius: var(--radius-md, 4px);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  padding: 4px 8px 4px 8px;
+  box-sizing: border-box;
+  gap: 4px;
+}
+
+.topbar__search-icon {
+  flex-shrink: 0;
+  color: var(--color-grey-400, #818181);
+}
+
+.topbar__search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
+  color: var(--color-grey-600, #3a3a3a);
+  outline: none;
+}
+
+.topbar__search-input::placeholder {
+  color: var(--color-grey-400, #818181);
+}
+
+/* Remove browser default search cancel button */
+.topbar__search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* ─── Icon cluster ───────────────────────────────────────────────────────── */
+
+.topbar__icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-grey, #616161);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.topbar__icon-btn:hover {
+  color: var(--color-primary, #3165ad);
+}
+
+.topbar__icon-btn:focus-visible {
+  outline: 2px solid var(--color-primary, #3165ad);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
