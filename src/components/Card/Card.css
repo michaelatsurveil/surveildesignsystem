@@ -53,8 +53,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--scale-900, 40px);
-  height: var(--scale-900, 40px);
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
   background: var(--color-grey-50, #efefef);
   border-radius: var(--radius-md, 4px);
