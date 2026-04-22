@@ -6,6 +6,8 @@
  * optional version label, divider, and footer nav item.
  */
 
+import { useState } from 'react';
+import { Menu } from 'lucide-react';
 import './SecondarySidebar.css';
 
 export interface SecondarySidebarItem {
@@ -41,8 +43,19 @@ export interface SecondarySidebarProps {
   footerItems?: SecondarySidebarItem[];
   /** Version label shown above the divider (e.g. "Version 4.3.3") */
   version?: string;
-  /** Width in px; default 250 */
+  /** Width in px when expanded; default 250 */
   width?: number;
+  /** Width in px when collapsed (icon-only); default 48 */
+  collapsedWidth?: number;
+  /**
+   * When true, a Menu (hamburger) button is shown at the top of the sidebar.
+   * Clicking it toggles between expanded and collapsed (icon-strip) states.
+   */
+  collapsible?: boolean;
+  /** Start collapsed; default false */
+  defaultCollapsed?: boolean;
+  /** Called whenever the collapsed state changes */
+  onCollapseChange?: (collapsed: boolean) => void;
   /** Additional class name */
   className?: string;
 }
@@ -53,15 +66,46 @@ export function SecondarySidebar({
   footerItems,
   version,
   width = 250,
+  collapsedWidth = 48,
+  collapsible = false,
+  defaultCollapsed = false,
+  onCollapseChange,
   className = '',
 }: SecondarySidebarProps) {
+  const [collapsed, setCollapsed] = useState(defaultCollapsed);
+
+  const handleToggle = () => {
+    const next = !collapsed;
+    setCollapsed(next);
+    onCollapseChange?.(next);
+  };
+
   return (
     <aside
-      className={['secondary-sidebar', className].filter(Boolean).join(' ')}
-      style={{ width: `${width}px` }}
+      className={[
+        'secondary-sidebar',
+        collapsed ? 'secondary-sidebar--collapsed' : '',
+        className,
+      ].filter(Boolean).join(' ')}
+      style={{ width: collapsed ? `${collapsedWidth}px` : `${width}px` }}
       role="navigation"
       aria-label="Secondary navigation"
     >
+      {/* Menu toggle — shown when collapsible */}
+      {collapsible && (
+        <div className="secondary-sidebar__header">
+          <button
+            type="button"
+            className="secondary-sidebar__menu-btn"
+            onClick={handleToggle}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            <Menu size={20} aria-hidden />
+          </button>
+        </div>
+      )}
+
       {/* Account header */}
       {account && (
         <div className="secondary-sidebar__account">

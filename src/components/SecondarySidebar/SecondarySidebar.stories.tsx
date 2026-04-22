@@ -154,6 +154,37 @@ export const WithDisabledItem: Story = {
   },
 };
 
+// ─── Collapsible ─────────────────────────────────────────────────────────────
+
+export const Collapsible: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Shows the Menu button at the top of the sidebar. Click it to collapse the sidebar to a 48px strip; click again to expand.',
+      },
+    },
+  },
+  args: {
+    collapsible: true,
+    defaultCollapsed: false,
+    account: {
+      name: 'ITEXACT Limited',
+      email: 'jade.chau@surveil.co',
+    },
+    items: [
+      { label: 'Manage Users',       icon: <Users     size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Manage Permissions', icon: <Lock      size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Platform Settings',  icon: <Settings  size={iconSize} strokeWidth={stroke} />, href: '#', active: true },
+      { label: 'Audit Logs',         icon: <FileText  size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ],
+    version: 'Version 4.3.3',
+    footerItems: [
+      { label: 'Back to Homepage', icon: <ArrowLeft size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ],
+  },
+};
+
 // ─── Side-by-side with Primary Sidebar ───────────────────────────────────────
 
 export const InContext: Story = {

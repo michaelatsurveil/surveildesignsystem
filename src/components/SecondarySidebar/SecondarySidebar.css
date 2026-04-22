@@ -16,6 +16,55 @@
   min-height: 620px;
   background-color: transparent;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  transition: width 0.2s ease;
+  overflow: hidden;
+}
+
+/* ─── Collapsible header ─────────────────────────────────────────────────────── */
+
+.secondary-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 6px;
+  flex-shrink: 0;
+}
+
+.secondary-sidebar__menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-lg, 6px);
+  background: transparent;
+  color: var(--color-grey, #616161);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.secondary-sidebar__menu-btn:hover {
+  background-color: var(--color-grey-50, #efefef);
+  color: var(--color-primary-800, #142845);
+}
+
+.secondary-sidebar__menu-btn:focus-visible {
+  outline: 2px solid var(--color-primary, #3165ad);
+  outline-offset: 2px;
+}
+
+/* ─── Collapsed state ────────────────────────────────────────────────────────── */
+
+.secondary-sidebar--collapsed .secondary-sidebar__header {
+  justify-content: center; /* centre the Menu button when narrow */
+}
+
+.secondary-sidebar--collapsed .secondary-sidebar__account,
+.secondary-sidebar--collapsed .secondary-sidebar__nav,
+.secondary-sidebar--collapsed .secondary-sidebar__footer {
+  display: none;
 }
 
 /* ─── Account header ─────────────────────────────────────────────────────────── */
