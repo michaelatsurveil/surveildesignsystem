@@ -113,6 +113,18 @@ export function Sidebar({
       >
         <div className="sidebar__header">
           {resolvedHeader}
+          {/* Collapse toggle — sits to the right of the logo in the header */}
+          {collapsible && (
+            <button
+              type="button"
+              className="sidebar__collapse-btn"
+              onClick={handleToggle}
+              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              <ChevronsLeftRight size={16} aria-hidden />
+            </button>
+          )}
         </div>
 
         <nav className="sidebar__nav">
@@ -123,21 +135,6 @@ export function Sidebar({
               </li>
             ))}
           </ul>
-
-          {/* Collapse toggle */}
-          {collapsible && (
-            <div className="sidebar__collapse-wrap">
-              <button
-                type="button"
-                className="sidebar__collapse-btn"
-                onClick={handleToggle}
-                aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-                title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-              >
-                <ChevronsLeftRight size={16} aria-hidden />
-              </button>
-            </div>
-          )}
         </nav>
 
         <div className="sidebar__bottom">

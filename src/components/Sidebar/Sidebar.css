@@ -15,6 +15,10 @@
 
 .sidebar__header {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   padding: var(--scale-400, 16px) var(--scale-500, 20px);
   background-color: var(--color-white, #fff);
   border-bottom: 1px solid var(--color-primary-700, #203b61);
@@ -408,57 +412,34 @@
 }
 
 /* ─── Collapse toggle button ──────────────────────────────────────────────────
- * Shown at the bottom of the nav area when collapsible=true.
- * Aligned right when expanded, centred when collapsed.
+ * Lives in sidebar__header, to the right of the logo.
  */
-
-.sidebar__collapse-wrap {
-  display: flex;
-  justify-content: flex-end;
-  padding: 8px 4px 0;
-  margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.sidebar--navigator .sidebar__collapse-wrap {
-  border-top-color: var(--color-grey-100, #dfdfdf);
-}
 
 .sidebar__collapse-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
   flex-shrink: 0;
+  width: 28px;
+  height: 28px;
   border: none;
   border-radius: var(--radius-md, 4px);
   background: transparent;
-  color: inherit;
-  opacity: 0.6;
+  color: var(--color-grey, #616161);
+  opacity: 0.7;
   cursor: pointer;
   transition: background-color 0.15s, opacity 0.15s;
 }
 
 .sidebar__collapse-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--color-grey-50, #efefef);
   opacity: 1;
 }
 
 .sidebar__collapse-btn:focus-visible {
-  outline: 2px solid var(--color-white, #fff);
+  outline: 2px solid var(--color-primary, #3165ad);
   outline-offset: 2px;
   opacity: 1;
-}
-
-.sidebar--navigator .sidebar__collapse-btn:hover {
-  background-color: var(--color-grey-50, #efefef);
-  color: var(--color-grey-700, #272727);
-  opacity: 1;
-}
-
-.sidebar--navigator .sidebar__collapse-btn:focus-visible {
-  outline-color: var(--color-primary, #3165ad);
 }
 
 /* ─── Collapsed state ─────────────────────────────────────────────────────────
@@ -470,12 +451,10 @@
   overflow: hidden;
 }
 
-/* Header: centre content, reduce padding */
+/* Header: tighten padding when collapsed */
 .sidebar--collapsed .sidebar__header {
   padding: 16px 8px;
-  display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 /* Bottom: centre the user icon */
@@ -497,12 +476,6 @@
   gap: 0;
 }
 
-/* Collapse toggle: centre when sidebar is collapsed */
-.sidebar--collapsed .sidebar__collapse-wrap {
-  justify-content: center;
-  padding: 8px 0 0;
-}
-
 /* Footer logout: centre icon */
 .sidebar--collapsed .sidebar__footer .sidebar__logout {
   justify-content: center;
@@ -514,8 +487,3 @@
   margin: 0;
 }
 
-/* Nav: fill the space so the toggle stays at the bottom */
-.sidebar--collapsed .sidebar__nav {
-  display: flex;
-  flex-direction: column;
-}
