@@ -67,6 +67,14 @@
 
 /* ─── Collapsed state ────────────────────────────────────────────────────────── */
 
+/* Width is driven to 0 via inline style; kill padding & min-height so the
+   element takes up zero space and no residual gap is visible.              */
+.secondary-sidebar--collapsed {
+  padding: 0;
+  min-height: 0;
+  min-width: 0;
+}
+
 .secondary-sidebar--collapsed .secondary-sidebar__account,
 .secondary-sidebar--collapsed .secondary-sidebar__nav,
 .secondary-sidebar--collapsed .secondary-sidebar__footer {

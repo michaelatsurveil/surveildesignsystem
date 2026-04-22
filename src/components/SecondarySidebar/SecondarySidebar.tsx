@@ -71,7 +71,6 @@ export function SecondarySidebar({
   footerItems,
   version,
   width = 250,
-  collapsedWidth = 48,
   collapsible = false,
   defaultCollapsed = false,
   onCollapseChange,
@@ -93,7 +92,7 @@ export function SecondarySidebar({
           collapsed ? 'secondary-sidebar--collapsed' : '',
           className,
         ].filter(Boolean).join(' ')}
-        style={{ width: collapsed ? `${collapsedWidth}px` : `${width}px` }}
+        style={{ width: collapsed ? '0' : `${width}px` }}
         role="navigation"
         aria-label="Secondary navigation"
       >
