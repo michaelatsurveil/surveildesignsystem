@@ -66,7 +66,7 @@ export function Card({
               {icon}
             </span>
           )}
-          <h3 className="card__title">{title}</h3>
+          <h6 className="card__title">{title}</h6>
         </div>
         {status && (
           <span className={`card__status card__status--${statusVariant}`}>{status}</span>
