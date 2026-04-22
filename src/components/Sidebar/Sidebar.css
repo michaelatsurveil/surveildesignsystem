@@ -421,8 +421,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border: 1px solid var(--color-border-light, #e5e7eb);
   border-radius: 9999px;
   background: var(--color-neutral-white, #ffffff);
@@ -444,22 +444,22 @@
   outline-offset: 2px;
 }
 
-/* ─── Header logo wrapper ────────────────────────────────────────────────────
- * Fades out and clips the logo when the sidebar is collapsed (and not hovered).
+/* ─── Header logo wrapper ─────────────────────────────────────────────────────
+ * Expanded: fills remaining space beside the toggle button.
+ * Collapsed: still fills space but centres the 24 × 24 symbol mark.
  */
 
 .sidebar__header-logo {
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  transition: opacity 0.15s;
 }
 
-.sidebar__header-logo--hidden {
-  opacity: 0;
-  pointer-events: none;
-  width: 0;
-  flex: 0;
+/* Centre the symbol mark inside the logo wrapper when collapsed */
+.sidebar--collapsed .sidebar__header-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ─── Collapsed state ─────────────────────────────────────────────────────────
@@ -471,9 +471,9 @@
   overflow: hidden;
 }
 
-/* Header: tighten padding & centre when collapsed */
+/* Header: tighten padding when collapsed (symbol logo is centred by flex child rule) */
 .sidebar--collapsed .sidebar__header {
-  padding: 16px 8px;
+  padding: 12px;
   justify-content: center;
 }
 
@@ -485,7 +485,8 @@
   overflow: visible;
   position: absolute;
   z-index: 100;
-  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1));
+  /* Figma shadow-2xl — matches type=navigator-collapsed-hover */
+  box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 /* Bottom: centre the user icon */
@@ -507,11 +508,12 @@
   gap: 0;
 }
 
-/* Footer logout: centre icon */
+/* Footer logout: centre icon, hide bare text-node labels (e.g. "Logout") */
 .sidebar--collapsed .sidebar__footer .sidebar__logout {
   justify-content: center;
   padding: 8px;
   gap: 0;
+  font-size: 0; /* collapses any inline text nodes to 0px — SVG icons are unaffected */
 }
 
 .sidebar--collapsed .sidebar__logout-icon {

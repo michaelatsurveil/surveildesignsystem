@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronDown, ChevronRight, ChevronsLeftRight } from 'lucide-react';
 import { Logo } from '../Logo/Logo';
 import './Sidebar.css';
 
@@ -37,9 +37,10 @@ export interface SidebarProps {
   className?: string;
   variant?: 'default' | 'navigator';
   /**
-   * When true, a circular ChevronRight/Left button is shown in the header.
-   * - Hovering the collapsed sidebar temporarily expands it (overlay).
-   * - Clicking the button permanently pins it open or collapses it.
+   * When true, a circular ChevronsLeftRight button is shown in the header.
+   * - When expanded: clicking the button permanently collapses the sidebar (icon-only mode, symbol logo).
+   * - When collapsed: hovering temporarily expands it as an overlay and shows the button.
+   * - Clicking the button while hover-expanded permanently pins it open.
    */
   collapsible?: boolean;
   /** Start collapsed; default false */
@@ -101,13 +102,17 @@ export function Sidebar({
         onMouseLeave={() => { if (collapsible) setHovered(false); }}
       >
         <div className="sidebar__header">
-          {/* Hide logo text when collapsed and not hovered */}
-          <div className={`sidebar__header-logo ${!isOpen ? 'sidebar__header-logo--hidden' : ''}`}>
-            {resolvedHeader}
+          {/* Symbol logo when collapsed (icon-only); full logo when open */}
+          <div className="sidebar__header-logo">
+            {isOpen ? resolvedHeader : (
+              <div className="sidebar__logo-wrap">
+                <Logo variant="symbol" height={24} />
+              </div>
+            )}
           </div>
 
-          {/* Circular chevron toggle */}
-          {collapsible && (
+          {/* ChevronsLeftRight toggle — only shown when sidebar is open (expanded or hover-expanded) */}
+          {collapsible && isOpen && (
             <button
               type="button"
               className="sidebar__collapse-btn"
@@ -115,10 +120,7 @@ export function Sidebar({
               aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
-              {collapsed
-                ? <ChevronRight size={14} aria-hidden />
-                : <ChevronLeft  size={14} aria-hidden />
-              }
+              <ChevronsLeftRight size={14} aria-hidden />
             </button>
           )}
         </div>
