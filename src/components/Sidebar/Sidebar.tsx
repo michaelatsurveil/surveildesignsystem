@@ -1,70 +1,49 @@
 import { createContext, useContext, useState } from 'react';
-import { ChevronDown, ChevronRight, ChevronsLeftRight } from 'lucide-react';
+import { ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Logo } from '../Logo/Logo';
 import './Sidebar.css';
 
 // ─── Collapse context (avoids prop-drilling into SidebarNavLink) ──────────────
+// Value is `true` when the sidebar is visually collapsed (icon-only)
 const SidebarCollapseContext = createContext(false);
 
 export interface SidebarNavItem {
-  /** Link label */
   label: string;
-  /** Optional icon (e.g. from lucide-react) */
   icon?: React.ReactNode;
-  /** Link href; if omitted, use onClick or render as span */
   href?: string;
-  /** Click handler when no href */
   onClick?: () => void;
-  /** Whether this item is the current page */
   active?: boolean;
-  /** Optional sub-items (expandable section) */
   children?: SidebarNavItem[];
-  /** Show chevron on the right (default: true except when explicitly false) */
   showCaret?: boolean;
-  /** Whether this item is expanded by default (only applies when children present) */
   defaultExpanded?: boolean;
 }
 
 export interface SidebarUser {
-  /** Organization or display name */
   name: string;
-  /** Email or secondary line */
   email: string;
-  /** Link to profile/settings */
   href?: string;
 }
 
 export interface SidebarProps {
-  /** Brand/logo in header; defaults to Surveil Logo (light variant on white background) */
   header?: React.ReactNode;
-  /** Main navigation items */
   navItems: SidebarNavItem[];
-  /** Optional user block (name, email, link) */
   user?: SidebarUser;
-  /** Show "Powered by Surveil" above footer */
   poweredBy?: boolean;
-  /** Footer content (e.g. Logout button) */
   footer?: React.ReactNode;
-  /** Optional width in px; default 260 */
+  /** Width in px when expanded; default 260 */
   width?: number;
-  /** Width in px when collapsed; default 56 */
+  /** Width in px when collapsed (icon-only); default 56 */
   collapsedWidth?: number;
-  /** Additional class name */
   className?: string;
-  /**
-   * Visual variant.
-   * - `default` — dark navy background (primary sidebar)
-   * - `navigator` — white background with dark text (secondary/contextual sidebar)
-   */
   variant?: 'default' | 'navigator';
   /**
-   * When true, a ChevronsLeftRight toggle button is shown in the nav footer.
-   * Clicking it collapses the sidebar to icon-only mode.
+   * When true, a circular ChevronRight/Left button is shown in the header.
+   * - Hovering the collapsed sidebar temporarily expands it (overlay).
+   * - Clicking the button permanently pins it open or collapses it.
    */
   collapsible?: boolean;
-  /** Initial collapsed state (only used when collapsible=true); default false */
+  /** Start collapsed; default false */
   defaultCollapsed?: boolean;
-  /** Callback fired when the collapsed state changes */
   onCollapseChange?: (collapsed: boolean) => void;
 }
 
@@ -83,15 +62,22 @@ export function Sidebar({
   onCollapseChange,
 }: SidebarProps) {
   const isNavigator = variant === 'navigator';
+  // Permanently collapsed (persists across hover)
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
+  // Temporarily expanded via hover
+  const [hovered, setHovered] = useState(false);
+
+  // The sidebar is visually open when permanently expanded OR when hovered
+  const isOpen = !collapsed || hovered;
 
   const handleToggle = () => {
     const next = !collapsed;
     setCollapsed(next);
+    // When pinning open, clear the hover flag
+    if (!next) setHovered(false);
     onCollapseChange?.(next);
   };
 
-  // Both sidebar variants have a white header background → always use the light-background logo
   const resolvedHeader = header ?? (
     <div className="sidebar__logo-wrap">
       <Logo variant="light" height={32} />
@@ -99,21 +85,28 @@ export function Sidebar({
   );
 
   return (
-    <SidebarCollapseContext.Provider value={collapsed}>
+    <SidebarCollapseContext.Provider value={!isOpen}>
       <aside
         className={[
           'sidebar',
           isNavigator ? 'sidebar--navigator' : '',
-          collapsed ? 'sidebar--collapsed' : '',
+          !isOpen ? 'sidebar--collapsed' : '',
+          collapsed && hovered ? 'sidebar--hover-expanded' : '',
           className,
         ].filter(Boolean).join(' ')}
-        style={{ width: collapsed ? `${collapsedWidth}px` : `${width}px` }}
+        style={{ width: isOpen ? `${width}px` : `${collapsedWidth}px` }}
         role="navigation"
         aria-label="Main navigation"
+        onMouseEnter={() => { if (collapsible && collapsed) setHovered(true); }}
+        onMouseLeave={() => { if (collapsible) setHovered(false); }}
       >
         <div className="sidebar__header">
-          {resolvedHeader}
-          {/* Collapse toggle — sits to the right of the logo in the header */}
+          {/* Hide logo text when collapsed and not hovered */}
+          <div className={`sidebar__header-logo ${!isOpen ? 'sidebar__header-logo--hidden' : ''}`}>
+            {resolvedHeader}
+          </div>
+
+          {/* Circular chevron toggle */}
           {collapsible && (
             <button
               type="button"
@@ -122,7 +115,10 @@ export function Sidebar({
               aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
               title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
-              <ChevronsLeftRight size={16} aria-hidden />
+              {collapsed
+                ? <ChevronRight size={14} aria-hidden />
+                : <ChevronLeft  size={14} aria-hidden />
+              }
             </button>
           )}
         </div>
@@ -172,7 +168,6 @@ export function Sidebar({
           )}
           {poweredBy && !isNavigator && (
             <div className="sidebar__powered">
-              {/* Figma: two stacked text nodes, no logo. Both white at 40% opacity */}
               <span className="sidebar__powered-by">Powered by</span>
               <span className="sidebar__powered-name">Surveil</span>
             </div>
@@ -189,10 +184,10 @@ export function Sidebar({
 }
 
 function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: number }) {
-  const collapsed = useContext(SidebarCollapseContext);
+  const isCollapsed = useContext(SidebarCollapseContext);
   const hasChildren = item.children && item.children.length > 0;
   const [expanded, setExpanded] = useState(item.defaultExpanded ?? false);
-  const showCaret = !collapsed && item.showCaret !== false && (item.showCaret === true || hasChildren);
+  const showCaret = !isCollapsed && item.showCaret !== false && (item.showCaret === true || hasChildren);
 
   const linkClass = [
     'sidebar__nav-link',
@@ -200,8 +195,7 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
     depth > 0 ? 'sidebar__nav-link--child' : '',
   ].filter(Boolean).join(' ');
 
-  // Collapsed: centre the icon with uniform padding; Expanded: full indent per depth level
-  const indentStyle: React.CSSProperties = collapsed
+  const indentStyle: React.CSSProperties = isCollapsed
     ? { padding: '8px', borderRadius: '6px', justifyContent: 'center' }
     : {
         paddingTop: '8px',
@@ -218,7 +212,7 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
   const content = (
     <>
       {item.icon && <span className="sidebar__nav-icon" aria-hidden>{item.icon}</span>}
-      {!collapsed && <span className="sidebar__nav-label">{item.label}</span>}
+      {!isCollapsed && <span className="sidebar__nav-label">{item.label}</span>}
       {showCaret && (
         <ChevronDown
           size={16}
@@ -235,8 +229,8 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
       className={linkClass}
       style={indentStyle}
       onClick={handleToggle}
-      aria-expanded={collapsed ? undefined : expanded}
-      title={collapsed ? item.label : undefined}
+      aria-expanded={isCollapsed ? undefined : expanded}
+      title={isCollapsed ? item.label : undefined}
     >
       {content}
     </button>
@@ -246,7 +240,7 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
       className={linkClass}
       style={indentStyle}
       onClick={e => e.preventDefault()}
-      title={collapsed ? item.label : undefined}
+      title={isCollapsed ? item.label : undefined}
     >
       {content}
     </a>
@@ -256,12 +250,12 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
       className={linkClass}
       style={indentStyle}
       onClick={item.onClick}
-      title={collapsed ? item.label : undefined}
+      title={isCollapsed ? item.label : undefined}
     >
       {content}
     </button>
   ) : (
-    <span className={linkClass} style={indentStyle} title={collapsed ? item.label : undefined}>
+    <span className={linkClass} style={indentStyle} title={isCollapsed ? item.label : undefined}>
       {content}
     </span>
   );
@@ -269,8 +263,7 @@ function SidebarNavLink({ item, depth = 0 }: { item: SidebarNavItem; depth?: num
   return (
     <>
       {trigger}
-      {/* Hide sub-nav when collapsed */}
-      {hasChildren && expanded && !collapsed && (
+      {hasChildren && expanded && !isCollapsed && (
         <ul className="sidebar__subnav-list" role="list">
           {item.children!.map((child, i) => (
             <li key={i} className="sidebar__nav-item">
