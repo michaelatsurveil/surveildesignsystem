@@ -79,7 +79,7 @@ export function Card({
             <>
               {primaryAction && (
                 <Button
-                  size="sm"
+                  size="md"
                   onClick={(e) => {
                     e.stopPropagation();
                     primaryAction.onClick?.();
@@ -91,7 +91,7 @@ export function Card({
               {secondaryAction && (
                 <Button
                   variant="secondary"
-                  size="sm"
+                  size="md"
                   onClick={(e) => {
                     e.stopPropagation();
                     secondaryAction.onClick?.();
