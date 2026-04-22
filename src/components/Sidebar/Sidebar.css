@@ -10,6 +10,7 @@
   overflow-x: hidden; /* prevent horizontal scroll at sidebar level */
   background-color: var(--color-primary-700, #203b61);
   color: var(--color-white, #fff);
+  transition: width 0.2s ease;
 }
 
 .sidebar__header {
@@ -31,12 +32,15 @@
   overflow-x: hidden; /* prevent horizontal scroll */
   padding: 12px; /* 12px container padding around all nav items */
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar__nav-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  flex: 1;
 }
 
 .sidebar__nav-item {
@@ -401,4 +405,117 @@
 .sidebar--navigator .sidebar__logout-icon {
   background-color: transparent;
   color: var(--color-grey-500, #616161);
+}
+
+/* ─── Collapse toggle button ──────────────────────────────────────────────────
+ * Shown at the bottom of the nav area when collapsible=true.
+ * Aligned right when expanded, centred when collapsed.
+ */
+
+.sidebar__collapse-wrap {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 4px 0;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar--navigator .sidebar__collapse-wrap {
+  border-top-color: var(--color-grey-100, #dfdfdf);
+}
+
+.sidebar__collapse-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--radius-md, 4px);
+  background: transparent;
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: background-color 0.15s, opacity 0.15s;
+}
+
+.sidebar__collapse-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+}
+
+.sidebar__collapse-btn:focus-visible {
+  outline: 2px solid var(--color-white, #fff);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+.sidebar--navigator .sidebar__collapse-btn:hover {
+  background-color: var(--color-grey-50, #efefef);
+  color: var(--color-grey-700, #272727);
+  opacity: 1;
+}
+
+.sidebar--navigator .sidebar__collapse-btn:focus-visible {
+  outline-color: var(--color-primary, #3165ad);
+}
+
+/* ─── Collapsed state ─────────────────────────────────────────────────────────
+ * Width is driven by inline style on the <aside>; these rules handle
+ * visual adjustments: hide text, centre icons, clip overflow.
+ */
+
+.sidebar--collapsed {
+  overflow: hidden;
+}
+
+/* Header: centre content, reduce padding */
+.sidebar--collapsed .sidebar__header {
+  padding: 16px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Bottom: centre the user icon */
+.sidebar--collapsed .sidebar__bottom {
+  padding: 12px 8px;
+  align-items: center;
+}
+
+.sidebar--collapsed .sidebar__user-text,
+.sidebar--collapsed .sidebar__user-arrow,
+.sidebar--collapsed .sidebar__powered {
+  display: none;
+}
+
+.sidebar--collapsed .sidebar__user-link,
+.sidebar--collapsed .sidebar__user-block {
+  justify-content: center;
+  padding: 8px 0;
+  gap: 0;
+}
+
+/* Collapse toggle: centre when sidebar is collapsed */
+.sidebar--collapsed .sidebar__collapse-wrap {
+  justify-content: center;
+  padding: 8px 0 0;
+}
+
+/* Footer logout: centre icon */
+.sidebar--collapsed .sidebar__footer .sidebar__logout {
+  justify-content: center;
+  padding: 8px;
+  gap: 0;
+}
+
+.sidebar--collapsed .sidebar__logout-icon {
+  margin: 0;
+}
+
+/* Nav: fill the space so the toggle stays at the bottom */
+.sidebar--collapsed .sidebar__nav {
+  display: flex;
+  flex-direction: column;
 }

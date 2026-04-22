@@ -306,3 +306,63 @@ export const NavigatorAllLevels: Story = {
     ),
   },
 };
+
+export const CollapsibleNavigator: Story = {
+  name: 'Navigator / Collapsible',
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          'Navigator variant with collapse support. Click the **ChevronsLeftRight** icon at the bottom of the nav to toggle between full (260px) and icon-only (56px) modes. Labels and sub-nav are hidden when collapsed; native `title` tooltips show the item label on hover.',
+      },
+    },
+  },
+  args: {
+    variant: 'navigator',
+    collapsible: true,
+    defaultCollapsed: false,
+    width: 260,
+    collapsedWidth: 56,
+    navItems: [
+      { label: 'Home',             icon: <Home      size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
+      {
+        label: 'Azure',
+        icon: <Cloud size={iconSize} strokeWidth={stroke} />,
+        defaultExpanded: true,
+        children: [
+          { label: 'Overview',      icon: <LayoutDashboard size={subIconSize} strokeWidth={stroke} />, href: '#', active: true },
+          { label: 'Resources',     icon: <Server          size={subIconSize} strokeWidth={stroke} />, href: '#' },
+          { label: 'Cost Management', icon: <TrendingDown  size={subIconSize} strokeWidth={stroke} />, href: '#' },
+          { label: 'Security',      icon: <ShieldCheck     size={subIconSize} strokeWidth={stroke} />, href: '#' },
+        ],
+      },
+      {
+        label: 'MultiCloud',
+        icon: <CloudCog size={iconSize} strokeWidth={stroke} />,
+        children: [
+          { label: 'Overview', icon: <LayoutDashboard size={subIconSize} strokeWidth={stroke} />, href: '#' },
+          { label: 'AWS',      icon: <Cloud           size={subIconSize} strokeWidth={stroke} />, href: '#' },
+          { label: 'GCP',      icon: <Globe           size={subIconSize} strokeWidth={stroke} />, href: '#' },
+        ],
+      },
+      { label: 'Alerts',           icon: <Bell      size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
+      { label: 'Custom Analytics', icon: <BarChart2  size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
+      { label: 'Settings',         icon: <Settings   size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
+    ],
+    user: {
+      name: 'ITEXACT Limited',
+      email: 'jade.chau@surveil.co',
+      href: '#',
+    },
+    poweredBy: true,
+    footer: (
+      <button type="button" className="sidebar__logout">
+        <span className="sidebar__logout-icon">
+          <LogOut size={16} strokeWidth={stroke} />
+        </span>
+        Logout
+      </button>
+    ),
+  },
+};
