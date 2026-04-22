@@ -46,6 +46,7 @@
 .card__header-text {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--scale-200, 8px);
 }
 
