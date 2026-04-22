@@ -30,12 +30,18 @@ export default meta;
 type Story = StoryObj<typeof Alert>;
 
 export const Default: Story = {
-  args: {
-    message: 'Default alert message.',
-    variant: 'default',
-    showIcon: true,
-    onClose: () => {},
-  },
+  name: 'Overview — All Variants',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <Alert message="Default alert message." variant="default" showIcon onClose={() => {}} />
+      <Alert message="Success: Your changes have been saved successfully." variant="success" showIcon onClose={() => {}} />
+      <Alert message="Info: Here is some helpful information about this action." variant="info" showIcon onClose={() => {}} />
+      <Alert message="Warning: Please review your information before continuing." variant="warning" showIcon onClose={() => {}} />
+      <Alert message="Error: Something went wrong. Please try again." variant="error" showIcon onClose={() => {}} />
+      <Alert message="With action link — your session will expire soon." variant="info" action={{ label: 'Renew session', href: '#' }} showIcon onClose={() => {}} />
+      <Alert message="Without icon — same variants work icon-free too." variant="default" showIcon={false} onClose={() => {}} />
+    </div>
+  ),
 };
 
 export const Success: Story = {

@@ -39,29 +39,38 @@ export default meta;
 type Story = StoryObj<typeof Modal>;
 
 export const Default: Story = {
+  name: 'Overview — All Sizes',
   render: () => {
-    const [open, setOpen] = useState(false);
+    const [size, setSize] = useState<'sm' | 'md' | 'lg' | null>(null);
     return (
-      <>
-        <Button onClick={() => setOpen(true)}>Open modal</Button>
-        <Modal
-          open={open}
-          onClose={() => setOpen(false)}
-          title="Title"
-          footer={
-            <>
-              <Button variant="secondary" size="sm" onClick={() => setOpen(false)}>
-                Label
-              </Button>
-              <Button size="sm" onClick={() => setOpen(false)}>
-                Label
-              </Button>
-            </>
-          }
-        >
-          <p>Replace me with your content.</p>
-        </Modal>
-      </>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <p style={{ margin: 0, fontSize: 13, fontFamily: 'Roboto, sans-serif', color: '#616161' }}>
+          Click a button to preview each modal size.
+        </p>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <Button onClick={() => setSize('sm')}>Small (366px)</Button>
+          <Button onClick={() => setSize('md')}>Medium (525px)</Button>
+          <Button onClick={() => setSize('lg')}>Large (768px)</Button>
+        </div>
+        {size && (
+          <Modal
+            open
+            onClose={() => setSize(null)}
+            title="Modal Title"
+            size={size}
+            footer={
+              <>
+                <Button variant="secondary" size="sm" onClick={() => setSize(null)}>Cancel</Button>
+                <Button size="sm" onClick={() => setSize(null)}>Confirm</Button>
+              </>
+            }
+          >
+            <p style={{ margin: 0, fontFamily: 'Roboto, sans-serif', fontSize: 14, color: '#616161' }}>
+              This is a <strong>{size}</strong> modal. Use modals for forms, confirmations, or supplementary content that requires user attention.
+            </p>
+          </Modal>
+        )}
+      </div>
     );
   },
 };

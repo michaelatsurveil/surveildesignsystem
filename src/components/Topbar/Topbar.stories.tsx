@@ -24,12 +24,49 @@ export default meta;
 type Story = StoryObj<typeof Topbar>;
 
 export const Default: Story = {
-  args: {
-    breadcrumbs: [
-      { label: 'Default breadcrumb', href: '#' },
-      { label: 'Active Breadcrumb' },
-    ],
-    searchPlaceholder: 'Search…',
+  name: 'Overview — All Variants',
+  parameters: {
+    layout: 'padded',
+    docs: {
+      description: {
+        story: 'All Topbar breadcrumb configurations stacked: single item, two items, deep trail, and no breadcrumb.',
+      },
+    },
+  },
+  render: () => {
+    const label = (text: string) => (
+      <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>
+        {text}
+      </p>
+    );
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div>
+          {label('Single breadcrumb')}
+          <Topbar breadcrumbs={[{ label: 'Dashboard' }]} searchPlaceholder="Search…" />
+        </div>
+        <div>
+          {label('Two breadcrumbs')}
+          <Topbar breadcrumbs={[{ label: 'Home', href: '#' }, { label: 'Platform Settings' }]} searchPlaceholder="Search…" />
+        </div>
+        <div>
+          {label('Deep trail (4 levels)')}
+          <Topbar
+            breadcrumbs={[
+              { label: 'Home', href: '#' },
+              { label: 'Azure', href: '#' },
+              { label: 'Resources', href: '#' },
+              { label: 'Virtual Machines' },
+            ]}
+            searchPlaceholder="Search resources…"
+          />
+        </div>
+        <div>
+          {label('No breadcrumb')}
+          <Topbar breadcrumbs={[]} searchPlaceholder="Search…" />
+        </div>
+      </div>
+    );
   },
 };
 

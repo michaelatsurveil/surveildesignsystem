@@ -40,10 +40,26 @@ const tabOptionsWithDropdown = [
 ];
 
 export const Default: Story = {
+  name: 'Overview — All Variants',
   render: () => {
-    const [value, setValue] = useState('overview');
+    const [val1, setVal1] = useState('overview');
+    const [val2, setVal2] = useState('tab1');
+    const [val3, setVal3] = useState('details');
     return (
-      <Tabs options={tabOptions} value={value} onChange={setValue} />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+        <div>
+          <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Default</p>
+          <Tabs options={tabOptions} value={val1} onChange={setVal1} />
+        </div>
+        <div>
+          <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>With dropdown indicator</p>
+          <Tabs options={tabOptionsWithDropdown} value={val2} onChange={setVal2} />
+        </div>
+        <div>
+          <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Disabled</p>
+          <Tabs options={tabOptions} value={val3} onChange={setVal3} disabled />
+        </div>
+      </div>
     );
   },
 };

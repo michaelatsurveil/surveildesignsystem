@@ -41,14 +41,41 @@ type Story = StoryObj<typeof Toast>;
 // ─── Small (default) ────────────────────────────────────────────────────────
 
 export const Default: Story = {
-  args: {
-    message: 'Toast Notification Alert',
-    variant: 'default',
-    size: 'sm',
-    shadow: false,
-    showIcon: true,
-    onClose: () => {},
-  },
+  name: 'Overview — All Variants',
+  render: () => (
+    <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <div>
+        <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Small</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Toast message="Toast Notification Alert" variant="default" size="sm" showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="success" size="sm" showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="info"    size="sm" showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="warning" size="sm" showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="danger"  size="sm" showIcon onClose={() => {}} />
+        </div>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Large</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Toast message="Toast Notification Alert" variant="default" size="lg" showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="success" size="lg" showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="info"    size="lg" showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="warning" size="lg" showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="danger"  size="lg" showIcon onClose={() => {}} />
+        </div>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 10px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Small + shadow</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Toast message="Toast Notification Alert" variant="default" size="sm" shadow showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="success" size="sm" shadow showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="info"    size="sm" shadow showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="warning" size="sm" shadow showIcon onClose={() => {}} />
+          <Toast message="Toast Notification Alert" variant="danger"  size="sm" shadow showIcon onClose={() => {}} />
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export const DefaultShadow: Story = {

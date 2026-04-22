@@ -35,11 +35,33 @@ export default meta;
 type Story = StoryObj<typeof Tag>;
 
 export const Default: Story = {
-  args: {
-    variant: 'default',
-    size: 'md',
-    children: 'Default',
-  },
+  name: 'Overview — All Variants',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Medium (text)</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <Tag variant="default" size="md">Default</Tag>
+          <Tag variant="info" size="md">Info</Tag>
+          <Tag variant="success" size="md">Success</Tag>
+          <Tag variant="critical" size="md">Critical</Tag>
+          <Tag variant="attention" size="md">Attention</Tag>
+          <Tag variant="warning" size="md">Warning</Tag>
+        </div>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Small (numeric)</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <Tag variant="default" size="sm">9</Tag>
+          <Tag variant="info" size="sm">9</Tag>
+          <Tag variant="success" size="sm">9</Tag>
+          <Tag variant="critical" size="sm">9</Tag>
+          <Tag variant="attention" size="sm">9</Tag>
+          <Tag variant="warning" size="sm">9</Tag>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export const Info: Story = {

@@ -37,16 +37,35 @@ export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
 export const Default: Story = {
-  render: () => {
-    const [checked, setChecked] = useState(false);
-    return (
-      <Checkbox
-        label="Label"
-        checked={checked}
-        onChange={setChecked}
-      />
-    );
-  },
+  name: 'Overview — All States',
+  render: () => (
+    <div style={{ display: 'flex', gap: 48, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Unchecked</div>
+        <Checkbox label="Label" checked={false} onChange={() => {}} />
+      </div>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Checked</div>
+        <Checkbox label="Label" checked onChange={() => {}} />
+      </div>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Indeterminate</div>
+        <Checkbox label="Select all" checked={false} indeterminate onChange={() => {}} />
+      </div>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Disabled unchecked</div>
+        <Checkbox label="Label" checked={false} disabled />
+      </div>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Disabled checked</div>
+        <Checkbox label="Label" checked disabled />
+      </div>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Disabled indeterminate</div>
+        <Checkbox label="Select all" indeterminate disabled />
+      </div>
+    </div>
+  ),
 };
 
 export const Checked: Story = {

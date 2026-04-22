@@ -32,15 +32,29 @@ export default meta;
 type Story = StoryObj<typeof Card>;
 
 export const Default: Story = {
-  args: {
-    title: 'Card Header',
-    icon: <Package size={20} strokeWidth={2} color="currentColor" />,
-    status: 'Success',
-    statusVariant: 'success',
-    children: 'Card Body Text',
-    primaryAction: { label: 'Label' },
-    secondaryAction: { label: 'Label' },
-  },
+  name: 'Overview — All Variants',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div>
+        <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Status variants</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+          <Card title="Default" status="Default" statusVariant="default" icon={<Package size={20} strokeWidth={2} color="currentColor" />}>Card body text.</Card>
+          <Card title="Success" status="Success" statusVariant="success" icon={<Package size={20} strokeWidth={2} color="currentColor" />}>Card body text.</Card>
+          <Card title="Error" status="Error" statusVariant="error" icon={<Package size={20} strokeWidth={2} color="currentColor" />}>Card body text.</Card>
+          <Card title="Warning" status="Warning" statusVariant="warning" icon={<Package size={20} strokeWidth={2} color="currentColor" />}>Card body text.</Card>
+          <Card title="Info" status="Info" statusVariant="info" icon={<Package size={20} strokeWidth={2} color="currentColor" />}>Card body text.</Card>
+        </div>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>With footer actions</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+          <Card title="With Buttons" icon={<Package size={20} strokeWidth={2} color="currentColor" />} status="Success" statusVariant="success" primaryAction={{ label: 'Primary' }} secondaryAction={{ label: 'Secondary' }}>Card with primary and secondary footer actions.</Card>
+          <Card title="With Labels" icon={<Package size={20} strokeWidth={2} color="currentColor" />} labels={['Label', 'Tag', 'Item']}>Card with label pills in the footer.</Card>
+          <Card title="Minimal">Card with no icon, status, or footer.</Card>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export const WithIconOnly: Story = {

@@ -71,10 +71,47 @@ export default meta;
 type Story = StoryObj<typeof DataTable<TenantRow>>;
 
 export const Default: Story = {
-  args: {
-    columns,
-    rows: sampleRows,
-    getRowId: (row) => row.tenantEmail,
+  name: 'Overview — Toolbar + Pagination + Selection',
+  render: function Overview() {
+    const [query, setQuery] = useState('');
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+    const filtered = allRows.filter(
+      (r) =>
+        !query ||
+        r.tenant.toLowerCase().includes(query.toLowerCase()) ||
+        r.tenantEmail.toLowerCase().includes(query.toLowerCase())
+    );
+    const pagedRows = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+    return (
+      <DataTable<TenantRow>
+        columns={columns}
+        rows={pagedRows}
+        getRowId={(row) => row.tenantEmail}
+        selectable
+        selectedRowIds={selectedIds}
+        onSelectionChange={setSelectedIds}
+        toolbar={{
+          title: 'Tenants',
+          onFilter: () => {},
+          onRefresh: () => {},
+          onDownload: () => {},
+          onSearch: (q) => { setQuery(q); setPage(1); },
+          searchPlaceholder: 'Search tenants…',
+        }}
+        pagination={{
+          page,
+          pageSize,
+          total: filtered.length,
+          pageSizeOptions: [10, 25, 50],
+          onPageChange: setPage,
+          onPageSizeChange: (size) => { setPageSize(size); setPage(1); },
+        }}
+      />
+    );
   },
 };
 

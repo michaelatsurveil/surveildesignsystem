@@ -67,6 +67,43 @@ function SegmentedControlDemo({
   );
 }
 
+export const Default: Story = {
+  name: 'Overview — Variants & Sizes',
+  render: () => {
+    const [rect, setRect] = useState('3');
+    const [pill, setPill] = useState('3');
+    const [xs, setXs] = useState('b');
+    const [s, setS] = useState('b');
+    const [m, setM] = useState('b');
+    const [l, setL] = useState('b');
+    const label = (text: string) => (
+      <div style={{ marginBottom: 8, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>{text}</div>
+    );
+    return (
+      <div style={{ display: 'flex', gap: 48, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {label('Rectangular')}
+          <SegmentedControl options={fiveOptions} value={rect} onChange={setRect} variant="rectangular" />
+          {label('Pill')}
+          <SegmentedControl options={fiveOptions} value={pill} onChange={setPill} variant="pill" />
+          {label('Disabled')}
+          <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="rectangular" disabled />
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {label('XS (26px)')}
+          <SegmentedControl options={threeOptions} value={xs} onChange={setXs} size="xs" />
+          {label('S (30px)')}
+          <SegmentedControl options={threeOptions} value={s} onChange={setS} size="s" />
+          {label('M (34px)')}
+          <SegmentedControl options={threeOptions} value={m} onChange={setM} size="m" />
+          {label('L (38px)')}
+          <SegmentedControl options={threeOptions} value={l} onChange={setL} size="l" />
+        </div>
+      </div>
+    );
+  },
+};
+
 export const Rectangular: Story = {
   render: () => (
     <SegmentedControlDemo options={fiveOptions} variant="rectangular" />

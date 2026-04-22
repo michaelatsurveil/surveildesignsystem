@@ -55,10 +55,27 @@ const defaultActions = [
 ];
 
 export const Default: Story = {
-  args: {
-    selectedLabel: '1 item selected',
-    actions: defaultActions,
-  },
+  name: 'Overview — All Variants',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>1 item selected</p>
+        <ActionBar selectedLabel="1 item selected" actions={defaultActions} />
+      </div>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Multiple items selected</p>
+        <ActionBar selectedLabel="3 items selected" actions={defaultActions} />
+      </div>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>No status label</p>
+        <ActionBar actions={defaultActions} />
+      </div>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Single action</p>
+        <ActionBar selectedLabel="1 item selected" actions={[{ label: 'Send to Integration', icon: <Send size={16} strokeWidth={2} color="currentColor" />, variant: 'primary', onClick: () => {} }]} />
+      </div>
+    </div>
+  ),
 };
 
 export const MultipleSelected: Story = {

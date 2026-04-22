@@ -41,12 +41,23 @@ const options = [
 ];
 
 export const Default: Story = {
-  render: () => {
-    const [value, setValue] = useState('a');
-    return (
-      <RadioGroup options={options} value={value} onChange={setValue} />
-    );
-  },
+  name: 'Overview — All States',
+  render: () => (
+    <div style={{ display: 'flex', gap: 48, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Vertical (default)</div>
+        <RadioGroup options={options} value="b" onChange={() => {}} direction="vertical" />
+      </div>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Horizontal</div>
+        <RadioGroup options={options} value="b" onChange={() => {}} direction="horizontal" />
+      </div>
+      <div>
+        <div style={{ marginBottom: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af' }}>Disabled</div>
+        <RadioGroup options={options} value="b" onChange={() => {}} disabled />
+      </div>
+    </div>
+  ),
 };
 
 export const Vertical: Story = {

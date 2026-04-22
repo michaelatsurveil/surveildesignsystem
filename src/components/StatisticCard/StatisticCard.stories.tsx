@@ -35,16 +35,55 @@ export default meta;
 type Story = StoryObj<typeof StatisticCard>;
 
 export const Default: Story = {
-  args: {
-    title: 'Statistic Title',
-    icon: <AlertCircle size={20} strokeWidth={2} color="currentColor" />,
-    badge: 'Default',
-    value: '£00,000.00',
-    comparison: { trend: 'down', text: 'Statistic comparison' },
-    supportingText: 'Supporting text',
-    primaryAction: { label: 'Label' },
-    secondaryAction: { label: 'Label' },
-  },
+  name: 'Overview — All Variants',
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+      <StatisticCard
+        title="Revenue"
+        icon={<AlertCircle size={20} strokeWidth={2} color="currentColor" />}
+        badge="Default"
+        value="£12,450.00"
+        comparison={{ trend: 'up', text: '12% vs last month' }}
+        supportingText="Monthly recurring revenue."
+        primaryAction={{ label: 'View report' }}
+        secondaryAction={{ label: 'Export' }}
+      />
+      <StatisticCard
+        title="Orders"
+        value="1,234"
+        comparison={{ trend: 'down', text: '3% vs last month' }}
+        supportingText="Total orders placed."
+        primaryAction={{ label: 'View orders' }}
+      />
+      <StatisticCard
+        title="Active users"
+        value="892"
+        comparison={{ trend: 'neutral', text: 'No change' }}
+        supportingText="Active this week."
+      />
+      <StatisticCard
+        title="Conversion"
+        value="4.2%"
+        comparison={{ trend: 'up', text: '0.5% vs last week' }}
+        supportingText="Checkout conversion rate."
+        primaryAction={{ label: 'View' }}
+      />
+      <StatisticCard
+        title="Title only + value"
+        value="42"
+      />
+      <StatisticCard
+        title="With labels"
+        icon={<AlertCircle size={20} strokeWidth={2} color="currentColor" />}
+        value="£00,000"
+        comparison={{ trend: 'down', text: 'Statistic comparison' }}
+        labels={[
+          <Tag key="1" variant="default">Label</Tag>,
+          <Tag key="2" variant="info">Info</Tag>,
+        ]}
+      />
+    </div>
+  ),
 };
 
 export const TrendUp: Story = {
