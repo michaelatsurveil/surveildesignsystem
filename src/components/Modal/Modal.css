@@ -61,7 +61,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--scale-400, 16px);
-  padding: var(--scale-400, 16px) var(--scale-300, 12px) var(--scale-300, 12px) var(--scale-400, 16px);
+  padding: 12px 16px;
   border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
   flex-shrink: 0;
 }
