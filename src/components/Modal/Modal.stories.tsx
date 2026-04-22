@@ -59,8 +59,8 @@ function ModalShell({ size, label }: { size: 'sm' | 'md' | 'lg'; label: string }
           </p>
         </div>
         <footer className="modal__footer">
-          <Button variant="secondary" size="sm">Cancel</Button>
-          <Button size="sm">Confirm</Button>
+          <Button variant="secondary" size="md">Cancel</Button>
+          <Button size="md">Confirm</Button>
         </footer>
       </div>
     </div>
