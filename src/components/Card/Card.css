@@ -69,40 +69,6 @@
   color: var(--color-grey-700, #272727);
 }
 
-.card__status {
-  display: inline-flex;
-  align-self: flex-start;
-  padding: var(--scale-100, 4px) 10px;
-  border-radius: var(--radius-lg, 8px);
-  font-size: 12px;
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 16px;
-}
-
-.card__status--default {
-  background: var(--color-grey-50, #efefef);
-  color: var(--color-grey, #616161);
-}
-
-.card__status--success {
-  background: var(--color-success-100, #daf1de);
-  color: var(--color-success, #15803d);
-}
-
-.card__status--error {
-  background: var(--color-error-50, #fff3f3);
-  color: var(--color-error, #e61c1d);
-}
-
-.card__status--warning {
-  background: var(--color-warning-50, #fdf9e9);
-  color: var(--color-warning, #db9315);
-}
-
-.card__status--info {
-  background: var(--color-primary-50, #e5eefa);
-  color: var(--color-primary, #3165ad);
-}
 
 .card__body {
   flex: 1;

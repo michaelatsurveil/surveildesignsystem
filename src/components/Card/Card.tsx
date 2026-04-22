@@ -1,7 +1,17 @@
 import { Button } from '../Button/Button';
+import { Tag } from '../Tag/Tag';
+import type { TagVariant } from '../Tag/Tag';
 import './Card.css';
 
 export type CardStatusVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
+
+const STATUS_TO_TAG: Record<CardStatusVariant, TagVariant> = {
+  default:  'default',
+  success:  'success',
+  error:    'critical',
+  warning:  'attention',
+  info:     'info',
+};
 
 export interface CardProps {
   /** Card title / header text */
@@ -69,7 +79,7 @@ export function Card({
           <div className="card__header-text">
             <h6 className="card__title">{title}</h6>
             {status && (
-              <span className={`card__status card__status--${statusVariant}`}>{status}</span>
+              <Tag variant={STATUS_TO_TAG[statusVariant]} size="sm">{status}</Tag>
             )}
           </div>
         </div>
