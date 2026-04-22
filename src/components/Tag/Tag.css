@@ -41,28 +41,33 @@
 .tag--info {
   background-color: var(--color-primary-50, #e5eefa);
   color: var(--color-primary-700, #203b61);
+  border: var(--border-width-sm, 1px) solid transparent;
 }
 
 /* Success */
 .tag--success {
   background-color: var(--color-success-50, #effff5);
   color: var(--color-success-700, #0d4d25);
+  border: var(--border-width-sm, 1px) solid transparent;
 }
 
 /* Critical */
 .tag--critical {
   background-color: var(--color-error-50, #fff3f3);
   color: var(--color-error-700, #8a1111);
+  border: var(--border-width-sm, 1px) solid transparent;
 }
 
 /* Attention */
 .tag--attention {
   background-color: var(--color-warning-50, #fdf9e9);
   color: var(--color-warning-700, #7f4014);
+  border: var(--border-width-sm, 1px) solid transparent;
 }
 
 /* Warning */
 .tag--warning {
   background-color: var(--color-warning-100, #fbf1c6);
   color: var(--color-warning-800, #6c3517);
+  border: var(--border-width-sm, 1px) solid transparent;
 }
