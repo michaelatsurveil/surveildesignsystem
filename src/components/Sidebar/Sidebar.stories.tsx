@@ -56,7 +56,7 @@ export const Default: Story = {
     layout: 'padded',
     docs: {
       description: {
-        story: 'All Sidebar variants side by side: Dark (default), Navigator with L1–L5 levels expanded, and Collapsible Navigator in its collapsed icon-strip state.',
+        story: 'Dark sidebar (default variant) and Navigator sidebar. The Navigator variant always includes the collapse toggle — click the icon in the header to collapse to icon-only mode; hover to preview, click again to pin open.',
       },
     },
   },
@@ -92,31 +92,31 @@ export const Default: Story = {
       { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
     ];
 
-    const allLevelsItems: SidebarNavItem[] = [
+    const navigatorItems: SidebarNavItem[] = [
       { label: 'Home', icon: <Home size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
       {
-        label: 'L1 — Azure', icon: <Cloud size={iconSize} strokeWidth={stroke} />, defaultExpanded: true,
+        label: 'Azure', icon: <Cloud size={iconSize} strokeWidth={stroke} />, defaultExpanded: true,
         children: [
           {
-            label: 'L2 — Resources', icon: <Server size={subIconSize} strokeWidth={stroke} />, defaultExpanded: true,
+            label: 'Resources', icon: <Server size={subIconSize} strokeWidth={stroke} />, defaultExpanded: true,
             children: [
               {
-                label: 'L3 — Virtual Machines', icon: <Cpu size={subIconSize} strokeWidth={stroke} />, defaultExpanded: true,
+                label: 'Virtual Machines', icon: <Cpu size={subIconSize} strokeWidth={stroke} />, defaultExpanded: true,
                 children: [
                   {
-                    label: 'L4 — Production', icon: <Layers size={subIconSize} strokeWidth={stroke} />, defaultExpanded: true,
+                    label: 'Production', icon: <Layers size={subIconSize} strokeWidth={stroke} />, defaultExpanded: true,
                     children: [
-                      { label: 'L5 — Web Server', icon: <HardDrive size={subIconSize} strokeWidth={stroke} />, href: '#', active: true },
+                      { label: 'Web Server', icon: <HardDrive size={subIconSize} strokeWidth={stroke} />, href: '#', active: true },
                     ],
                   },
-                  { label: 'L4 — Staging', icon: <Layers size={subIconSize} strokeWidth={stroke} />, href: '#' },
+                  { label: 'Staging', icon: <Layers size={subIconSize} strokeWidth={stroke} />, href: '#' },
                 ],
               },
-              { label: 'L3 — Storage', icon: <HardDrive size={subIconSize} strokeWidth={stroke} />, href: '#' },
+              { label: 'Storage', icon: <HardDrive size={subIconSize} strokeWidth={stroke} />, href: '#' },
             ],
           },
-          { label: 'L2 — Overview', icon: <LayoutDashboard size={subIconSize} strokeWidth={stroke} />, href: '#' },
-          { label: 'L2 — Security', icon: <ShieldCheck size={subIconSize} strokeWidth={stroke} />, href: '#' },
+          { label: 'Overview', icon: <LayoutDashboard size={subIconSize} strokeWidth={stroke} />, href: '#' },
+          { label: 'Security', icon: <ShieldCheck size={subIconSize} strokeWidth={stroke} />, href: '#' },
         ],
       },
       { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
@@ -132,43 +132,16 @@ export const Default: Story = {
         </div>
 
         <div>
-          {sectionLabel('Navigator — L1 to L5')}
+          {sectionLabel('Navigator (expanded)')}
           <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
-            <Sidebar variant="navigator" navItems={allLevelsItems} user={user} poweredBy footer={logout} width={250} />
+            <Sidebar variant="navigator" navItems={navigatorItems} user={user} poweredBy footer={logout} width={250} />
           </div>
         </div>
 
         <div>
-          {sectionLabel('Collapsible (expanded)')}
+          {sectionLabel('Navigator (collapsed)')}
           <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
-            <Sidebar
-              variant="navigator"
-              collapsible
-              defaultCollapsed={false}
-              navItems={darkItems}
-              user={user}
-              poweredBy
-              footer={logout}
-              width={220}
-              collapsedWidth={56}
-            />
-          </div>
-        </div>
-
-        <div>
-          {sectionLabel('Collapsible (collapsed)')}
-          <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
-            <Sidebar
-              variant="navigator"
-              collapsible
-              defaultCollapsed
-              navItems={darkItems}
-              user={user}
-              poweredBy
-              footer={logout}
-              width={220}
-              collapsedWidth={56}
-            />
+            <Sidebar variant="navigator" defaultCollapsed navItems={darkItems} user={user} poweredBy footer={logout} width={250} collapsedWidth={56} />
           </div>
         </div>
       </div>

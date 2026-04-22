@@ -63,6 +63,8 @@ export function Sidebar({
   onCollapseChange,
 }: SidebarProps) {
   const isNavigator = variant === 'navigator';
+  // Navigator sidebars are always collapsible; the dark variant only if opted in
+  const isCollapsible = isNavigator || collapsible;
   // Permanently collapsed (persists across hover)
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   // Temporarily expanded via hover
@@ -98,8 +100,8 @@ export function Sidebar({
         style={{ width: isOpen ? `${width}px` : `${collapsedWidth}px` }}
         role="navigation"
         aria-label="Main navigation"
-        onMouseEnter={() => { if (collapsible && collapsed) setHovered(true); }}
-        onMouseLeave={() => { if (collapsible) setHovered(false); }}
+        onMouseEnter={() => { if (isCollapsible && collapsed) setHovered(true); }}
+        onMouseLeave={() => { if (isCollapsible) setHovered(false); }}
       >
         <div className="sidebar__header">
           {/* Symbol logo when collapsed (icon-only); full logo when open */}
@@ -112,7 +114,7 @@ export function Sidebar({
           </div>
 
           {/* ChevronsLeftRight toggle — only shown when sidebar is open (expanded or hover-expanded) */}
-          {collapsible && isOpen && (
+          {isCollapsible && isOpen && (
             <button
               type="button"
               className="sidebar__collapse-btn"
