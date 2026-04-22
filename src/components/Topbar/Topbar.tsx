@@ -1,18 +1,14 @@
-import { Search, Megaphone, MonitorPlay, Sparkles, HelpCircle, ChevronRight } from 'lucide-react';
+import { Search, Megaphone, MonitorPlay, Sparkles, HelpCircle } from 'lucide-react';
+import { Breadcrumb } from '../Breadcrumb/Breadcrumb';
+import type { BreadcrumbItem } from '../Breadcrumb/Breadcrumb';
 import './Topbar.css';
 
-export interface TopbarBreadcrumbItem {
-  /** Display label */
-  label: string;
-  /** Optional href — renders as a link when provided */
-  href?: string;
-  /** Whether this is the current/active page (last item) */
-  active?: boolean;
-}
+/** @deprecated Use BreadcrumbItem from the Breadcrumb component instead */
+export type TopbarBreadcrumbItem = BreadcrumbItem;
 
 export interface TopbarProps {
   /** Breadcrumb trail shown on the left */
-  breadcrumbs?: TopbarBreadcrumbItem[];
+  breadcrumbs?: BreadcrumbItem[];
   /** Search placeholder text */
   searchPlaceholder?: string;
   /** Called when the search query changes */
@@ -47,36 +43,9 @@ export function Topbar({
   return (
     <header className={`topbar ${className}`.trim()} role="banner">
       {/* Left: breadcrumb */}
-      <nav className="topbar__breadcrumb" aria-label="Breadcrumb">
-        <ol className="topbar__breadcrumb-list">
-          {breadcrumbs.map((item, i) => {
-            const isLast = i === breadcrumbs.length - 1;
-            return (
-              <li key={i} className="topbar__breadcrumb-item">
-                {item.href && !isLast ? (
-                  <a href={item.href} className="topbar__breadcrumb-link">
-                    {item.label}
-                  </a>
-                ) : (
-                  <span
-                    className={`topbar__breadcrumb-link${isLast ? ' topbar__breadcrumb-link--active' : ''}`}
-                    aria-current={isLast ? 'page' : undefined}
-                  >
-                    {item.label}
-                  </span>
-                )}
-                {!isLast && (
-                  <ChevronRight
-                    size={14}
-                    className="topbar__breadcrumb-separator"
-                    aria-hidden
-                  />
-                )}
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
+      <div className="topbar__breadcrumb">
+        <Breadcrumb items={breadcrumbs} size="sm" />
+      </div>
 
       {/* Right: search + icons */}
       <div className="topbar__right">

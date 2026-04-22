@@ -27,7 +27,7 @@ export const Default: Story = {
   args: {
     breadcrumbs: [
       { label: 'Default breadcrumb', href: '#' },
-      { label: 'Active Breadcrumb', active: true },
+      { label: 'Active Breadcrumb' },
     ],
     searchPlaceholder: 'Search…',
   },
@@ -35,7 +35,7 @@ export const Default: Story = {
 
 export const SingleBreadcrumb: Story = {
   args: {
-    breadcrumbs: [{ label: 'Dashboard', active: true }],
+    breadcrumbs: [{ label: 'Dashboard' }],
     searchPlaceholder: 'Search…',
   },
 };
@@ -46,7 +46,7 @@ export const DeepBreadcrumb: Story = {
       { label: 'Home', href: '#' },
       { label: 'Microsoft 365', href: '#' },
       { label: 'Azure', href: '#' },
-      { label: 'Resources', active: true },
+      { label: 'Resources' },
     ],
     searchPlaceholder: 'Search resources…',
   },
