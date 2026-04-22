@@ -4,6 +4,10 @@
  *
  * Compact contextual panel (250px) with account header, flat nav items,
  * optional version label, divider, and footer nav item.
+ *
+ * When collapsible=true, a small "≡ Menu" button is rendered outside and to
+ * the right of the sidebar (position: absolute, 16px from right edge, 4px
+ * from top) — matching Figma node 1614:9570.
  */
 
 import { useState } from 'react';
@@ -45,11 +49,12 @@ export interface SecondarySidebarProps {
   version?: string;
   /** Width in px when expanded; default 250 */
   width?: number;
-  /** Width in px when collapsed (icon-only); default 48 */
+  /** Width in px when collapsed; default 48 */
   collapsedWidth?: number;
   /**
-   * When true, a Menu (hamburger) button is shown at the top of the sidebar.
-   * Clicking it toggles between expanded and collapsed (icon-strip) states.
+   * When true, a small "≡ Menu" button appears just outside the right edge
+   * of the sidebar (16px from the edge, 4px from the top). Clicking toggles
+   * the collapsed/expanded state.
    */
   collapsible?: boolean;
   /** Start collapsed; default false */
@@ -81,78 +86,78 @@ export function SecondarySidebar({
   };
 
   return (
-    <aside
-      className={[
-        'secondary-sidebar',
-        collapsed ? 'secondary-sidebar--collapsed' : '',
-        className,
-      ].filter(Boolean).join(' ')}
-      style={{ width: collapsed ? `${collapsedWidth}px` : `${width}px` }}
-      role="navigation"
-      aria-label="Secondary navigation"
-    >
-      {/* Menu toggle — shown when collapsible */}
-      {collapsible && (
-        <div className="secondary-sidebar__header">
-          <button
-            type="button"
-            className="secondary-sidebar__menu-btn"
-            onClick={handleToggle}
-            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          >
-            <Menu size={20} aria-hidden />
-          </button>
-        </div>
-      )}
+    <div className="secondary-sidebar-wrap">
+      <aside
+        className={[
+          'secondary-sidebar',
+          collapsed ? 'secondary-sidebar--collapsed' : '',
+          className,
+        ].filter(Boolean).join(' ')}
+        style={{ width: collapsed ? `${collapsedWidth}px` : `${width}px` }}
+        role="navigation"
+        aria-label="Secondary navigation"
+      >
+        {/* Account header */}
+        {account && (
+          <div className="secondary-sidebar__account">
+            <div className="secondary-sidebar__account-avatar" aria-hidden>
+              {account.avatar ?? (
+                <span className="secondary-sidebar__account-initials">
+                  {account.name.charAt(0).toUpperCase()}
+                </span>
+              )}
+            </div>
+            <div className="secondary-sidebar__account-text">
+              <span className="secondary-sidebar__account-name">{account.name}</span>
+              <span className="secondary-sidebar__account-email">{account.email}</span>
+            </div>
+          </div>
+        )}
 
-      {/* Account header */}
-      {account && (
-        <div className="secondary-sidebar__account">
-          <div className="secondary-sidebar__account-avatar" aria-hidden>
-            {account.avatar ?? (
-              <span className="secondary-sidebar__account-initials">
-                {account.name.charAt(0).toUpperCase()}
-              </span>
+        {/* Primary nav list */}
+        <nav className="secondary-sidebar__nav">
+          <ul className="secondary-sidebar__list" role="list">
+            {items.map((item, i) => (
+              <li key={i}>
+                <SecondarySidebarNavItem item={item} />
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Footer: version + divider + footer items */}
+        {(version || (footerItems && footerItems.length > 0)) && (
+          <div className="secondary-sidebar__footer">
+            {version && (
+              <span className="secondary-sidebar__version">{version}</span>
+            )}
+            <hr className="secondary-sidebar__divider" />
+            {footerItems && footerItems.length > 0 && (
+              <ul className="secondary-sidebar__list" role="list">
+                {footerItems.map((item, i) => (
+                  <li key={i}>
+                    <SecondarySidebarNavItem item={item} />
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
-          <div className="secondary-sidebar__account-text">
-            <span className="secondary-sidebar__account-name">{account.name}</span>
-            <span className="secondary-sidebar__account-email">{account.email}</span>
-          </div>
-        </div>
-      )}
+        )}
+      </aside>
 
-      {/* Primary nav list */}
-      <nav className="secondary-sidebar__nav">
-        <ul className="secondary-sidebar__list" role="list">
-          {items.map((item, i) => (
-            <li key={i}>
-              <SecondarySidebarNavItem item={item} />
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* Footer: version + divider + footer items */}
-      {(version || (footerItems && footerItems.length > 0)) && (
-        <div className="secondary-sidebar__footer">
-          {version && (
-            <span className="secondary-sidebar__version">{version}</span>
-          )}
-          <hr className="secondary-sidebar__divider" />
-          {footerItems && footerItems.length > 0 && (
-            <ul className="secondary-sidebar__list" role="list">
-              {footerItems.map((item, i) => (
-                <li key={i}>
-                  <SecondarySidebarNavItem item={item} />
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+      {/* ≡ Menu button — positioned outside the sidebar, 16px from right, 4px down */}
+      {collapsible && (
+        <button
+          type="button"
+          className="secondary-sidebar__menu-btn"
+          onClick={handleToggle}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          <Menu size={12} aria-hidden />
+          <span>Menu</span>
+        </button>
       )}
-    </aside>
+    </div>
   );
 }
 
