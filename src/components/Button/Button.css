@@ -130,6 +130,7 @@
 
 /* Sizes — body/xsm-medium · body/sm-medium · body/md-medium */
 .btn--sm {
+  height: var(--scale-600, 24px);
   padding: 4px var(--scale-300, 12px);
   gap: var(--scale-100, 4px);
   font-size: 12px;
@@ -137,6 +138,7 @@
   line-height: 16px;
 }
 .btn--md {
+  height: var(--scale-700, 28px);
   padding: 6px var(--scale-300, 12px);
   gap: var(--scale-100, 4px);
   font-size: 14px;
@@ -144,6 +146,7 @@
   line-height: 16px;
 }
 .btn--lg {
+  height: var(--scale-800, 32px);
   padding: 4px var(--scale-400, 16px);
   gap: var(--scale-200, 8px);
   font-size: 16px;
