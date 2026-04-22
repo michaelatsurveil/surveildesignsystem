@@ -17,14 +17,14 @@
 
 /* Sizes — scale tokens per Figma */
 .tag--sm {
-  padding: var(--scale-50, 2px) var(--scale-200, 8px);
+  padding: 1px var(--scale-200, 8px);
   font-size: 12px;
   line-height: 1.25;
   min-height: var(--scale-500, 20px);
 }
 
 .tag--md {
-  padding: var(--scale-100, 4px) var(--scale-300, 12px);
+  padding: 2px var(--scale-300, 12px);
   font-size: 14px;
   line-height: 1.25;
   min-height: var(--scale-600, 24px);
