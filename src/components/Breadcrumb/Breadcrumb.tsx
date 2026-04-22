@@ -41,7 +41,6 @@ export function Breadcrumb({ items, size = 'sm' }: BreadcrumbProps) {
       <ol className="breadcrumb__list">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
-          const isActive = isLast;
 
           const itemClass = [
             'breadcrumb__item',

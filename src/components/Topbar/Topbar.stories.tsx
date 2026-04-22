@@ -70,28 +70,3 @@ export const Default: Story = {
   },
 };
 
-export const SingleBreadcrumb: Story = {
-  args: {
-    breadcrumbs: [{ label: 'Dashboard' }],
-    searchPlaceholder: 'Search…',
-  },
-};
-
-export const DeepBreadcrumb: Story = {
-  args: {
-    breadcrumbs: [
-      { label: 'Home', href: '#' },
-      { label: 'Microsoft 365', href: '#' },
-      { label: 'Azure', href: '#' },
-      { label: 'Resources' },
-    ],
-    searchPlaceholder: 'Search resources…',
-  },
-};
-
-export const NoBreadcrumb: Story = {
-  args: {
-    breadcrumbs: [],
-    searchPlaceholder: 'Search…',
-  },
-};

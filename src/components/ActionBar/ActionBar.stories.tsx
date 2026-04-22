@@ -78,29 +78,3 @@ export const Default: Story = {
   ),
 };
 
-export const MultipleSelected: Story = {
-  args: {
-    selectedLabel: '3 items selected',
-    actions: defaultActions,
-  },
-};
-
-export const NoStatusText: Story = {
-  args: {
-    actions: defaultActions,
-  },
-};
-
-export const SingleAction: Story = {
-  args: {
-    selectedLabel: '1 item selected',
-    actions: [
-      {
-        label: 'Send to Integration',
-        icon: <Send size={16} strokeWidth={2} color="currentColor" />,
-        variant: 'primary',
-        onClick: () => {},
-      },
-    ],
-  },
-};

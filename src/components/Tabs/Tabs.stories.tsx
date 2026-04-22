@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { userEvent, within } from '@storybook/test';
 import { Tabs } from './Tabs';
 
 const meta: Meta<typeof Tabs> = {
@@ -64,44 +63,3 @@ export const Default: Story = {
   },
 };
 
-export const WithDropdown: Story = {
-  render: () => {
-    const [value, setValue] = useState('tab1');
-    return (
-      <Tabs options={tabOptionsWithDropdown} value={value} onChange={setValue} />
-    );
-  },
-};
-
-export const Hovered: Story = {
-  args: {
-    options: tabOptions,
-    value: 'overview',
-    onChange: () => {},
-  },
-  play: async ({ canvasElement }) => {
-    const tabs = within(canvasElement).getAllByRole('tab');
-    await userEvent.hover(tabs[1]);
-  },
-};
-
-export const Pressed: Story = {
-  args: {
-    options: tabOptions,
-    value: 'overview',
-    onChange: () => {},
-  },
-  play: async ({ canvasElement }) => {
-    const tabs = within(canvasElement).getAllByRole('tab');
-    await userEvent.pointer({ target: tabs[1], keys: '[MouseLeft>]' });
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    options: tabOptions,
-    value: 'details',
-    onChange: () => {},
-    disabled: true,
-  },
-};
