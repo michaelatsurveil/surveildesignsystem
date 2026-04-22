@@ -44,7 +44,7 @@
   padding: 8px 12px;
   border-bottom: 1px solid var(--color-border-light, #efefef);
   flex-shrink: 0;
-  min-height: 52px;
+  height: 56px;
   box-sizing: border-box;
 }
 
@@ -256,10 +256,10 @@
   overflow: hidden;
 }
 
-/* Header: centre the toggle icon when no account text */
+/* Header: centre the toggle icon when no account text is visible */
 .secondary-sidebar--collapsed .secondary-sidebar__header {
   justify-content: center;
-  padding: 8px;
+  padding: 0;
 }
 
 /* ─── Hover-expanded overlay ──────────────────────────────────────────────────
