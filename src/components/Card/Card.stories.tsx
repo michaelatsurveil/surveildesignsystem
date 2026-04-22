@@ -15,7 +15,7 @@ const meta: Meta<typeof Card> = {
     docs: {
       description: {
         component:
-          'Card container with optional header (icon in 40×40 block, title, status badge), body, and footer (primary + secondary buttons or label pills). [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=320-5290)',
+          'Card container with optional header (icon, title, status badge), body, and footer (primary + secondary buttons). [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=320-5290)',
       },
     },
   },
@@ -49,7 +49,6 @@ export const Default: Story = {
         <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>With footer actions</p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
           <Card title="With Buttons" icon={<Package size={20} strokeWidth={2} color="currentColor" />} status="Success" statusVariant="success" primaryAction={{ label: 'Primary' }} secondaryAction={{ label: 'Secondary' }}>Card with primary and secondary footer actions.</Card>
-          <Card title="With Labels" icon={<Package size={20} strokeWidth={2} color="currentColor" />} labels={['Label', 'Tag', 'Item']}>Card with label pills in the footer.</Card>
           <Card title="Minimal">Card with no icon, status, or footer.</Card>
         </div>
       </div>

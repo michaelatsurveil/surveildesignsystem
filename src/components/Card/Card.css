@@ -93,14 +93,3 @@
   padding-top: var(--scale-600, 24px);
 }
 
-.card__label {
-  display: inline-flex;
-  align-items: center;
-  padding: var(--scale-100, 4px) 10px;
-  border-radius: var(--radius-sm, 2px);
-  background: var(--color-primary, #3165ad);
-  color: var(--color-white, #ffffff);
-  font-size: 12px;
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 16px;
-}

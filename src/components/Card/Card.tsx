@@ -28,8 +28,6 @@ export interface CardProps {
   primaryAction?: { label: string; onClick?: () => void };
   /** Secondary footer button (right) */
   secondaryAction?: { label: string; onClick?: () => void };
-  /** Optional footer labels/tags (rendered as pills when no actions) */
-  labels?: React.ReactNode[];
   /** Optional click handler - when set, card is interactive */
   onClick?: () => void;
   /** Optional additional class name for the root element */
@@ -44,13 +42,11 @@ export function Card({
   children,
   primaryAction,
   secondaryAction,
-  labels,
   onClick,
   className = '',
 }: CardProps) {
   const isInteractive = typeof onClick === 'function';
   const hasFooterActions = primaryAction || secondaryAction;
-  const hasFooterLabels = labels && labels.length > 0;
 
   return (
     <article
@@ -85,41 +81,31 @@ export function Card({
         </div>
       </header>
       <div className="card__body">{children}</div>
-      {(hasFooterActions || hasFooterLabels) && (
+      {hasFooterActions && (
         <footer className="card__footer">
-          {hasFooterActions && (
-            <>
-              {primaryAction && (
-                <Button
-                  size="md"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    primaryAction.onClick?.();
-                  }}
-                >
-                  {primaryAction.label}
-                </Button>
-              )}
-              {secondaryAction && (
-                <Button
-                  variant="secondary"
-                  size="md"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    secondaryAction.onClick?.();
-                  }}
-                >
-                  {secondaryAction.label}
-                </Button>
-              )}
-            </>
+          {primaryAction && (
+            <Button
+              size="md"
+              onClick={(e) => {
+                e.stopPropagation();
+                primaryAction.onClick?.();
+              }}
+            >
+              {primaryAction.label}
+            </Button>
           )}
-          {hasFooterLabels && !hasFooterActions &&
-            labels!.map((label, i) => (
-              <span key={i} className="card__label">
-                {label}
-              </span>
-            ))}
+          {secondaryAction && (
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={(e) => {
+                e.stopPropagation();
+                secondaryAction.onClick?.();
+              }}
+            >
+              {secondaryAction.label}
+            </Button>
+          )}
         </footer>
       )}
     </article>
