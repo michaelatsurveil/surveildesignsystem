@@ -423,19 +423,17 @@
   flex-shrink: 0;
   width: 32px;
   height: 32px;
-  border: 1px solid var(--color-border-light, #e5e7eb);
+  border: none;
   border-radius: 9999px;
-  background: var(--color-neutral-white, #ffffff);
+  background: transparent;
   color: var(--color-grey, #616161);
-  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0,0,0,0.05));
   cursor: pointer;
-  transition: box-shadow 0.15s, background-color 0.15s, color 0.15s;
+  transition: color 0.15s;
   position: relative;
   z-index: 1;
 }
 
 .sidebar__collapse-btn:hover {
-  box-shadow: var(--shadow, 0 1px 3px 0 rgba(0,0,0,0.1));
   color: var(--color-primary, #3165ad);
 }
 
