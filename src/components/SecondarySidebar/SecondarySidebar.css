@@ -23,7 +23,7 @@
   padding: 6px;
   box-sizing: border-box;
   min-height: 620px;
-  background-color: var(--color-grey-300, #a0a0a0);
+  background-color: transparent;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   transition: width 0.2s ease;
   overflow: hidden;
