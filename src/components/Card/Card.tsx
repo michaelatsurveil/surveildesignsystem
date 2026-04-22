@@ -66,11 +66,13 @@ export function Card({
               {icon}
             </span>
           )}
-          <h6 className="card__title">{title}</h6>
+          <div className="card__header-text">
+            <h6 className="card__title">{title}</h6>
+            {status && (
+              <span className={`card__status card__status--${statusVariant}`}>{status}</span>
+            )}
+          </div>
         </div>
-        {status && (
-          <span className={`card__status card__status--${statusVariant}`}>{status}</span>
-        )}
       </header>
       <div className="card__body">{children}</div>
       {(hasFooterActions || hasFooterLabels) && (
