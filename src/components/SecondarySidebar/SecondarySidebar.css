@@ -24,8 +24,8 @@
 .secondary-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 6px;
+  gap: 24px;
+  padding: 6px 0;
   box-sizing: border-box;
   min-height: 620px;
   background-color: transparent;
@@ -128,6 +128,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 0 24px;
 }
 
 .secondary-sidebar__list {
@@ -233,9 +234,14 @@
   gap: 8px;
 }
 
+/* Footer items list gets the same 24px side padding as the nav container */
+.secondary-sidebar__footer .secondary-sidebar__list {
+  padding: 0 24px;
+}
+
 .secondary-sidebar__version {
   display: block;
-  padding-left: 12px;
+  padding-left: 48px;
   font-size: 12px;
   font-weight: var(--font-weight-regular, 400);
   color: var(--color-grey, #616161);
@@ -259,6 +265,12 @@
 /* Header: centre the toggle icon when no account text is visible */
 .secondary-sidebar--collapsed .secondary-sidebar__header {
   justify-content: center;
+  padding: 0;
+}
+
+/* Nav / footer: remove the 24px container padding so icons fit the 48px strip */
+.secondary-sidebar--collapsed .secondary-sidebar__nav,
+.secondary-sidebar--collapsed .secondary-sidebar__footer .secondary-sidebar__list {
   padding: 0;
 }
 
