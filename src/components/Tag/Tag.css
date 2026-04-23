@@ -19,7 +19,8 @@
 .tag--sm {
   padding: 1px var(--scale-200, 8px);
   font-size: 12px;
-  line-height: 1.25;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
   min-height: var(--scale-500, 20px);
 }
 
