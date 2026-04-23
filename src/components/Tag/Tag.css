@@ -1,7 +1,11 @@
 /**
- * Tag (pill) styles — implements Figma Component Library
- * Default pill: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=465-10005
- * Token mapping: background → --color-grey-50, text → --color-grey-700, border → --color-grey-100, border-width → --border-width-sm, radius → --radius-full, padding/sizing → --scale-*
+ * Tag (badge) styles — Figma Component Library node 304-1063
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-1063
+ *
+ * Three shape/size variants:
+ *   circle      — fixed 18×18px numeric badge (Shape=Circle, Sizes=Default)
+ *   sm          — Full Rounded Default: 1px 8px · Body/xsm 12px (Shape=Full Rounded, Sizes=Default)
+ *   lg          — Full Rounded Large:  2px 8px · Body/sm  14px (Shape=Full Rounded, Sizes=Large)
  */
 
 .tag {
@@ -9,66 +13,65 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  border-radius: 9999px;
-  border: none;
-  white-space: nowrap;
-}
-
-/* Sizes — scale tokens per Figma */
-.tag--sm {
-  padding: 1px var(--scale-200, 8px);
-  font-size: 12px;
   font-weight: var(--font-weight-regular, 400);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+/* ─── Circle — fixed 18×18px, Body/xsm ─────────────────────────────────────── */
+.tag--circle {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  font-size: 12px;
   line-height: 16px;
-  min-height: var(--scale-500, 20px);
 }
 
-.tag--md {
-  padding: 2px var(--scale-300, 12px);
+/* ─── Full Rounded Default — 1px 8px, Body/xsm ──────────────────────────────── */
+.tag--sm {
+  padding: 1px 8px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ─── Full Rounded Large — 2px 8px, Body/sm ─────────────────────────────────── */
+.tag--lg {
+  padding: 2px 8px;
   font-size: 14px;
-  line-height: 1.25;
-  min-height: var(--scale-600, 24px);
+  line-height: 16px;
+  height: 20px;
 }
 
-/* Default pill — Figma 465-10005 */
+/* ─── Colour variants ────────────────────────────────────────────────────────── */
+
 .tag--default {
-  background-color: var(--color-grey-50, #efefef);
-  color: var(--color-grey-700, #272727);
-  border: var(--border-width-sm, 1px) solid transparent;
+  background-color: var(--color-grey-50, #f9fafb);
+  color: var(--color-grey-700, #374151);
 }
 
-/* Info */
 .tag--info {
   background-color: var(--color-primary-50, #e5eefa);
-  color: var(--color-primary-700, #203b61);
-  border: var(--border-width-sm, 1px) solid transparent;
+  color: var(--color-primary-700, #3165ad);
 }
 
-/* Success */
 .tag--success {
   background-color: var(--color-success-50, #effff5);
-  color: var(--color-success-700, #0d4d25);
-  border: var(--border-width-sm, 1px) solid transparent;
+  color: var(--color-success-700, #15803d);
 }
 
-/* Critical */
 .tag--critical {
-  background-color: var(--color-error-50, #fff3f3);
-  color: var(--color-error-700, #8a1111);
-  border: var(--border-width-sm, 1px) solid transparent;
+  background-color: var(--color-error-50, #ffe1e1);
+  color: var(--color-error-700, #e61c1d);
 }
 
-/* Attention */
 .tag--attention {
   background-color: var(--color-warning-50, #fdf9e9);
-  color: var(--color-warning-700, #7f4014);
-  border: var(--border-width-sm, 1px) solid transparent;
+  color: var(--color-warning-700, #a86c00);
 }
 
-/* Warning */
 .tag--warning {
   background-color: var(--color-warning-100, #fbf1c6);
   color: var(--color-warning-800, #6c3517);
-  border: var(--border-width-sm, 1px) solid transparent;
 }

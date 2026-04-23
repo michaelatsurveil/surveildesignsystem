@@ -8,12 +8,12 @@ export type TagVariant =
   | 'attention'
   | 'warning';
 
-export type TagSize = 'sm' | 'md';
+export type TagSize = 'circle' | 'sm' | 'lg';
 
 export interface TagProps {
   /** Semantic variant (default, info, success, critical, attention, warning) */
   variant?: TagVariant;
-  /** Size: sm (compact e.g. numeric), md (text) */
+  /** Shape/size: circle (18×18 numeric), sm (full rounded default), lg (full rounded large) */
   size?: TagSize;
   /** Tag content (number or text) */
   children: React.ReactNode;
@@ -23,7 +23,7 @@ export interface TagProps {
 
 export function Tag({
   variant = 'default',
-  size = 'md',
+  size = 'sm',
   children,
   className = '',
 }: TagProps) {
