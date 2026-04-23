@@ -40,7 +40,7 @@
 .card__header-row {
   display: flex;
   align-items: flex-start;
-  gap: var(--scale-400, 16px);
+  gap: var(--scale-300, 12px);
 }
 
 .card__header-text {
