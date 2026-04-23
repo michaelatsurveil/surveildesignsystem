@@ -50,7 +50,7 @@ export function ActionBar({
           <Button
             key={index}
             variant={action.variant ?? 'secondary'}
-            size="sm"
+            size="md"
             onClick={action.onClick}
             className="action-bar__btn"
           >

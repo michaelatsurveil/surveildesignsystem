@@ -63,16 +63,16 @@ export const Default: Story = {
           onTabChange={setTab}
           footer={
             <>
-              <Button variant="secondary" size="sm" onClick={() => setOpen(false)}>
+              <Button variant="secondary" size="md" onClick={() => setOpen(false)}>
                 Action 4
               </Button>
-              <Button variant="secondary" size="sm" onClick={() => setOpen(false)}>
+              <Button variant="secondary" size="md" onClick={() => setOpen(false)}>
                 Action 3
               </Button>
-              <Button variant="secondary" size="sm" onClick={() => setOpen(false)}>
+              <Button variant="secondary" size="md" onClick={() => setOpen(false)}>
                 Action 2
               </Button>
-              <Button size="sm" onClick={() => setOpen(false)}>
+              <Button size="md" onClick={() => setOpen(false)}>
                 Action 1
               </Button>
             </>

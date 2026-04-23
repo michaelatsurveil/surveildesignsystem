@@ -97,7 +97,7 @@ export function StatisticCard({
               {secondaryAction && (
                 <Button
                   variant="secondary"
-                  size="sm"
+                  size="md"
                   onClick={(e) => {
                     e.stopPropagation();
                     secondaryAction.onClick?.();
@@ -108,7 +108,7 @@ export function StatisticCard({
               )}
               {primaryAction && (
                 <Button
-                  size="sm"
+                  size="md"
                   onClick={(e) => {
                     e.stopPropagation();
                     primaryAction.onClick?.();
