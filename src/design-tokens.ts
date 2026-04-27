@@ -180,23 +180,23 @@ export const tokens = {
     'body.xsm': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '12px', fontWeight: 400, lineHeight: '16px', letterSpacing: 0 },
     'body.sm': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '14px', fontWeight: 400, lineHeight: '16px', letterSpacing: 0 },
     'body.md': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '16px', fontWeight: 400, lineHeight: '24px', letterSpacing: 0 },
-    'body.lg': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '20px', fontWeight: 400, lineHeight: '28px', letterSpacing: 0 },
+    'body.lg': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '18px', fontWeight: 400, lineHeight: '28px', letterSpacing: 0 },
 
     // Body weight variants
     'body.xsm-medium': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '12px', fontWeight: 500, lineHeight: '16px', letterSpacing: 0 },
     'body.sm-medium': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '14px', fontWeight: 500, lineHeight: '16px', letterSpacing: 0 },
     'body.md-medium': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '16px', fontWeight: 500, lineHeight: '24px', letterSpacing: 0 },
-    'body.lg-medium': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '20px', fontWeight: 500, lineHeight: '28px', letterSpacing: 0 },
+    'body.lg-medium': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '18px', fontWeight: 500, lineHeight: '28px', letterSpacing: 0 },
 
     'body.xsm-semibold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '12px', fontWeight: 600, lineHeight: '16px', letterSpacing: 0 },
     'body.sm-semibold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '14px', fontWeight: 600, lineHeight: '16px', letterSpacing: 0 },
     'body.md-semibold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '16px', fontWeight: 600, lineHeight: '24px', letterSpacing: 0 },
-    'body.lg-semibold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '20px', fontWeight: 600, lineHeight: '28px', letterSpacing: 0 },
+    'body.lg-semibold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '18px', fontWeight: 600, lineHeight: '28px', letterSpacing: 0 },
 
     'body.xsm-bold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '12px', fontWeight: 700, lineHeight: '16px', letterSpacing: 0 },
     'body.sm-bold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '14px', fontWeight: 700, lineHeight: '16px', letterSpacing: 0 },
     'body.md-bold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '16px', fontWeight: 700, lineHeight: '24px', letterSpacing: 0 },
-    'body.lg-bold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '20px', fontWeight: 700, lineHeight: '28px', letterSpacing: 0 },
+    'body.lg-bold': { fontFamily: 'Roboto, system-ui, sans-serif', fontSize: '18px', fontWeight: 700, lineHeight: '28px', letterSpacing: 0 },
 
   },
   /** Border radius (Border Radius: none, sm, md, lg → Scale/0, 50, 100, 200) */

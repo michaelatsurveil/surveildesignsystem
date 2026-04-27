@@ -17,6 +17,7 @@ const meta: Meta<typeof Filter> = {
         component:
           'Filter dropdown trigger with optional label, placeholder/value text, and a chevron that rotates when open. Use for filtering data tables or lists. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=340-3889)',
       },
+      story: { height: '240px' },
     },
   },
 };
@@ -49,14 +50,16 @@ export const Default: Story = {
     const selected = STATUS_OPTIONS.find((o) => o.value === value);
 
     return (
-      <Filter
-        placeholder="Status"
-        value={selected?.value ? selected.label : undefined}
-        open={open}
-        onToggle={() => setOpen((v) => !v)}
-        options={STATUS_OPTIONS}
-        onSelect={setValue}
-      />
+      <div style={{ paddingBottom: 180 }}>
+        <Filter
+          placeholder="Status"
+          value={selected?.value ? selected.label : undefined}
+          open={open}
+          onToggle={() => setOpen((v) => !v)}
+          options={STATUS_OPTIONS}
+          onSelect={setValue}
+        />
+      </div>
     );
   },
 };
@@ -72,15 +75,17 @@ export const WithLabel: Story = {
     const selected = STATUS_OPTIONS.find((o) => o.value === value);
 
     return (
-      <Filter
-        label="Status"
-        placeholder="All statuses"
-        value={selected?.value ? selected.label : undefined}
-        open={open}
-        onToggle={() => setOpen((v) => !v)}
-        options={STATUS_OPTIONS}
-        onSelect={setValue}
-      />
+      <div style={{ paddingBottom: 180 }}>
+        <Filter
+          label="Status"
+          placeholder="All statuses"
+          value={selected?.value ? selected.label : undefined}
+          open={open}
+          onToggle={() => setOpen((v) => !v)}
+          options={STATUS_OPTIONS}
+          onSelect={setValue}
+        />
+      </div>
     );
   },
 };
@@ -122,15 +127,17 @@ export const WithSelection: Story = {
     const selected = STATUS_OPTIONS.find((o) => o.value === value);
 
     return (
-      <Filter
-        label="Status"
-        placeholder="All statuses"
-        value={selected?.label}
-        open={open}
-        onToggle={() => setOpen((v) => !v)}
-        options={STATUS_OPTIONS}
-        onSelect={setValue}
-      />
+      <div style={{ paddingBottom: 180 }}>
+        <Filter
+          label="Status"
+          placeholder="All statuses"
+          value={selected?.label}
+          open={open}
+          onToggle={() => setOpen((v) => !v)}
+          options={STATUS_OPTIONS}
+          onSelect={setValue}
+        />
+      </div>
     );
   },
 };
@@ -149,7 +156,7 @@ export const MultipleFilters: Story = {
     const selectedType = TYPE_OPTIONS.find((o) => o.value === typeValue);
 
     return (
-      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end', paddingBottom: 180 }}>
         <Filter
           label="Status"
           placeholder="All statuses"
