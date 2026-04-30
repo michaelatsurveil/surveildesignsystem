@@ -177,6 +177,14 @@ function renderCellPreview(type: string): React.ReactNode {
         </span>
       );
 
+    case 'text-subtext-right':
+      return (
+        <span style={{ display: 'block', textAlign: 'right' }}>
+          Primary text
+          <span className="data-table__cell-subtext">Secondary line</span>
+        </span>
+      );
+
     case 'number':
       return (
         <span className="data-table__cell-number" style={{ display: 'block', textAlign: 'right' }}>
@@ -309,7 +317,8 @@ function renderCellPreview(type: string): React.ReactNode {
 const cellTypeRows: CellTypeRow[] = [
   { id: '1',  label: 'Text',                  cellType: 'text' },
   { id: '2',  label: 'Text (Bold)',            cellType: 'text-bold' },
-  { id: '3',  label: 'Text + Subtext',         cellType: 'text-subtext' },
+  { id: '3',  label: 'Text + Subtext',          cellType: 'text-subtext' },
+  { id: '3a', label: 'Text + Subtext (Right)',  cellType: 'text-subtext-right' },
   { id: '4',  label: 'Number',                 cellType: 'number' },
   { id: '5',  label: 'Number w/ Icon',         cellType: 'number-icon' },
   { id: '6',  label: 'Badge',                  cellType: 'badge' },
@@ -355,7 +364,7 @@ export const CellTypes: StoryObj<typeof DataTable<CellTypeRow>> = {
     docs: {
       description: {
         story:
-          'All 22 data cell variants available via the `render` prop: text, bold, text+subtext, number, number w/ icon, badge, multiple badges, button, icon button, link button, link button (multiple), checkbox, toggle, avatar, avatar group, more, empty, tree item, child tree item, summary, summary (bold), and input.',
+          'All 24 data cell variants available via the `render` prop: text, bold, text+subtext, text+subtext (right), number, number w/ icon, badge, multiple badges, button, icon button, link button, link button (multiple), checkbox, toggle, avatar, avatar group, more, empty, heading–chevron text, tree item, child tree item, summary, summary (bold), and input.',
       },
     },
   },
