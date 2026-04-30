@@ -147,10 +147,10 @@ function ToggleCell() {
 function TreeCell() {
   const [open, setOpen] = useState(false);
   return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+    <span style={{ display: 'flex', alignItems: 'center', marginLeft: '-4px' }}>
       <button
         type="button"
-        style={{ display: 'inline-flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'var(--color-grey,#616161)' }}
+        style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: 16, background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'var(--color-grey,#616161)' }}
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Collapse' : 'Expand'}
       >
@@ -264,6 +264,13 @@ function renderCellPreview(type: string): React.ReactNode {
     case 'empty':
       return <span style={{ color: 'var(--color-grey-300,#a0a0a0)' }}>—</span>;
 
+    case 'heading-chevron-text':
+      return (
+        <span style={{ display: 'block', margin: '-8px -16px', padding: '12px 16px 12px 36px', fontSize: 12, fontWeight: 500, color: 'var(--color-text-body,#616161)', background: 'var(--color-background-alt,#f9fafb)', borderBottom: '1px solid var(--color-grey-100,#dfdfdf)' }}>
+          Column name
+        </span>
+      );
+
     case 'tree-item':
       return <TreeCell />;
 
@@ -317,11 +324,12 @@ const cellTypeRows: CellTypeRow[] = [
   { id: '15', label: 'Avatar Group',           cellType: 'avatar-group' },
   { id: '16', label: 'More',                   cellType: 'more' },
   { id: '17', label: 'Empty',                  cellType: 'empty' },
-  { id: '18', label: 'Tree Item',              cellType: 'tree-item' },
-  { id: '19', label: 'Child Tree Item',        cellType: 'child-tree-item' },
-  { id: '20', label: 'Summary',                cellType: 'summary' },
-  { id: '21', label: 'Summary (Bold)',         cellType: 'summary-bold' },
-  { id: '22', label: 'Input',                  cellType: 'input' },
+  { id: '18', label: 'Heading — Chevron text', cellType: 'heading-chevron-text' },
+  { id: '19', label: 'Tree Item',              cellType: 'tree-item' },
+  { id: '20', label: 'Child Tree Item',        cellType: 'child-tree-item' },
+  { id: '21', label: 'Summary',                cellType: 'summary' },
+  { id: '22', label: 'Summary (Bold)',         cellType: 'summary-bold' },
+  { id: '23', label: 'Input',                  cellType: 'input' },
 ];
 
 const cellTypeColumns = [
