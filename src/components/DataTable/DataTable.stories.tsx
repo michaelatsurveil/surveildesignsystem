@@ -368,3 +368,106 @@ export const CellTypes: StoryObj<typeof DataTable<CellTypeRow>> = {
     />
   ),
 };
+
+// ─── Tree View story ───────────────────────────────────────────────────────
+
+type TreeRow = {
+  id: string;
+  type: 'parent' | 'child';
+  parentId?: string;
+  name: string;
+  devices: string;
+  users: string;
+  status: string;
+};
+
+const treeData: TreeRow[] = [
+  { id: 'apac',   type: 'parent',                  name: 'APAC',         devices: '1,240', users: '3,820',  status: 'Active'  },
+  { id: 'apac-1', type: 'child', parentId: 'apac', name: 'Contoso AU',   devices: '480',   users: '1,200',  status: 'Active'  },
+  { id: 'apac-2', type: 'child', parentId: 'apac', name: 'Fabrikam SG',  devices: '390',   users: '1,140',  status: 'Active'  },
+  { id: 'apac-3', type: 'child', parentId: 'apac', name: 'Northwind JP', devices: '370',   users: '1,480',  status: 'Pending' },
+  { id: 'emea',   type: 'parent',                  name: 'EMEA',         devices: '2,105', users: '6,430',  status: 'Active'  },
+  { id: 'emea-1', type: 'child', parentId: 'emea', name: 'Contoso UK',   devices: '720',   users: '2,100',  status: 'Active'  },
+  { id: 'emea-2', type: 'child', parentId: 'emea', name: 'Fabrikam DE',  devices: '580',   users: '1,890',  status: 'Active'  },
+  { id: 'emea-3', type: 'child', parentId: 'emea', name: 'Northwind FR', devices: '805',   users: '2,440',  status: 'Active'  },
+  { id: 'amer',   type: 'parent',                  name: 'Americas',     devices: '3,870', users: '11,250', status: 'Active'  },
+  { id: 'amer-1', type: 'child', parentId: 'amer', name: 'Contoso US',   devices: '1,420', users: '4,800',  status: 'Active'  },
+  { id: 'amer-2', type: 'child', parentId: 'amer', name: 'Fabrikam CA',  devices: '980',   users: '3,200',  status: 'Active'  },
+  { id: 'amer-3', type: 'child', parentId: 'amer', name: 'Northwind BR', devices: '1,470', users: '3,250',  status: 'Pending' },
+];
+
+export const TreeView: StoryObj<typeof DataTable<TreeRow>> = {
+  name: 'Tree View',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Parent rows with an expand/collapse chevron; child rows indented below. Uses `headerClassName` on the first column to apply the `.data-table__cell--head-chevron` offset (36px), aligning the header with tree item text.',
+      },
+    },
+  },
+  render: function TreeViewStory() {
+    const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set(['apac', 'emea', 'amer']));
+
+    const toggle = (id: string) =>
+      setExpandedIds((prev) => {
+        const next = new Set(prev);
+        next.has(id) ? next.delete(id) : next.add(id);
+        return next;
+      });
+
+    const visibleRows = treeData.filter(
+      (row) => row.type === 'parent' || expandedIds.has(row.parentId!)
+    );
+
+    const columns = [
+      {
+        id: 'name',
+        header: 'Tenant / Region',
+        headerClassName: 'data-table__cell--head-chevron',
+        render: (_: unknown, row: TreeRow) => {
+          if (row.type === 'parent') {
+            const isOpen = expandedIds.has(row.id);
+            return (
+              <span style={{ display: 'flex', alignItems: 'center', marginLeft: '-4px' }}>
+                <button
+                  type="button"
+                  style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: 16, background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'var(--color-grey,#616161)' }}
+                  onClick={() => toggle(row.id)}
+                  aria-label={isOpen ? 'Collapse' : 'Expand'}
+                >
+                  {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                </button>
+                <strong style={{ fontWeight: 600, color: 'var(--color-grey-700,#272727)' }}>{row.name}</strong>
+              </span>
+            );
+          }
+          return (
+            <span className="data-table__cell--child-tree" style={{ display: 'block' }}>
+              {row.name}
+            </span>
+          );
+        },
+      },
+      { id: 'devices', header: 'Devices' },
+      { id: 'users',   header: 'Users' },
+      {
+        id: 'status',
+        header: 'Status',
+        render: (value: unknown) => (
+          <Tag variant={value === 'Active' ? 'success' : 'attention'} size="sm">
+            {String(value)}
+          </Tag>
+        ),
+      },
+    ];
+
+    return (
+      <DataTable<TreeRow>
+        columns={columns as never}
+        rows={visibleRows}
+        getRowId={(row) => row.id}
+        toolbar={{ title: 'Tenants by Region' }}
+      />
+    );
+  },
+};

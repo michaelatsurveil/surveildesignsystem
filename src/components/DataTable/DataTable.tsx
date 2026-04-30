@@ -26,6 +26,8 @@ export interface DataTableColumn<T = Record<string, unknown>> {
   sortable?: boolean;
   /** Custom cell renderer */
   render?: (value: unknown, row: T) => React.ReactNode;
+  /** Extra class name applied to the <th> for this column */
+  headerClassName?: string;
 }
 
 export interface DataTablePagination {
@@ -173,7 +175,7 @@ export function DataTable<T extends Record<string, unknown>>({
               </th>
             )}
             {columns.map((col) => (
-              <th key={col.id} className="data-table__cell data-table__cell--head" scope="col">
+              <th key={col.id} className={['data-table__cell data-table__cell--head', col.headerClassName].filter(Boolean).join(' ')} scope="col">
                 <span className="data-table__head-text">
                   {col.header}
                   {col.sortable && (
