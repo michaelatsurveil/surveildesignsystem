@@ -25,6 +25,10 @@ export interface ProgressBarProps {
   value?: number;
   /** Accessible label */
   label?: string;
+  /** Heading displayed above the linear bar (body/lrg-semibold, text/headings). Linear only. */
+  heading?: string;
+  /** Subtext displayed below the linear bar (body/xsm, text/subtext). Linear only. */
+  subtext?: string;
 }
 
 /* ─── Circle SVG dimensions (from Figma) ───────────────────────────────────── */
@@ -34,11 +38,13 @@ const CIRCLE_CONFIG = {
 } as const;
 
 export function ProgressBar({
-  type   = 'linear',
-  size   = 'sm',
-  status = 'default',
-  value  = 0,
-  label  = 'Progress',
+  type    = 'linear',
+  size    = 'sm',
+  status  = 'default',
+  value   = 0,
+  label   = 'Progress',
+  heading,
+  subtext,
 }: ProgressBarProps) {
   const pct = Math.min(100, Math.max(0, value));
 
@@ -87,7 +93,7 @@ export function ProgressBar({
   }
 
   /* ── Linear ── */
-  return (
+  const bar = (
     <div
       className={`progress-linear progress-linear--${size} progress-linear--${status}`}
       role="progressbar"
@@ -102,4 +108,19 @@ export function ProgressBar({
       />
     </div>
   );
+
+  if (heading || subtext) {
+    return (
+      <div className="progress-linear__labeled">
+        {heading && <span className={`progress-linear__heading progress-linear__heading--${size}`}>{heading}</span>}
+        <div className="progress-linear__bar-row">
+          {bar}
+          <span className="progress-linear__percentage">{pct}%</span>
+        </div>
+        {subtext && <span className="progress-linear__subtext">{subtext}</span>}
+      </div>
+    );
+  }
+
+  return bar;
 }

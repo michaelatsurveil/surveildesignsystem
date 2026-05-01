@@ -49,6 +49,62 @@
 .progress-linear--success .progress-linear__fill { background: var(--progress-success); }
 .progress-linear--error   .progress-linear__fill { background: var(--progress-error);   }
 
+/* ── Labeled linear wrapper (heading + bar + subtext) ───────────────────────── */
+
+.progress-linear__labeled {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.progress-linear__heading {
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-weight: 600;
+  color: var(--color-grey-700, #272727);
+  margin-bottom: 8px;
+}
+
+/* Large: body/lrg-semibold */
+.progress-linear__heading--lg {
+  font-size: 18px;
+  line-height: 28px;
+}
+
+/* Small: body/md-semibold */
+.progress-linear__heading--sm {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.progress-linear__bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-linear__bar-row .progress-linear {
+  flex: 1;
+  min-width: 0;
+}
+
+.progress-linear__percentage {
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--color-grey-400, #818181);
+  flex-shrink: 0;
+}
+
+.progress-linear__subtext {
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--color-grey-400, #818181);
+  margin-top: 8px;
+}
+
 /* ══════════════════════════════════════════════════════════════════════════════
    CIRCLE
 ══════════════════════════════════════════════════════════════════════════════ */

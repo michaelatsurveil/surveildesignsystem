@@ -30,12 +30,49 @@ const meta: Meta<typeof ProgressBar> = {
     value: {
       control: { type: 'range', min: 0, max: 100, step: 10 },
     },
+    heading: { control: 'text' },
+    subtext: { control: 'text' },
   },
 };
 
 export default meta;
 
 type Story = StoryObj<typeof ProgressBar>;
+
+/* ─── Heading + Subtext ──────────────────────────────────────────────────────── */
+
+export const WithHeadingAndSubtext: Story = {
+  name: 'Linear — Heading & Subtext',
+  render: () => {
+    const label = (text: string) => (
+      <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>{text}</p>
+    );
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 32, maxWidth: 400 }}>
+        <div>
+          {label('Default — with heading & subtext')}
+          <ProgressBar type="linear" size="lg" status="default" value={60} heading="Uploading files" subtext="3 of 5 files uploaded" />
+        </div>
+        <div>
+          {label('Success — with heading & subtext')}
+          <ProgressBar type="linear" size="lg" status="success" value={100} heading="Upload complete" subtext="All files uploaded successfully" />
+        </div>
+        <div>
+          {label('Error — with heading & subtext')}
+          <ProgressBar type="linear" size="lg" status="error" value={40} heading="Upload failed" subtext="Connection interrupted at 40%" />
+        </div>
+        <div>
+          {label('Heading only')}
+          <ProgressBar type="linear" size="sm" status="default" value={75} heading="Processing" />
+        </div>
+        <div>
+          {label('Subtext only')}
+          <ProgressBar type="linear" size="sm" status="default" value={30} subtext="30% complete" />
+        </div>
+      </div>
+    );
+  },
+};
 
 /* ─── Overview ───────────────────────────────────────────────────────────────── */
 
