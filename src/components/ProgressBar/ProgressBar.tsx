@@ -92,35 +92,46 @@ export function ProgressBar({
     );
   }
 
-  /* ── Linear ── */
-  const bar = (
-    <div
-      className={`progress-linear progress-linear--${size} progress-linear--${status}`}
-      role="progressbar"
-      aria-valuenow={pct}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-label={label}
-    >
-      <div
-        className="progress-linear__fill"
-        style={{ width: `${pct}%` }}
-      />
-    </div>
-  );
-
-  if (heading || subtext) {
+  /* ── Linear — standalone ── */
+  if (!heading && !subtext) {
     return (
-      <div className="progress-linear__labeled">
-        {heading && <span className={`progress-linear__heading progress-linear__heading--${size}`}>{heading}</span>}
-        <div className="progress-linear__bar-row">
-          {bar}
-          <span className="progress-linear__percentage">{pct}%</span>
-        </div>
-        {subtext && <span className="progress-linear__subtext">{subtext}</span>}
+      <div
+        className={`progress-linear progress-linear--${size} progress-linear--${status}`}
+        role="progressbar"
+        aria-valuenow={pct}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={label}
+      >
+        <div className="progress-linear__fill" style={{ width: `${pct}%` }} />
       </div>
     );
   }
 
-  return bar;
+  /* ── Linear — with heading / subtext ── */
+  return (
+    <div className="progress-linear__labeled">
+      {heading && (
+        <span className={`progress-linear__heading progress-linear__heading--${size}`}>
+          {heading}
+        </span>
+      )}
+      <div className="progress-linear__bar-row">
+        <div
+          className={`progress-linear progress-linear--${size} progress-linear--${status}`}
+          role="progressbar"
+          aria-valuenow={pct}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={label}
+        >
+          <div className="progress-linear__fill" style={{ width: `${pct}%` }} />
+        </div>
+        <span className="progress-linear__percentage">{pct}%</span>
+      </div>
+      {subtext && (
+        <span className="progress-linear__subtext">{subtext}</span>
+      )}
+    </div>
+  );
 }

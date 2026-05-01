@@ -39,7 +39,38 @@ export default meta;
 
 type Story = StoryObj<typeof ProgressBar>;
 
-/* ─── Heading + Subtext ──────────────────────────────────────────────────────── */
+/* ─── Linear standalone ──────────────────────────────────────────────────────── */
+
+export const LinearStandalone: Story = {
+  name: 'Linear — Standalone',
+  render: () => {
+    const label = (text: string) => (
+      <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>{text}</p>
+    );
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 28, maxWidth: 400 }}>
+        <div>
+          {label('Small — default / success / error')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <ProgressBar type="linear" size="sm" status="default" value={60} />
+            <ProgressBar type="linear" size="sm" status="success" value={100} />
+            <ProgressBar type="linear" size="sm" status="error" value={40} />
+          </div>
+        </div>
+        <div>
+          {label('Large — default / success / error')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <ProgressBar type="linear" size="lg" status="default" value={60} />
+            <ProgressBar type="linear" size="lg" status="success" value={100} />
+            <ProgressBar type="linear" size="lg" status="error" value={40} />
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+/* ─── Linear with heading + subtext ─────────────────────────────────────────── */
 
 export const WithHeadingAndSubtext: Story = {
   name: 'Linear — Heading & Subtext',
@@ -50,24 +81,20 @@ export const WithHeadingAndSubtext: Story = {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 32, maxWidth: 400 }}>
         <div>
-          {label('Default — with heading & subtext')}
-          <ProgressBar type="linear" size="lg" status="default" value={60} heading="Uploading files" subtext="3 of 5 files uploaded" />
+          {label('Large — heading & subtext')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <ProgressBar type="linear" size="lg" status="default" value={60} heading="Uploading files" subtext="3 of 5 files uploaded" />
+            <ProgressBar type="linear" size="lg" status="success" value={100} heading="Upload complete" subtext="All files uploaded successfully" />
+            <ProgressBar type="linear" size="lg" status="error" value={40} heading="Upload failed" subtext="Connection interrupted at 40%" />
+          </div>
         </div>
         <div>
-          {label('Success — with heading & subtext')}
-          <ProgressBar type="linear" size="lg" status="success" value={100} heading="Upload complete" subtext="All files uploaded successfully" />
-        </div>
-        <div>
-          {label('Error — with heading & subtext')}
-          <ProgressBar type="linear" size="lg" status="error" value={40} heading="Upload failed" subtext="Connection interrupted at 40%" />
-        </div>
-        <div>
-          {label('Heading only')}
-          <ProgressBar type="linear" size="sm" status="default" value={75} heading="Processing" />
-        </div>
-        <div>
-          {label('Subtext only')}
-          <ProgressBar type="linear" size="sm" status="default" value={30} subtext="30% complete" />
+          {label('Small — heading & subtext')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <ProgressBar type="linear" size="sm" status="default" value={75} heading="Processing" subtext="Step 3 of 4" />
+            <ProgressBar type="linear" size="sm" status="default" value={75} heading="Processing" />
+            <ProgressBar type="linear" size="sm" status="default" value={30} subtext="30% complete" />
+          </div>
         </div>
       </div>
     );
