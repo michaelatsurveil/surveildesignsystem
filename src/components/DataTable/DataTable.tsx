@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search } from 'lucide-react';
+import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert } from 'lucide-react';
+import { Button } from '../Button/Button';
 import './DataTable.css';
 
 export interface DataTableToolbar {
@@ -62,8 +63,57 @@ export interface DataTableProps<T = Record<string, unknown>> {
   toolbar?: DataTableToolbar;
   /** Pagination configuration */
   pagination?: DataTablePagination;
+  /** Content shown when rows is empty. Use <DataTableEmptyState> for the standard empty state. */
+  emptyState?: React.ReactNode;
   /** Optional additional class name for the wrapper */
   className?: string;
+}
+
+/* ─── Empty State ──────────────────────────────────────────────────────────── */
+
+export interface DataTableEmptyStateProps {
+  /** Primary heading. Defaults to "No data to show" */
+  heading?: string;
+  /** Supporting description. Defaults to "This table will automatically update once data is available" */
+  description?: string;
+  /** Primary (filled) action button */
+  primaryAction?: { label: string; onClick?: () => void };
+  /** Secondary (outline) action button */
+  secondaryAction?: { label: string; onClick?: () => void };
+}
+
+export function DataTableEmptyState({
+  heading     = 'No data to show',
+  description = 'This table will automatically update once data is available',
+  primaryAction,
+  secondaryAction,
+}: DataTableEmptyStateProps) {
+  const showActions = primaryAction || secondaryAction;
+  return (
+    <div className="data-table__empty">
+      <div className="data-table__empty-icon">
+        <CircleAlert size={24} strokeWidth={1.5} />
+      </div>
+      <div className="data-table__empty-text">
+        <p className="data-table__empty-heading">{heading}</p>
+        <p className="data-table__empty-description">{description}</p>
+      </div>
+      {showActions && (
+        <div className="data-table__empty-actions">
+          {secondaryAction && (
+            <Button variant="secondary" size="sm" onClick={secondaryAction.onClick}>
+              {secondaryAction.label}
+            </Button>
+          )}
+          {primaryAction && (
+            <Button variant="primary" size="sm" onClick={primaryAction.onClick}>
+              {primaryAction.label}
+            </Button>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function DataTable<T extends Record<string, unknown>>({
@@ -75,6 +125,7 @@ export function DataTable<T extends Record<string, unknown>>({
   onSelectionChange,
   toolbar,
   pagination,
+  emptyState,
   className = '',
 }: DataTableProps<T>) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -156,6 +207,7 @@ export function DataTable<T extends Record<string, unknown>>({
           </div>
         </div>
       )}
+      {rows.length === 0 && emptyState ? emptyState : (
       <table className="data-table">
         <thead className="data-table__head">
           <tr>
@@ -220,8 +272,9 @@ export function DataTable<T extends Record<string, unknown>>({
           })}
         </tbody>
       </table>
+      )}
 
-      {pagination && (
+      {pagination && rows.length > 0 && (
         <div className="data-table__pagination">
           <div className="data-table__pagination-nav">
             <button

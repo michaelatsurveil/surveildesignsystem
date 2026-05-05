@@ -4,7 +4,7 @@ import {
   MoreVertical, ChevronRight, ChevronDown,
   Mail, ExternalLink, ArrowUpRight,
 } from 'lucide-react';
-import { DataTable } from './DataTable';
+import { DataTable, DataTableEmptyState } from './DataTable';
 import { Tag } from '../Tag/Tag';
 import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
@@ -114,6 +114,72 @@ export const Default: Story = {
       />
     );
   },
+};
+
+// ─── Empty State story ─────────────────────────────────────────────────────
+
+export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {
+  name: 'Empty State',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'When a table has no rows, pass `emptyState={<DataTableEmptyState />}` to show the standard empty state. The toolbar still renders; pagination is hidden. Use `heading`, `description`, `primaryAction`, and `secondaryAction` props to customise the message and call-to-action buttons.',
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
+
+      {/* With action bar */}
+      <div>
+        <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>With action buttons</p>
+        <DataTable<TenantRow>
+          columns={overviewColumns}
+          rows={[]}
+          getRowId={(row) => row.tenantEmail}
+          toolbar={{ title: 'Tenants', onFilter: () => {}, onRefresh: () => {}, onDownload: () => {} }}
+          emptyState={
+            <DataTableEmptyState
+              secondaryAction={{ label: 'Import data' }}
+              primaryAction={{ label: 'Add tenant' }}
+            />
+          }
+        />
+      </div>
+
+      {/* Without action bar */}
+      <div>
+        <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Without action buttons</p>
+        <DataTable<TenantRow>
+          columns={overviewColumns}
+          rows={[]}
+          getRowId={(row) => row.tenantEmail}
+          toolbar={{ title: 'Tenants' }}
+          emptyState={<DataTableEmptyState />}
+        />
+      </div>
+
+      {/* Custom message */}
+      <div>
+        <p style={{ margin: '0 0 12px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>Custom heading & description</p>
+        <DataTable<TenantRow>
+          columns={overviewColumns}
+          rows={[]}
+          getRowId={(row) => row.tenantEmail}
+          toolbar={{ title: 'Tenants' }}
+          emptyState={
+            <DataTableEmptyState
+              heading="No tenants found"
+              description="Try adjusting your search or filters to find what you're looking for."
+              primaryAction={{ label: 'Clear filters' }}
+            />
+          }
+        />
+      </div>
+
+    </div>
+  ),
 };
 
 // ─── Cell Types story ──────────────────────────────────────────────────────
