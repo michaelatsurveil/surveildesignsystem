@@ -226,25 +226,47 @@ export const Surveil: Story = {
               padding: 'var(--scale-500, 20px)',
             }}
           >
+            {/* Page header: title + subtext left, dropdown right */}
             <div
               style={{
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
                 gap: 'var(--scale-400, 16px)',
               }}
             >
-              <h1
+              <div
                 style={{
-                  margin: 0,
-                  fontFamily: 'var(--font-family-body, Roboto, system-ui, sans-serif)',
-                  fontSize: '20px',
-                  fontWeight: 600,
-                  lineHeight: '28px',
-                  color: 'var(--color-grey-700, #272727)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 'var(--scale-100, 4px)',
                 }}
               >
-                Date in Month Date, Year - Month Date, Year
-              </h1>
+                <h1
+                  style={{
+                    margin: 0,
+                    fontFamily: 'var(--font-family-headings, Roboto, system-ui, sans-serif)',
+                    fontSize: '20px',
+                    fontWeight: 'var(--font-weight-semibold, 600)' as React.CSSProperties['fontWeight'],
+                    lineHeight: 'var(--scale-700, 28px)',
+                    color: 'var(--color-grey-700, #272727)',
+                  }}
+                >
+                  Date in Month Date, Year - Month Date, Year
+                </h1>
+                <p
+                  style={{
+                    margin: 0,
+                    fontFamily: 'var(--font-family-body, Roboto, system-ui, sans-serif)',
+                    fontSize: '14px',
+                    fontWeight: 'var(--font-weight-regular, 400)' as React.CSSProperties['fontWeight'],
+                    lineHeight: 'var(--scale-400, 16px)',
+                    color: 'var(--color-grey-400, #818181)',
+                  }}
+                >
+                  Subtext goes here
+                </p>
+              </div>
               <Dropdown
                 options={dateRangeOptions}
                 value={dateRange}
