@@ -545,22 +545,41 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
   background: var(--color-grey-25, #f7f7f7);
 }
 
-/* Flex row: label + tag on the left, dropdown button on the right */
 .data-table__cell--group-header {
   display: flex;
   align-items: center;
-  gap: var(--scale-200, 8px);
   width: 100%;
+}
+
+/* Toggle button: bold label + circle tag + chevron, all inline */
+.data-table__group-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   font-size: 12px;
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--color-text-body, #616161);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-grey-700, #272727);
   letter-spacing: 0.02em;
 }
 
-.data-table__cell--group-header-actions {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
+.data-table__group-toggle:focus-visible {
+  outline: none;
+  border-radius: var(--radius-sm, 2px);
+  box-shadow: 0 0 0 3px rgba(49, 101, 173, 0.2);
+}
+
+.data-table__group-toggle-chevron {
+  color: var(--color-grey, #616161);
+  transition: transform 0.15s ease;
+}
+
+.data-table__group-toggle-chevron--collapsed {
+  transform: rotate(-90deg);
 }
 
 /* Badge-style cell (e.g. Status) */
