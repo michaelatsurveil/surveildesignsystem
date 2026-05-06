@@ -28,6 +28,10 @@ export interface DataTableColumn<T = Record<string, unknown>> {
   sortable?: boolean;
   /** Custom cell renderer */
   render?: (value: unknown, row: T) => React.ReactNode;
+  /** Render cell as an editable text input (ignored when render is also set) */
+  editable?: boolean;
+  /** Called when an editable cell's value changes */
+  onCellChange?: (value: string, row: T) => void;
   /** Extra class name applied to the <th> for this column */
   headerClassName?: string;
 }
@@ -261,9 +265,19 @@ export function DataTable<T extends Record<string, unknown>>({
                 )}
                 {columns.map((col) => (
                   <td key={col.id} className="data-table__cell">
-                    {col.render
-                      ? col.render(row[col.id], row)
-                      : (row[col.id] as React.ReactNode)}
+                    {col.editable && !col.render
+                      ? (
+                        <input
+                          type="text"
+                          className="data-table__cell-input"
+                          defaultValue={String(row[col.id] ?? '')}
+                          onChange={(e) => col.onCellChange?.(e.target.value, row)}
+                          aria-label={col.header}
+                        />
+                      )
+                      : col.render
+                        ? col.render(row[col.id], row)
+                        : (row[col.id] as React.ReactNode)}
                   </td>
                 ))}
               </tr>

@@ -540,16 +540,27 @@
 }
 
 /* ── Row Group Header ────────────────────────────────────────────────── */
-/* Inner element that bleeds to cell edges, creating a full-width group row */
+/* Apply background directly to the td so there are no inter-cell gaps */
+td.data-table__cell:has(> .data-table__cell--group-header) {
+  background: var(--color-grey-25, #f7f7f7);
+}
+
+/* Flex row: label + tag on the left, dropdown button on the right */
 .data-table__cell--group-header {
-  display: block;
-  margin: -8px -16px;
-  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+  width: 100%;
   font-size: 12px;
   font-weight: var(--font-weight-medium, 500);
   color: var(--color-text-body, #616161);
-  background: var(--color-grey-25, #f7f7f7);
   letter-spacing: 0.02em;
+}
+
+.data-table__cell--group-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
 
 /* Badge-style cell (e.g. Status) */

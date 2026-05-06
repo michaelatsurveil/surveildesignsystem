@@ -561,6 +561,8 @@ type StatusGroupRow = {
   id: string;
   rowType: 'group' | 'data';
   groupLabel?: string;
+  groupCount?: number;
+  groupStatus?: 'success' | 'attention' | 'default';
   tenant?: string;
   email?: string;
   devices?: string;
@@ -568,20 +570,18 @@ type StatusGroupRow = {
 };
 
 const statusGroupData: StatusGroupRow[] = [
-  { id: 'g-active',   rowType: 'group', groupLabel: 'Active' },
-  { id: 'd-1', rowType: 'data', tenant: 'Contoso',         email: 'admin@contoso.com',       devices: '480', status: 'Active'   },
-  { id: 'd-2', rowType: 'data', tenant: 'Fabrikam',        email: 'admin@fabrikam.com',       devices: '390', status: 'Active'   },
-  { id: 'd-3', rowType: 'data', tenant: 'Adventure Works', email: 'admin@adventure.com',      devices: '612', status: 'Active'   },
-  { id: 'g-pending',  rowType: 'group', groupLabel: 'Pending' },
-  { id: 'd-4', rowType: 'data', tenant: 'Northwind',       email: 'admin@northwind.com',      devices: '210', status: 'Pending'  },
-  { id: 'd-5', rowType: 'data', tenant: 'Tailspin Toys',   email: 'admin@tailspin.com',       devices: '145', status: 'Pending'  },
-  { id: 'g-inactive', rowType: 'group', groupLabel: 'Inactive' },
-  { id: 'd-6', rowType: 'data', tenant: 'Proseware',       email: 'admin@proseware.com',      devices: '0',   status: 'Inactive' },
+  { id: 'g-active',   rowType: 'group', groupLabel: 'Active',   groupCount: 3, groupStatus: 'success'   },
+  { id: 'd-1', rowType: 'data', tenant: 'Contoso',         email: 'admin@contoso.com',   devices: '480', status: 'Active'   },
+  { id: 'd-2', rowType: 'data', tenant: 'Fabrikam',        email: 'admin@fabrikam.com',  devices: '390', status: 'Active'   },
+  { id: 'd-3', rowType: 'data', tenant: 'Adventure Works', email: 'admin@adventure.com', devices: '612', status: 'Active'   },
+  { id: 'g-pending',  rowType: 'group', groupLabel: 'Pending',  groupCount: 2, groupStatus: 'attention' },
+  { id: 'd-4', rowType: 'data', tenant: 'Northwind',       email: 'admin@northwind.com', devices: '210', status: 'Pending'  },
+  { id: 'd-5', rowType: 'data', tenant: 'Tailspin Toys',   email: 'admin@tailspin.com',  devices: '145', status: 'Pending'  },
+  { id: 'g-inactive', rowType: 'group', groupLabel: 'Inactive', groupCount: 1, groupStatus: 'default'   },
+  { id: 'd-6', rowType: 'data', tenant: 'Proseware',       email: 'admin@proseware.com', devices: '0',   status: 'Inactive' },
 ];
 
-function groupHeaderCell(row: StatusGroupRow) {
-  return <span className="data-table__cell--group-header" role="presentation" />;
-}
+const emptyGroupCell = <span className="data-table__cell--group-header" role="presentation" />;
 
 export const RowGroups: StoryObj<typeof DataTable<StatusGroupRow>> = {
   name: 'Row Groups',
@@ -589,12 +589,11 @@ export const RowGroups: StoryObj<typeof DataTable<StatusGroupRow>> = {
     docs: {
       description: {
         story:
-          'Use row group headers to visually organise rows by a shared attribute (e.g. status, region, category). ' +
-          'A group header spans the full table width using the `.data-table__cell--group-header` class, which bleeds ' +
-          'a gray background to the cell edges. **Implementation:** inject group rows into the data array with a ' +
-          'discriminator field (e.g. `rowType: "group"`), then in every column\'s `render` function check the type — ' +
-          'render the label span in the first column and an empty `role="presentation"` span in the rest. ' +
-          'Group rows should be excluded from selection (omit checkbox logic for `rowType === "group"`).',
+          'Use row group headers to visually organise rows by a shared attribute (e.g. status, category). ' +
+          'The `.data-table__cell--group-header` class is placed on a `<span>` in every cell of the group row — ' +
+          'a `td:has(> .data-table__cell--group-header)` rule in the stylesheet applies the gray background directly ' +
+          'to the `<td>`, eliminating inter-cell gaps. The first column renders the label, a count **Tag**, and a ' +
+          'right-aligned actions button; remaining columns render an empty presentation span to trigger the same rule.',
       },
     },
   },
@@ -603,28 +602,40 @@ export const RowGroups: StoryObj<typeof DataTable<StatusGroupRow>> = {
       {
         id: 'tenant',
         header: 'Tenant',
-        render: (_: unknown, row: StatusGroupRow) =>
-          row.rowType === 'group'
-            ? <span className="data-table__cell--group-header">{row.groupLabel}</span>
-            : <span>{row.tenant}</span>,
+        render: (_: unknown, row: StatusGroupRow) => {
+          if (row.rowType === 'group') {
+            return (
+              <span className="data-table__cell--group-header">
+                {row.groupLabel}
+                <Tag variant={row.groupStatus ?? 'default'} size="sm">{row.groupCount}</Tag>
+                <span className="data-table__cell--group-header-actions">
+                  <button type="button" className="data-table__cell-more" aria-label="Group options">
+                    <MoreVertical size={14} strokeWidth={2} />
+                  </button>
+                </span>
+              </span>
+            );
+          }
+          return <span>{row.tenant}</span>;
+        },
       },
       {
         id: 'email',
         header: 'Email',
         render: (_: unknown, row: StatusGroupRow) =>
-          row.rowType === 'group' ? groupHeaderCell(row) : <span>{row.email}</span>,
+          row.rowType === 'group' ? emptyGroupCell : <span>{row.email}</span>,
       },
       {
         id: 'devices',
         header: 'Devices',
         render: (_: unknown, row: StatusGroupRow) =>
-          row.rowType === 'group' ? groupHeaderCell(row) : <span>{row.devices}</span>,
+          row.rowType === 'group' ? emptyGroupCell : <span>{row.devices}</span>,
       },
       {
         id: 'status',
         header: 'Status',
         render: (value: unknown, row: StatusGroupRow) =>
-          row.rowType === 'group' ? groupHeaderCell(row) : (
+          row.rowType === 'group' ? emptyGroupCell : (
             <Tag
               variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'default'}
               size="sm"
@@ -641,6 +652,80 @@ export const RowGroups: StoryObj<typeof DataTable<StatusGroupRow>> = {
         rows={statusGroupData}
         getRowId={(row) => row.id}
         toolbar={{ title: 'Tenants by Status' }}
+      />
+    );
+  },
+};
+
+// ─── Editable Cells story ──────────────────────────────────────────────────
+
+type EditableRow = {
+  id: string;
+  tenant: string;
+  email: string;
+  devices: string;
+  status: string;
+};
+
+const editableBaseRows: EditableRow[] = [
+  { id: 'e-1', tenant: 'Contoso',         email: 'admin@contoso.com',   devices: '480', status: 'Active'  },
+  { id: 'e-2', tenant: 'Fabrikam',        email: 'admin@fabrikam.com',  devices: '390', status: 'Active'  },
+  { id: 'e-3', tenant: 'Northwind',       email: 'admin@northwind.com', devices: '210', status: 'Pending' },
+  { id: 'e-4', tenant: 'Adventure Works', email: 'admin@adventure.com', devices: '612', status: 'Active'  },
+];
+
+export const EditableCells: StoryObj<typeof DataTable<EditableRow>> = {
+  name: 'Editable Cells',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Set `editable: true` on a column to render its cells as inline text inputs. ' +
+          'Pair with `onCellChange` to receive live updates — the callback receives the new string value and the full row object. ' +
+          '`editable` is ignored when a custom `render` function is also provided on the same column.',
+      },
+    },
+  },
+  render: function EditableCellsStory() {
+    const [rows, setRows] = useState<EditableRow[]>(editableBaseRows);
+
+    const handleChange = (field: keyof EditableRow) => (value: string, row: EditableRow) => {
+      setRows((prev) =>
+        prev.map((r) => (r.id === row.id ? { ...r, [field]: value } : r))
+      );
+    };
+
+    const columns = [
+      {
+        id: 'tenant',
+        header: 'Tenant',
+        editable: true,
+        onCellChange: handleChange('tenant'),
+      },
+      {
+        id: 'email',
+        header: 'Email',
+        editable: true,
+        onCellChange: handleChange('email'),
+      },
+      { id: 'devices', header: 'Devices' },
+      {
+        id: 'status',
+        header: 'Status',
+        render: (value: unknown) => (
+          <Tag variant={value === 'Active' ? 'success' : 'attention'} size="sm">
+            {String(value)}
+          </Tag>
+        ),
+      },
+    ];
+
+    return (
+      <DataTable<EditableRow>
+        columns={columns as never}
+        rows={rows}
+        getRowId={(row) => row.id}
+        toolbar={{ title: 'Editable Tenants' }}
       />
     );
   },
