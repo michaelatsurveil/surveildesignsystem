@@ -133,7 +133,6 @@ export const Surveil: Story = {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
                 gap: 'var(--scale-400, 16px)',
               }}
             >
