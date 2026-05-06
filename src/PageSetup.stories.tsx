@@ -11,6 +11,7 @@ import {
   SlidersHorizontal,
   Settings,
   LogOut,
+  Star,
   Calendar,
 } from 'lucide-react';
 import { Sidebar } from './components/Sidebar/Sidebar';
@@ -70,6 +71,102 @@ const dateRangeOptions = [
   { value: 'last-12m', label: 'Last 12 Months' },
   { value: 'ytd', label: 'Year to Date' },
 ];
+
+const navigatorNavItems: SidebarNavItem[] = [
+  { label: 'Home', icon: <Home size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: false },
+  { label: 'Azure', icon: <Cloud size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'MultiCloud', icon: <CloudCog size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Microsoft 365', icon: <Monitor size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Alerts and Metrics', icon: <Bell size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Custom Analytics', icon: <BarChart2 size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Partner', icon: <Users size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Configuration', icon: <SlidersHorizontal size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+  { label: 'Settings', icon: <Settings size={iconSize} strokeWidth={stroke} />, href: '#', showCaret: true },
+];
+
+export const Navigator: Story = {
+  name: 'Navigator',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Baseline layout using the white Navigator sidebar. Includes the Topbar, a Tabs bar, and a content area with a page title. Use this as the starting point for any new Navigator page prototype.',
+      },
+    },
+  },
+  render: () => {
+    const [activeTab, setActiveTab] = useState('tab1');
+
+    const navigatorFooter = (
+      <>
+        <button type="button" className="sidebar__logout">
+          <span className="sidebar__logout-icon">
+            <Star size={16} strokeWidth={stroke} />
+          </span>
+          Whats new
+        </button>
+        <button type="button" className="sidebar__logout">
+          <span className="sidebar__logout-icon">
+            <LogOut size={16} strokeWidth={stroke} />
+          </span>
+          Logout
+        </button>
+      </>
+    );
+
+    return (
+      <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', fontFamily: 'var(--font-family-body, Roboto, system-ui, sans-serif)' }}>
+        {/* Navigator sidebar */}
+        <Sidebar
+          variant="navigator"
+          navItems={navigatorNavItems}
+          user={{ name: 'ITEXACT Limited', email: 'jade.chau@surveil.co', href: '#' }}
+          footer={navigatorFooter}
+          width={192}
+        />
+
+        {/* Main chrome */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
+          {/* Topbar */}
+          <Topbar
+            breadcrumbs={[
+              { label: 'Default breadcrumb', href: '#' },
+              { label: 'Active Breadcrumb' },
+            ]}
+          />
+
+          {/* Tab bar */}
+          <div style={{ background: 'var(--color-white, #ffffff)' }}>
+            <Tabs options={tabOptions} value={activeTab} onChange={setActiveTab} />
+          </div>
+
+          {/* Page content */}
+          <main
+            style={{
+              flex: 1,
+              overflow: 'auto',
+              background: 'var(--color-grey-50, #efefef)',
+              padding: 'var(--scale-500, 20px)',
+            }}
+          >
+            <h1
+              style={{
+                margin: 0,
+                fontFamily: 'var(--font-family-body, Roboto, system-ui, sans-serif)',
+                fontSize: '20px',
+                fontWeight: 600,
+                lineHeight: '28px',
+                color: 'var(--color-grey-700, #272727)',
+              }}
+            >
+              Title
+            </h1>
+          </main>
+        </div>
+      </div>
+    );
+  },
+};
 
 export const Surveil: Story = {
   name: 'Surveil',
