@@ -37,7 +37,7 @@ type Story = StoryObj<typeof StatisticCard>;
 export const Default: Story = {
   name: 'Overview — All Variants',
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
       <StatisticCard
         title="Revenue"
         icon={<AlertCircle size={20} strokeWidth={2} color="currentColor" />}

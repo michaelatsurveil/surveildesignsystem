@@ -375,6 +375,13 @@ function renderCellPreview(type: string): React.ReactNode {
         />
       );
 
+    case 'row-group-header':
+      return (
+        <span className="data-table__cell--group-header">
+          Group Name
+        </span>
+      );
+
     default:
       return null;
   }
@@ -405,6 +412,7 @@ const cellTypeRows: CellTypeRow[] = [
   { id: '21', label: 'Summary',                cellType: 'summary' },
   { id: '22', label: 'Summary (Bold)',         cellType: 'summary-bold' },
   { id: '23', label: 'Input',                  cellType: 'input' },
+  { id: '24', label: 'Row Group Header',        cellType: 'row-group-header' },
 ];
 
 const cellTypeColumns = [
@@ -430,7 +438,7 @@ export const CellTypes: StoryObj<typeof DataTable<CellTypeRow>> = {
     docs: {
       description: {
         story:
-          'All 24 data cell variants available via the `render` prop: text, bold, text+subtext, text+subtext (right), number, number w/ icon, badge, multiple badges, button, icon button, link button, link button (multiple), checkbox, toggle, avatar, avatar group, more, empty, heading–chevron text, tree item, child tree item, summary, summary (bold), and input.',
+          'All 25 data cell variants available via the `render` prop: text, bold, text+subtext, text+subtext (right), number, number w/ icon, badge, multiple badges, button, icon button, link button, link button (multiple), checkbox, toggle, avatar, avatar group, more, empty, heading–chevron text, tree item, child tree item, summary, summary (bold), input, and row group header.',
       },
     },
   },
@@ -542,6 +550,97 @@ export const TreeView: StoryObj<typeof DataTable<TreeRow>> = {
         rows={visibleRows}
         getRowId={(row) => row.id}
         toolbar={{ title: 'Tenants by Region' }}
+      />
+    );
+  },
+};
+
+// ─── Row Groups story ──────────────────────────────────────────────────────
+
+type StatusGroupRow = {
+  id: string;
+  rowType: 'group' | 'data';
+  groupLabel?: string;
+  tenant?: string;
+  email?: string;
+  devices?: string;
+  status?: string;
+};
+
+const statusGroupData: StatusGroupRow[] = [
+  { id: 'g-active',   rowType: 'group', groupLabel: 'Active' },
+  { id: 'd-1', rowType: 'data', tenant: 'Contoso',         email: 'admin@contoso.com',       devices: '480', status: 'Active'   },
+  { id: 'd-2', rowType: 'data', tenant: 'Fabrikam',        email: 'admin@fabrikam.com',       devices: '390', status: 'Active'   },
+  { id: 'd-3', rowType: 'data', tenant: 'Adventure Works', email: 'admin@adventure.com',      devices: '612', status: 'Active'   },
+  { id: 'g-pending',  rowType: 'group', groupLabel: 'Pending' },
+  { id: 'd-4', rowType: 'data', tenant: 'Northwind',       email: 'admin@northwind.com',      devices: '210', status: 'Pending'  },
+  { id: 'd-5', rowType: 'data', tenant: 'Tailspin Toys',   email: 'admin@tailspin.com',       devices: '145', status: 'Pending'  },
+  { id: 'g-inactive', rowType: 'group', groupLabel: 'Inactive' },
+  { id: 'd-6', rowType: 'data', tenant: 'Proseware',       email: 'admin@proseware.com',      devices: '0',   status: 'Inactive' },
+];
+
+function groupHeaderCell(row: StatusGroupRow) {
+  return <span className="data-table__cell--group-header" role="presentation" />;
+}
+
+export const RowGroups: StoryObj<typeof DataTable<StatusGroupRow>> = {
+  name: 'Row Groups',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Use row group headers to visually organise rows by a shared attribute (e.g. status, region, category). ' +
+          'A group header spans the full table width using the `.data-table__cell--group-header` class, which bleeds ' +
+          'a gray background to the cell edges. **Implementation:** inject group rows into the data array with a ' +
+          'discriminator field (e.g. `rowType: "group"`), then in every column\'s `render` function check the type — ' +
+          'render the label span in the first column and an empty `role="presentation"` span in the rest. ' +
+          'Group rows should be excluded from selection (omit checkbox logic for `rowType === "group"`).',
+      },
+    },
+  },
+  render: () => {
+    const columns = [
+      {
+        id: 'tenant',
+        header: 'Tenant',
+        render: (_: unknown, row: StatusGroupRow) =>
+          row.rowType === 'group'
+            ? <span className="data-table__cell--group-header">{row.groupLabel}</span>
+            : <span>{row.tenant}</span>,
+      },
+      {
+        id: 'email',
+        header: 'Email',
+        render: (_: unknown, row: StatusGroupRow) =>
+          row.rowType === 'group' ? groupHeaderCell(row) : <span>{row.email}</span>,
+      },
+      {
+        id: 'devices',
+        header: 'Devices',
+        render: (_: unknown, row: StatusGroupRow) =>
+          row.rowType === 'group' ? groupHeaderCell(row) : <span>{row.devices}</span>,
+      },
+      {
+        id: 'status',
+        header: 'Status',
+        render: (value: unknown, row: StatusGroupRow) =>
+          row.rowType === 'group' ? groupHeaderCell(row) : (
+            <Tag
+              variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'default'}
+              size="sm"
+            >
+              {String(value)}
+            </Tag>
+          ),
+      },
+    ];
+
+    return (
+      <DataTable<StatusGroupRow>
+        columns={columns as never}
+        rows={statusGroupData}
+        getRowId={(row) => row.id}
+        toolbar={{ title: 'Tenants by Status' }}
       />
     );
   },

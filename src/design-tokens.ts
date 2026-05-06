@@ -111,6 +111,14 @@ export const tokens = {
       default: '#ffffff',
       alt: '#f9fafb',
     },
+    // Surface
+    surface: {
+      default: '#f7f7f7',
+    },
+    // Text
+    text: {
+      body: '#616161',
+    },
     // Border
     border: {
       light: '#e5e7eb',

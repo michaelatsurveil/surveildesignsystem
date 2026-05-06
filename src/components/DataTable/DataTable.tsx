@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert } from 'lucide-react';
 import { Button } from '../Button/Button';
+import { Icon } from '../Icon/Icon';
 import './DataTable.css';
 
 export interface DataTableToolbar {
@@ -91,9 +92,7 @@ export function DataTableEmptyState({
   const showActions = primaryAction || secondaryAction;
   return (
     <div className="data-table__empty">
-      <div className="data-table__empty-icon">
-        <CircleAlert size={24} strokeWidth={1.5} />
-      </div>
+      <Icon icon={CircleAlert} size="lg" color="primary" background="primary" strokeWidth={1.5} />
       <div className="data-table__empty-text">
         <p className="data-table__empty-heading">{heading}</p>
         <p className="data-table__empty-description">{description}</p>
@@ -101,12 +100,12 @@ export function DataTableEmptyState({
       {showActions && (
         <div className="data-table__empty-actions">
           {secondaryAction && (
-            <Button variant="secondary" size="sm" onClick={secondaryAction.onClick}>
+            <Button variant="secondary" size="md" onClick={secondaryAction.onClick}>
               {secondaryAction.label}
             </Button>
           )}
           {primaryAction && (
-            <Button variant="primary" size="sm" onClick={primaryAction.onClick}>
+            <Button variant="primary" size="md" onClick={primaryAction.onClick}>
               {primaryAction.label}
             </Button>
           )}

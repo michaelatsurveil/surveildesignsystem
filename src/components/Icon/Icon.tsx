@@ -14,6 +14,8 @@ export type IconColor =
   | 'warning'
   | 'inherit';
 
+export type IconBackground = 'default' | 'muted' | 'primary' | 'success' | 'error' | 'warning';
+
 export interface IconProps {
   /** Lucide icon component */
   icon: LucideIcon;
@@ -21,6 +23,8 @@ export interface IconProps {
   size?: IconSize;
   /** Icon color variant */
   color?: IconColor;
+  /** Wrap icon in a padded background container using the palette's tint color */
+  background?: IconBackground;
   /** Override stroke width (default: 2) */
   strokeWidth?: number;
   /** Additional class name */
@@ -51,10 +55,20 @@ const colorMap: Record<IconColor, string> = {
   inherit: 'currentColor',
 };
 
+const backgroundMap: Record<IconBackground, string> = {
+  default: tokens.color.grey[50],
+  muted:   tokens.color.grey[50],
+  primary: tokens.color.primary[50],
+  success: tokens.color.success[50],
+  error:   tokens.color.error[50],
+  warning: tokens.color.warning[50],
+};
+
 export function Icon({
   icon: IconComponent,
   size = 'md',
   color = 'default',
+  background,
   strokeWidth = 2,
   className = '',
   style,
@@ -64,6 +78,28 @@ export function Icon({
 }: IconProps & Omit<React.SVGAttributes<SVGSVGElement>, 'color'>) {
   const pixelSize = sizeMap[size];
   const iconColor = colorMap[color];
+
+  if (background) {
+    return (
+      <span
+        className={className || undefined}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: tokens.scale[200],
+          background: backgroundMap[background],
+          borderRadius: tokens.radius.md,
+          flexShrink: 0,
+          ...style,
+        }}
+        aria-hidden={ariaHidden ?? (ariaLabel ? undefined : true)}
+        aria-label={ariaLabel}
+      >
+        <IconComponent size={pixelSize} strokeWidth={strokeWidth} color={iconColor} aria-hidden />
+      </span>
+    );
+  }
 
   return (
     <IconComponent
