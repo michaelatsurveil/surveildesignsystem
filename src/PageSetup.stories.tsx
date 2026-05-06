@@ -12,7 +12,6 @@ import {
   Settings,
   LogOut,
   Calendar,
-  Code2,
 } from 'lucide-react';
 import { Sidebar } from './components/Sidebar/Sidebar';
 import { Topbar } from './components/Topbar/Topbar';
@@ -27,8 +26,13 @@ const meta: Meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component:
-          'Reference page layouts for prototyping. Assembles core DS components (Sidebar, Topbar, Tabs, Dropdown) into a production-accurate shell. Use these as a base when building new page designs.',
+        component: `
+**For prototyping purposes only.**
+
+Page Setup provides the baseline layout shells used across all Surveil designs. When creating a prototype from scratch, always start from one of these setups — they assemble the correct DS components (Sidebar, Topbar, Tabs, Dropdown) in the right hierarchy so spacing, sizing, and component behaviour match production.
+
+> Do not use these layouts to build production code. They exist solely as a shared starting point for design work and interactive prototypes.
+        `.trim(),
       },
     },
   },
@@ -73,7 +77,7 @@ export const Surveil: Story = {
     docs: {
       description: {
         story:
-          'Full-page shell using the dark Surveil sidebar. Includes Topbar with breadcrumb, Tabs bar, and a content area with a date-range Dropdown.',
+          'Baseline layout using the dark Surveil sidebar. Includes the Topbar, a Tabs bar, and a content area with a page title and date-range Dropdown. Use this as the starting point for any new Surveil page prototype.',
       },
     },
   },
@@ -106,7 +110,6 @@ export const Surveil: Story = {
           {/* Topbar */}
           <Topbar
             breadcrumbs={[
-              { icon: <Code2 size={14} strokeWidth={stroke} />, href: '#' },
               { label: 'Default breadcrumb', href: '#' },
               { label: 'Active Breadcrumb' },
             ]}
