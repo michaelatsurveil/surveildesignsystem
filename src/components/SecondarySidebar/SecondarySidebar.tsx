@@ -12,7 +12,8 @@
  */
 
 import { useState } from 'react';
-import { ChevronsLeftRight } from 'lucide-react';
+import { ChevronsLeftRight, Menu } from 'lucide-react';
+import { Button } from '../Button/Button';
 import './SecondarySidebar.css';
 
 export interface SecondarySidebarItem {
@@ -41,6 +42,11 @@ export interface SecondarySidebarProps {
   collapsedWidth?: number;
   /** Show the collapse toggle; default false */
   collapsible?: boolean;
+  /**
+   * Show a tertiary "≡ Menu" button positioned 10px to the right of and
+   * below the sidebar — alternative collapse trigger (old-version style).
+   */
+  menuToggle?: boolean;
   /** Start collapsed; default false */
   defaultCollapsed?: boolean;
   onCollapseChange?: (collapsed: boolean) => void;
@@ -55,6 +61,7 @@ export function SecondarySidebar({
   width = 250,
   collapsedWidth = 48,
   collapsible = false,
+  menuToggle = false,
   defaultCollapsed = false,
   onCollapseChange,
   className = '',
@@ -154,6 +161,20 @@ export function SecondarySidebar({
           </div>
         )}
       </aside>
+
+      {/* ── External menu toggle (old-version style) ── */}
+      {menuToggle && (
+        <Button
+          variant="tertiary"
+          size="sm"
+          className="secondary-sidebar__menu-toggle"
+          onClick={handleToggle}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          <Menu size={14} aria-hidden />
+          Menu
+        </Button>
+      )}
     </div>
   );
 }

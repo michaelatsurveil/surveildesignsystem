@@ -5,6 +5,8 @@ import {
   FileText,
   ArrowLeft,
   Lock,
+  ShieldCheck,
+  ClipboardList,
 } from 'lucide-react';
 import { SecondarySidebar } from './SecondarySidebar';
 
@@ -78,6 +80,45 @@ export const Default: Story = {
         version="Version 4.3.3"
         collapsible
       />
+    );
+  },
+};
+
+export const OldVersion: Story = {
+  name: 'Old Version',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Secondary sidebar with the external "≡ Menu" collapse trigger. The tertiary button sits 10px to the right of and below the panel top — clicking it collapses/expands the sidebar identically to the header toggle.',
+      },
+    },
+  },
+  render: () => {
+    const account = { name: 'ITEXACT Limited', email: 'jade.chau@surveil.co' };
+
+    const mainItems = [
+      { label: 'Manage Users',                    icon: <Users       size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Manage Permissions',              icon: <Lock        size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Manage Recommendation Restrictions', icon: <ShieldCheck size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Platform Settings',               icon: <Settings    size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Audit Logs',                      icon: <ClipboardList size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ];
+
+    const footerItems = [
+      { label: 'Back to Homepage', icon: <ArrowLeft size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ];
+
+    return (
+      <div style={{ paddingRight: 120 }}>
+        <SecondarySidebar
+          account={account}
+          items={mainItems}
+          footerItems={footerItems}
+          version="Version 4.3.3"
+          menuToggle
+        />
+      </div>
     );
   },
 };

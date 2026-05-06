@@ -254,6 +254,21 @@
   border-top: 1px solid var(--color-border-light, #efefef);
 }
 
+/* ─── External menu toggle ───────────────────────────────────────────────────
+ * Tertiary "≡ Menu" button rendered outside the sidebar panel, 10px to the
+ * right of and 10px below the top — alternative collapse trigger.
+ */
+
+.secondary-sidebar__menu-toggle {
+  position: absolute;
+  top: 10px;
+  left: calc(100% + 10px);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-100, 4px);
+  white-space: nowrap;
+}
+
 /* ─── Collapsed state ─────────────────────────────────────────────────────────
  * Width is driven by inline style on the aside (48px icon strip).
  * All items still render — just icon-only.
