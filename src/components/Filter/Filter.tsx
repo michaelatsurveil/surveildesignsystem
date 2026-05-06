@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import './Filter.css';
 
@@ -28,7 +28,8 @@ export interface FilterProps {
 
 /**
  * Filter dropdown trigger. Shows a label, selected value (or placeholder),
- * and a chevron that rotates when open. Closes when clicking outside.
+ * and a chevron that rotates when open. When open, the trigger becomes a
+ * text input that filters the options list. Closes when clicking outside.
  * Figma: node 340-3889
  */
 export function Filter({
@@ -42,6 +43,17 @@ export function Filter({
   className = '',
 }: FilterProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Auto-focus the search input when opened; clear query when closed
+  useEffect(() => {
+    if (open) {
+      inputRef.current?.focus();
+    } else {
+      setSearchQuery('');
+    }
+  }, [open]);
 
   // Close on outside click
   useEffect(() => {
@@ -55,6 +67,12 @@ export function Filter({
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open, onToggle]);
 
+  const filteredOptions = searchQuery
+    ? options.filter((opt) =>
+        opt.label.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : options;
+
   return (
     <div
       ref={rootRef}
@@ -64,35 +82,61 @@ export function Filter({
 
       <button
         type="button"
-        className="filter__trigger"
+        className={`filter__trigger${open ? ' filter__trigger--active' : ''}`}
         aria-haspopup="listbox"
         aria-expanded={open}
-        onClick={onToggle}
+        onClick={!open ? onToggle : undefined}
       >
-        <span className={`filter__trigger-text ${!value ? 'filter__trigger-text--placeholder' : ''}`}>
-          {value ?? placeholder}
-        </span>
-        <span className="filter__chevron" aria-hidden>
+        {open ? (
+          <input
+            ref={inputRef}
+            type="text"
+            className="filter__search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={value ?? placeholder}
+            aria-label="Search options"
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') onToggle?.();
+            }}
+          />
+        ) : (
+          <span className={`filter__trigger-text${!value ? ' filter__trigger-text--placeholder' : ''}`}>
+            {value ?? placeholder}
+          </span>
+        )}
+        <span
+          className="filter__chevron"
+          aria-hidden
+          onClick={open ? (e) => { e.stopPropagation(); onToggle?.(); } : undefined}
+        >
           {open ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </span>
       </button>
 
-      {open && options.length > 0 && (
+      {open && (
         <ul className="filter__dropdown" role="listbox">
-          {options.map((opt) => (
-            <li
-              key={opt.value}
-              className={`filter__option ${value === opt.value ? 'filter__option--selected' : ''}`}
-              role="option"
-              aria-selected={value === opt.value}
-              onClick={() => {
-                onSelect?.(opt.value);
-                onToggle?.();
-              }}
-            >
-              {opt.label}
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((opt) => (
+              <li
+                key={opt.value}
+                className={`filter__option${value === opt.value ? ' filter__option--selected' : ''}`}
+                role="option"
+                aria-selected={value === opt.value}
+                onClick={() => {
+                  onSelect?.(opt.value);
+                  onToggle?.();
+                }}
+              >
+                {opt.label}
+              </li>
+            ))
+          ) : (
+            <li className="filter__option filter__option--empty" role="option" aria-selected={false}>
+              No results
             </li>
-          ))}
+          )}
         </ul>
       )}
     </div>

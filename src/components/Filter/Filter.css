@@ -110,3 +110,32 @@
   color: var(--color-primary, #3165ad);
   font-weight: var(--font-weight-medium, 500);
 }
+
+.filter__option--empty {
+  color: var(--color-grey-400, #818181);
+  cursor: default;
+}
+
+.filter__option--empty:hover {
+  background: none;
+}
+
+/* ── Search input (active/typing state) ── */
+
+.filter__search {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: var(--scale-500, 20px);
+  color: var(--color-grey-700, #272727);
+  min-width: 0;
+  padding: 0;
+}
+
+.filter__search::placeholder {
+  color: var(--color-grey-400, #818181);
+}

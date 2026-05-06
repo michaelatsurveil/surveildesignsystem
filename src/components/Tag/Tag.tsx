@@ -6,7 +6,13 @@ export type TagVariant =
   | 'success'
   | 'critical'
   | 'attention'
-  | 'warning';
+  | 'warning'
+  | 'purple'
+  | 'rose'
+  | 'orange'
+  | 'jade'
+  | 'teal'
+  | 'aqua';
 
 export type TagSize = 'circle' | 'sm' | 'lg';
 

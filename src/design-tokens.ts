@@ -102,6 +102,72 @@ export const tokens = {
       700: '#7f4014',
       800: '#6c3517',
     },
+    // Purple palette
+    purple: {
+      50: '#e5d8fb',
+      100: '#cbb0f8',
+      200: '#b089f4',
+      300: '#9661f1',
+      default: '#7c3aed',
+      600: '#632ebe',
+      700: '#4a238e',
+      800: '#32175f',
+    },
+    // Rose palette
+    rose: {
+      50: '#fad7e1',
+      100: '#f6aec3',
+      200: '#f186a6',
+      300: '#ed5d88',
+      default: '#e8356a',
+      600: '#ba2a55',
+      700: '#8b2040',
+      800: '#5d152a',
+    },
+    // Orange palette
+    orange: {
+      50: '#fce0d4',
+      100: '#f9c0aa',
+      200: '#f6a17f',
+      300: '#f38155',
+      default: '#f0622a',
+      600: '#c04e22',
+      700: '#903b19',
+      800: '#602711',
+    },
+    // Jade palette
+    jade: {
+      50: '#d1f1e4',
+      100: '#a3e3ca',
+      200: '#74d4af',
+      300: '#46c695',
+      default: '#18b87a',
+      600: '#139362',
+      700: '#0e6e49',
+      800: '#0a4a31',
+    },
+    // Teal palette
+    teal: {
+      50: '#ccf3f0',
+      100: '#99e7e0',
+      200: '#66dad1',
+      300: '#33cec1',
+      default: '#00c2b2',
+      600: '#009b8e',
+      700: '#00746b',
+      800: '#004e47',
+    },
+    // Aqua palette
+    aqua: {
+      50: '#dbe9f7',
+      100: '#b7d3f0',
+      200: '#92bce8',
+      300: '#6ea6e1',
+      default: '#4a90d9',
+      600: '#3b73ae',
+      700: '#2c5682',
+      800: '#1e3a57',
+    },
     // Neutral
     neutral: {
       white: '#ffffff',

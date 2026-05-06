@@ -37,10 +37,9 @@ export interface SidebarProps {
   className?: string;
   variant?: 'default' | 'navigator';
   /**
-   * When true, a circular ChevronsLeftRight button is shown in the header.
-   * - When expanded: clicking the button permanently collapses the sidebar (icon-only mode, symbol logo).
-   * - When collapsed: hovering temporarily expands it as an overlay and shows the button.
-   * - Clicking the button while hover-expanded permanently pins it open.
+   * Shows the ChevronsLeftRight collapse toggle in the header (default true).
+   * - When expanded: clicking permanently collapses the sidebar to icon-only mode.
+   * - When collapsed: hovering temporarily expands it as an overlay; clicking pins it open.
    */
   collapsible?: boolean;
   /** Start collapsed; default false */
@@ -58,7 +57,7 @@ export function Sidebar({
   collapsedWidth = 56,
   className = '',
   variant = 'default',
-  collapsible = false,
+  collapsible = true,
   defaultCollapsed = false,
   onCollapseChange,
 }: SidebarProps) {
@@ -83,7 +82,7 @@ export function Sidebar({
 
   const resolvedHeader = header ?? (
     <div className="sidebar__logo-wrap">
-      <Logo variant="light" height={32} />
+      <Logo variant="light" height={28} />
     </div>
   );
 
@@ -108,7 +107,7 @@ export function Sidebar({
           <div className="sidebar__header-logo">
             {isOpen ? resolvedHeader : (
               <div className="sidebar__logo-wrap">
-                <Logo variant="symbol" height={24} />
+                <Logo variant="symbol" height={20} />
               </div>
             )}
           </div>

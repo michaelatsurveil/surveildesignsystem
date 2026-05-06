@@ -378,7 +378,11 @@ function renderCellPreview(type: string): React.ReactNode {
     case 'row-group-header':
       return (
         <span className="data-table__cell--group-header">
-          Group Name
+          <button type="button" className="data-table__group-toggle">
+            Group Name
+            <Tag variant="critical" size="sm">Error</Tag>
+            <ChevronDown size={14} strokeWidth={2} className="data-table__group-toggle-chevron" />
+          </button>
         </span>
       );
 
@@ -563,6 +567,7 @@ type PriorityGroupRow = {
   groupLabel?: string;
   groupCount?: number;
   groupVariant?: 'critical' | 'attention' | 'success' | 'warning' | 'info' | 'default';
+  groupTagLabel?: string;
   tenant?: string;
   email?: string;
   devices?: string;
@@ -570,11 +575,11 @@ type PriorityGroupRow = {
 };
 
 const priorityGroupData: PriorityGroupRow[] = [
-  { id: 'g-urgent', rowType: 'group', groupLabel: 'Urgent Priority', groupCount: 3, groupVariant: 'critical'  },
+  { id: 'g-urgent', rowType: 'group', groupLabel: 'Urgent Priority', groupCount: 3, groupVariant: 'critical', groupTagLabel: 'Error'   },
   { id: 'd-1',  rowType: 'data', tenant: 'Contoso',         email: 'admin@contoso.com',   devices: '480', status: 'Active'  },
   { id: 'd-2',  rowType: 'data', tenant: 'Fabrikam',        email: 'admin@fabrikam.com',  devices: '390', status: 'Active'  },
   { id: 'd-3',  rowType: 'data', tenant: 'Adventure Works', email: 'admin@adventure.com', devices: '612', status: 'Pending' },
-  { id: 'g-medium', rowType: 'group', groupLabel: 'Medium Priority',  groupCount: 6, groupVariant: 'attention' },
+  { id: 'g-medium', rowType: 'group', groupLabel: 'Medium Priority',  groupCount: 6, groupVariant: 'attention', groupTagLabel: 'Warning' },
   { id: 'd-4',  rowType: 'data', tenant: 'Northwind',       email: 'admin@northwind.com', devices: '210', status: 'Active'  },
   { id: 'd-5',  rowType: 'data', tenant: 'Tailspin Toys',   email: 'admin@tailspin.com',  devices: '145', status: 'Pending' },
   { id: 'd-6',  rowType: 'data', tenant: 'Proseware',       email: 'admin@proseware.com', devices: '320', status: 'Active'  },
@@ -639,8 +644,8 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityGroupRow>> = {
                   aria-expanded={isExpanded}
                 >
                   {row.groupLabel}
-                  <Tag variant={row.groupVariant ?? 'default'} size="circle">
-                    {row.groupCount}
+                  <Tag variant={row.groupVariant ?? 'default'} size="sm">
+                    {row.groupTagLabel ?? String(row.groupCount)}
                   </Tag>
                   <ChevronDown
                     size={14}

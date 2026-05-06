@@ -117,6 +117,72 @@ const warningColors = [
   { name: '800', value: 'var(--color-warning-800)', hex: '#6c3517' },
 ];
 
+const purpleColors = [
+  { name: '50', value: 'var(--color-purple-50)', hex: '#e5d8fb' },
+  { name: '100', value: 'var(--color-purple-100)', hex: '#cbb0f8' },
+  { name: '200', value: 'var(--color-purple-200)', hex: '#b089f4' },
+  { name: '300', value: 'var(--color-purple-300)', hex: '#9661f1' },
+  { name: 'Default', value: 'var(--color-purple)', hex: '#7c3aed' },
+  { name: '600', value: 'var(--color-purple-600)', hex: '#632ebe' },
+  { name: '700', value: 'var(--color-purple-700)', hex: '#4a238e' },
+  { name: '800', value: 'var(--color-purple-800)', hex: '#32175f' },
+];
+
+const roseColors = [
+  { name: '50', value: 'var(--color-rose-50)', hex: '#fad7e1' },
+  { name: '100', value: 'var(--color-rose-100)', hex: '#f6aec3' },
+  { name: '200', value: 'var(--color-rose-200)', hex: '#f186a6' },
+  { name: '300', value: 'var(--color-rose-300)', hex: '#ed5d88' },
+  { name: 'Default', value: 'var(--color-rose)', hex: '#e8356a' },
+  { name: '600', value: 'var(--color-rose-600)', hex: '#ba2a55' },
+  { name: '700', value: 'var(--color-rose-700)', hex: '#8b2040' },
+  { name: '800', value: 'var(--color-rose-800)', hex: '#5d152a' },
+];
+
+const orangeColors = [
+  { name: '50', value: 'var(--color-orange-50)', hex: '#fce0d4' },
+  { name: '100', value: 'var(--color-orange-100)', hex: '#f9c0aa' },
+  { name: '200', value: 'var(--color-orange-200)', hex: '#f6a17f' },
+  { name: '300', value: 'var(--color-orange-300)', hex: '#f38155' },
+  { name: 'Default', value: 'var(--color-orange)', hex: '#f0622a' },
+  { name: '600', value: 'var(--color-orange-600)', hex: '#c04e22' },
+  { name: '700', value: 'var(--color-orange-700)', hex: '#903b19' },
+  { name: '800', value: 'var(--color-orange-800)', hex: '#602711' },
+];
+
+const jadeColors = [
+  { name: '50', value: 'var(--color-jade-50)', hex: '#d1f1e4' },
+  { name: '100', value: 'var(--color-jade-100)', hex: '#a3e3ca' },
+  { name: '200', value: 'var(--color-jade-200)', hex: '#74d4af' },
+  { name: '300', value: 'var(--color-jade-300)', hex: '#46c695' },
+  { name: 'Default', value: 'var(--color-jade)', hex: '#18b87a' },
+  { name: '600', value: 'var(--color-jade-600)', hex: '#139362' },
+  { name: '700', value: 'var(--color-jade-700)', hex: '#0e6e49' },
+  { name: '800', value: 'var(--color-jade-800)', hex: '#0a4a31' },
+];
+
+const tealColors = [
+  { name: '50', value: 'var(--color-teal-50)', hex: '#ccf3f0' },
+  { name: '100', value: 'var(--color-teal-100)', hex: '#99e7e0' },
+  { name: '200', value: 'var(--color-teal-200)', hex: '#66dad1' },
+  { name: '300', value: 'var(--color-teal-300)', hex: '#33cec1' },
+  { name: 'Default', value: 'var(--color-teal)', hex: '#00c2b2' },
+  { name: '600', value: 'var(--color-teal-600)', hex: '#009b8e' },
+  { name: '700', value: 'var(--color-teal-700)', hex: '#00746b' },
+  { name: '800', value: 'var(--color-teal-800)', hex: '#004e47' },
+];
+
+const aquaColors = [
+  { name: '50', value: 'var(--color-aqua-50)', hex: '#dbe9f7' },
+  { name: '100', value: 'var(--color-aqua-100)', hex: '#b7d3f0' },
+  { name: '200', value: 'var(--color-aqua-200)', hex: '#92bce8' },
+  { name: '300', value: 'var(--color-aqua-300)', hex: '#6ea6e1' },
+  { name: 'Default', value: 'var(--color-aqua)', hex: '#4a90d9' },
+  { name: '600', value: 'var(--color-aqua-600)', hex: '#3b73ae' },
+  { name: '700', value: 'var(--color-aqua-700)', hex: '#2c5682' },
+  { name: '800', value: 'var(--color-aqua-800)', hex: '#1e3a57' },
+];
+
 export const Primary: StoryObj = {
   render: () => (
     <ColorScale title="Primary (Surveil Blue)" colors={primaryColors} />
@@ -153,6 +219,42 @@ export const Warning: StoryObj = {
   ),
 };
 
+export const Purple: StoryObj = {
+  render: () => (
+    <ColorScale title="Purple" colors={purpleColors} />
+  ),
+};
+
+export const Rose: StoryObj = {
+  render: () => (
+    <ColorScale title="Rose" colors={roseColors} />
+  ),
+};
+
+export const Orange: StoryObj = {
+  render: () => (
+    <ColorScale title="Orange" colors={orangeColors} />
+  ),
+};
+
+export const Jade: StoryObj = {
+  render: () => (
+    <ColorScale title="Jade" colors={jadeColors} />
+  ),
+};
+
+export const Teal: StoryObj = {
+  render: () => (
+    <ColorScale title="Teal" colors={tealColors} />
+  ),
+};
+
+export const Aqua: StoryObj = {
+  render: () => (
+    <ColorScale title="Aqua" colors={aquaColors} />
+  ),
+};
+
 export const AllPalettes: StoryObj = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
@@ -162,6 +264,12 @@ export const AllPalettes: StoryObj = {
       <ColorScale title="Error (Red)" colors={errorColors} />
       <ColorScale title="Info (Blue)" colors={infoColors} />
       <ColorScale title="Warning (Yellow)" colors={warningColors} />
+      <ColorScale title="Purple" colors={purpleColors} />
+      <ColorScale title="Rose" colors={roseColors} />
+      <ColorScale title="Orange" colors={orangeColors} />
+      <ColorScale title="Jade" colors={jadeColors} />
+      <ColorScale title="Teal" colors={tealColors} />
+      <ColorScale title="Aqua" colors={aquaColors} />
     </div>
   ),
 };

@@ -37,7 +37,7 @@ const hexRe = /#'[a-fA-F0-9]{6}'|#['"]?[a-fA-F0-9]{6}['"]?/g;
 const colorVars = [];
 
 // primary: { 50: '#e5eefa', ... default: '#3165ad' }
-const paletteRe = /(primary|grey|success|error|warning|neutral|background|icon):\s*\{([^}]+)\}/g;
+const paletteRe = /(primary|grey|success|error|warning|purple|rose|orange|jade|teal|aqua|neutral|background|icon):\s*\{([^}]+)\}/g;
 let m;
 while ((m = paletteRe.exec(colorBlock)) !== null) {
   const name = m[1];

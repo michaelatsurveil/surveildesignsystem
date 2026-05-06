@@ -142,6 +142,32 @@ export const WithSelection: Story = {
   },
 };
 
+// ─── Active — Typing ──────────────────────────────────────────────────────────
+
+export const ActiveTyping: Story = {
+  name: 'Active — Typing (search)',
+  render: () => {
+    const [open, setOpen] = useState(true);
+    const [value, setValue] = useState('');
+
+    const selected = STATUS_OPTIONS.find((o) => o.value === value);
+
+    return (
+      <div style={{ paddingBottom: 180 }}>
+        <Filter
+          label="Status"
+          placeholder="All statuses"
+          value={selected?.value ? selected.label : undefined}
+          open={open}
+          onToggle={() => setOpen((v) => !v)}
+          options={STATUS_OPTIONS}
+          onSelect={setValue}
+        />
+      </div>
+    );
+  },
+};
+
 // ─── Multiple Filters ─────────────────────────────────────────────────────────
 
 export const MultipleFilters: Story = {

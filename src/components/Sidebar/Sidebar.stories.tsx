@@ -125,9 +125,16 @@ export const Default: Story = {
     return (
       <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div>
-          {sectionLabel('Dark (default)')}
+          {sectionLabel('Dark (expanded)')}
           <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
             <Sidebar navItems={darkItems} user={user} poweredBy footer={logout} width={220} />
+          </div>
+        </div>
+
+        <div>
+          {sectionLabel('Dark (collapsed)')}
+          <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
+            <Sidebar defaultCollapsed navItems={darkItems} user={user} poweredBy footer={logout} width={220} collapsedWidth={56} />
           </div>
         </div>
 
