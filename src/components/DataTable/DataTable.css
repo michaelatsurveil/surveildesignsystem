@@ -154,6 +154,11 @@
   min-width: 0;
 }
 
+/* .filter is inline-flex by default; override so it fills the flex cell */
+.data-table__filter-bar-item .filter {
+  width: 100%;
+}
+
 .data-table__filter-bar-item .filter__trigger {
   width: 100%;
   box-sizing: border-box;

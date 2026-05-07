@@ -150,6 +150,84 @@ export const Default: Story = {
   },
 };
 
+// ─── Filter Bar story ─────────────────────────────────────────────────────
+
+export const FilterBar: Story = {
+  name: 'Toolbar — Filter Bar',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Clicking the filter icon in the toolbar expands a filter bar below it. ' +
+          'Each `DataTableFilterConfig` in the `toolbar.filters` array renders as a full-width `Filter` component. ' +
+          'Pass `defaultFilterBarOpen: true` to start the bar expanded. ' +
+          'The active filter icon turns blue to indicate the bar is open.',
+      },
+    },
+  },
+  render: function FilterBarStory() {
+    const [filterStatus, setFilterStatus] = useState('');
+    const [filterType, setFilterType] = useState('');
+    const [filterSource, setFilterSource] = useState('');
+
+    const filtered = allRows.filter((r) => {
+      if (filterStatus && r.status !== filterStatus) return false;
+      if (filterType && r.type !== filterType) return false;
+      if (filterSource && r.source !== filterSource) return false;
+      return true;
+    });
+
+    return (
+      <DataTable<TenantRow>
+        columns={overviewColumns}
+        rows={filtered.slice(0, 10)}
+        getRowId={(row) => row.tenantEmail}
+        toolbar={{
+          title: 'Table Title',
+          defaultFilterBarOpen: true,
+          filters: [
+            {
+              placeholder: 'Filter name',
+              options: [
+                { label: 'Active', value: 'Active' },
+                { label: 'Pending', value: 'Pending' },
+                { label: 'Default', value: 'Default' },
+              ],
+              value: filterStatus || undefined,
+              onSelect: setFilterStatus,
+            },
+            {
+              placeholder: 'Filter name',
+              options: [
+                { label: 'M365', value: 'M365' },
+                { label: 'Google', value: 'Google' },
+              ],
+              value: filterType || undefined,
+              onSelect: setFilterType,
+            },
+            {
+              placeholder: 'Filter name',
+              options: [{ label: 'Navigator', value: 'Navigator' }],
+              value: filterSource || undefined,
+              onSelect: setFilterSource,
+            },
+            {
+              placeholder: 'Filter name',
+              options: [],
+              value: undefined,
+              onSelect: () => {},
+            },
+          ],
+          onRefresh: () => {},
+          onDownload: () => {},
+          onSearch: () => {},
+          searchPlaceholder: 'Search…',
+        }}
+      />
+    );
+  },
+};
+
 // ─── Empty State story ─────────────────────────────────────────────────────
 
 export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {

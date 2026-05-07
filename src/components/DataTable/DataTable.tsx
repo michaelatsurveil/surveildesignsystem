@@ -25,6 +25,8 @@ export interface DataTableToolbar {
    * a filter bar below the toolbar with one Filter component per config.
    */
   filters?: DataTableFilterConfig[];
+  /** Start with the filter bar expanded (requires filters to be set) */
+  defaultFilterBarOpen?: boolean;
   /** Called when filter icon is clicked (fires regardless of filters prop) */
   onFilter?: () => void;
   /** Called when refresh icon is clicked */
@@ -150,7 +152,7 @@ export function DataTable<T extends Record<string, unknown>>({
   className = '',
 }: DataTableProps<T>) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterBarOpen, setFilterBarOpen] = useState(false);
+  const [filterBarOpen, setFilterBarOpen] = useState(toolbar?.defaultFilterBarOpen ?? false);
   const [openFilterIndex, setOpenFilterIndex] = useState<number | null>(null);
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
   const someSelected = selectable && selectedRowIds.size > 0;
@@ -244,19 +246,19 @@ export function DataTable<T extends Record<string, unknown>>({
       {filterBarOpen && toolbar?.filters && toolbar.filters.length > 0 && (
         <div className="data-table__filter-bar">
           {toolbar.filters.map((filter, i) => (
-            <FilterComponent
-              key={i}
-              className="data-table__filter-bar-item"
-              placeholder={filter.placeholder}
-              options={filter.options}
-              value={filter.value}
-              open={openFilterIndex === i}
-              onToggle={() => setOpenFilterIndex(prev => prev === i ? null : i)}
-              onSelect={(v) => {
-                filter.onSelect?.(v);
-                setOpenFilterIndex(null);
-              }}
-            />
+            <div key={i} className="data-table__filter-bar-item">
+              <FilterComponent
+                placeholder={filter.placeholder}
+                options={filter.options}
+                value={filter.value}
+                open={openFilterIndex === i}
+                onToggle={() => setOpenFilterIndex(prev => prev === i ? null : i)}
+                onSelect={(v) => {
+                  filter.onSelect?.(v);
+                  setOpenFilterIndex(null);
+                }}
+              />
+            </div>
           ))}
         </div>
       )}
