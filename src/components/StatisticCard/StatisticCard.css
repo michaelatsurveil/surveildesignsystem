@@ -53,7 +53,7 @@
   font-size: 14px;
   font-weight: var(--font-weight-semibold, 600);
   line-height: 20px;
-  color: var(--color-grey-700, #272727);
+  color: var(--color-grey, #616161);
 }
 
 .statistic-card__badge {
