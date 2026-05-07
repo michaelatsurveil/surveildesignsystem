@@ -78,13 +78,15 @@ export const Default: Story = {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+    const [filterStatus, setFilterStatus] = useState('');
+    const [filterType, setFilterType] = useState('');
 
-    const filtered = allRows.filter(
-      (r) =>
-        !query ||
-        r.tenant.toLowerCase().includes(query.toLowerCase()) ||
-        r.tenantEmail.toLowerCase().includes(query.toLowerCase())
-    );
+    const filtered = allRows.filter((r) => {
+      if (query && !r.tenant.toLowerCase().includes(query.toLowerCase()) && !r.tenantEmail.toLowerCase().includes(query.toLowerCase())) return false;
+      if (filterStatus && r.status !== filterStatus) return false;
+      if (filterType && r.type !== filterType) return false;
+      return true;
+    });
     const pagedRows = filtered.slice((page - 1) * pageSize, page * pageSize);
 
     return (
@@ -97,7 +99,39 @@ export const Default: Story = {
         onSelectionChange={setSelectedIds}
         toolbar={{
           title: 'Tenants',
-          onFilter: () => {},
+          filters: [
+            {
+              placeholder: 'Filter name',
+              options: [
+                { label: 'Active', value: 'Active' },
+                { label: 'Pending', value: 'Pending' },
+                { label: 'Default', value: 'Default' },
+              ],
+              value: filterStatus || undefined,
+              onSelect: (v) => { setFilterStatus(v); setPage(1); },
+            },
+            {
+              placeholder: 'Filter name',
+              options: [
+                { label: 'M365', value: 'M365' },
+                { label: 'Google', value: 'Google' },
+              ],
+              value: filterType || undefined,
+              onSelect: (v) => { setFilterType(v); setPage(1); },
+            },
+            {
+              placeholder: 'Filter name',
+              options: [{ label: 'Navigator', value: 'Navigator' }],
+              value: undefined,
+              onSelect: () => {},
+            },
+            {
+              placeholder: 'Filter name',
+              options: [],
+              value: undefined,
+              onSelect: () => {},
+            },
+          ],
           onRefresh: () => {},
           onDownload: () => {},
           onSearch: (q) => { setQuery(q); setPage(1); },

@@ -132,6 +132,33 @@
   box-shadow: 0 0 0 3px rgba(49, 101, 173, 0.15);
 }
 
+/* Active state — filter bar is open */
+.data-table__toolbar-btn--active {
+  color: var(--color-primary, #3165ad);
+  background: var(--color-button-secondary-bgHover, #f7f7f7);
+}
+
+/* ── Filter bar ──────────────────────────────────────────────────────────────── */
+
+.data-table__filter-bar {
+  display: flex;
+  gap: var(--scale-200, 8px);
+  padding: var(--scale-200, 8px) var(--scale-400, 16px);
+  background: var(--color-grey-25, #f7f7f7);
+  border-bottom: 1px solid var(--color-grey-100, #dfdfdf);
+}
+
+/* Each filter fills its flex cell equally and stretches its trigger full-width */
+.data-table__filter-bar-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.data-table__filter-bar-item .filter__trigger {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .data-table__head {
   background: var(--color-bg-alt, #f9fafb);
 }

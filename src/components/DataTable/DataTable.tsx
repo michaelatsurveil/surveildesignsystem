@@ -2,12 +2,30 @@ import { useEffect, useRef, useState } from 'react';
 import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert } from 'lucide-react';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
+import { Filter as FilterComponent } from '../Filter/Filter';
+import type { FilterOption } from '../Filter/Filter';
 import './DataTable.css';
+
+export interface DataTableFilterConfig {
+  /** Placeholder text shown in the filter trigger */
+  placeholder: string;
+  /** Available options */
+  options: FilterOption[];
+  /** Currently selected value (controlled) */
+  value?: string;
+  /** Called when an option is selected */
+  onSelect?: (value: string) => void;
+}
 
 export interface DataTableToolbar {
   /** Table title shown on the left */
   title?: string;
-  /** Called when filter icon is clicked */
+  /**
+   * Filter configurations. When provided, clicking the filter icon expands
+   * a filter bar below the toolbar with one Filter component per config.
+   */
+  filters?: DataTableFilterConfig[];
+  /** Called when filter icon is clicked (fires regardless of filters prop) */
   onFilter?: () => void;
   /** Called when refresh icon is clicked */
   onRefresh?: () => void;
@@ -132,6 +150,8 @@ export function DataTable<T extends Record<string, unknown>>({
   className = '',
 }: DataTableProps<T>) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [filterBarOpen, setFilterBarOpen] = useState(false);
+  const [openFilterIndex, setOpenFilterIndex] = useState<number | null>(null);
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
   const someSelected = selectable && selectedRowIds.size > 0;
   const indeterminate = someSelected && !allSelected;
@@ -175,8 +195,17 @@ export function DataTable<T extends Record<string, unknown>>({
           </div>
           <div className="data-table__toolbar-right">
             <div className="data-table__toolbar-icons">
-              {toolbar.onFilter && (
-                <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onFilter} aria-label="Filter">
+              {(toolbar.onFilter || toolbar.filters) && (
+                <button
+                  type="button"
+                  className={`data-table__toolbar-btn${filterBarOpen ? ' data-table__toolbar-btn--active' : ''}`}
+                  onClick={() => {
+                    if (toolbar.filters?.length) setFilterBarOpen(v => !v);
+                    toolbar.onFilter?.();
+                  }}
+                  aria-label="Filter"
+                  aria-expanded={toolbar.filters?.length ? filterBarOpen : undefined}
+                >
                   <Filter size={16} strokeWidth={2} />
                 </button>
               )}
@@ -210,6 +239,28 @@ export function DataTable<T extends Record<string, unknown>>({
           </div>
         </div>
       )}
+
+      {/* ── Expandable filter bar ── */}
+      {filterBarOpen && toolbar?.filters && toolbar.filters.length > 0 && (
+        <div className="data-table__filter-bar">
+          {toolbar.filters.map((filter, i) => (
+            <FilterComponent
+              key={i}
+              className="data-table__filter-bar-item"
+              placeholder={filter.placeholder}
+              options={filter.options}
+              value={filter.value}
+              open={openFilterIndex === i}
+              onToggle={() => setOpenFilterIndex(prev => prev === i ? null : i)}
+              onSelect={(v) => {
+                filter.onSelect?.(v);
+                setOpenFilterIndex(null);
+              }}
+            />
+          ))}
+        </div>
+      )}
+
       {rows.length === 0 && emptyState ? emptyState : (
       <table className="data-table">
         <thead className="data-table__head">
