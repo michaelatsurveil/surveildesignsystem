@@ -190,6 +190,8 @@ export const tokens = {
       light: '#e5e7eb',
       dark: '#d1d5db',
     },
+    // Scrim
+    scrim: 'rgba(0, 0, 0, 0.2)',
 
     // Icons (Lucide)
     icon: {

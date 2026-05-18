@@ -255,6 +255,16 @@ export const Aqua: StoryObj = {
   ),
 };
 
+const scrimColors = [
+  { name: 'Scrim', value: 'var(--color-scrim)', hex: 'rgba(0, 0, 0, 0.2)' },
+];
+
+export const Scrim: StoryObj = {
+  render: () => (
+    <ColorScale title="Scrim" colors={scrimColors} />
+  ),
+};
+
 export const AllPalettes: StoryObj = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
@@ -270,6 +280,7 @@ export const AllPalettes: StoryObj = {
       <ColorScale title="Jade" colors={jadeColors} />
       <ColorScale title="Teal" colors={tealColors} />
       <ColorScale title="Aqua" colors={aquaColors} />
+      <ColorScale title="Scrim" colors={scrimColors} />
     </div>
   ),
 };
