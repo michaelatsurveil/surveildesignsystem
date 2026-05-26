@@ -674,138 +674,128 @@ export const TreeView: StoryObj<typeof DataTable<TreeRow>> = {
 
 // ─── Row Groups story ──────────────────────────────────────────────────────
 
-type PriorityGroupRow = {
+type PriorityRow = {
   id: string;
-  rowType: 'group' | 'data';
-  groupLabel?: string;
-  groupCount?: number;
-  groupVariant?: 'critical' | 'attention' | 'success' | 'warning' | 'info' | 'default';
-  groupTagLabel?: string;
-  tenant?: string;
-  email?: string;
-  devices?: string;
-  status?: string;
+  tenant: string;
+  email: string;
+  devices: string;
+  status: string;
 };
 
-const priorityGroupData: PriorityGroupRow[] = [
-  { id: 'g-urgent', rowType: 'group', groupLabel: 'Urgent Priority', groupCount: 3, groupVariant: 'critical', groupTagLabel: 'Error'   },
-  { id: 'd-1',  rowType: 'data', tenant: 'Contoso',         email: 'admin@contoso.com',   devices: '480', status: 'Active'  },
-  { id: 'd-2',  rowType: 'data', tenant: 'Fabrikam',        email: 'admin@fabrikam.com',  devices: '390', status: 'Active'  },
-  { id: 'd-3',  rowType: 'data', tenant: 'Adventure Works', email: 'admin@adventure.com', devices: '612', status: 'Pending' },
-  { id: 'g-medium', rowType: 'group', groupLabel: 'Medium Priority',  groupCount: 6, groupVariant: 'attention', groupTagLabel: 'Warning' },
-  { id: 'd-4',  rowType: 'data', tenant: 'Northwind',       email: 'admin@northwind.com', devices: '210', status: 'Active'  },
-  { id: 'd-5',  rowType: 'data', tenant: 'Tailspin Toys',   email: 'admin@tailspin.com',  devices: '145', status: 'Pending' },
-  { id: 'd-6',  rowType: 'data', tenant: 'Proseware',       email: 'admin@proseware.com', devices: '320', status: 'Active'  },
-  { id: 'd-7',  rowType: 'data', tenant: 'Contoso UK',      email: 'uk@contoso.com',      devices: '280', status: 'Active'  },
-  { id: 'd-8',  rowType: 'data', tenant: 'Fabrikam DE',     email: 'de@fabrikam.com',     devices: '198', status: 'Pending' },
-  { id: 'd-9',  rowType: 'data', tenant: 'Northwind FR',    email: 'fr@northwind.com',    devices: '425', status: 'Active'  },
+const urgentRows: PriorityRow[] = [
+  { id: 'u-1', tenant: 'Contoso',         email: 'admin@contoso.com',   devices: '480', status: 'Active'  },
+  { id: 'u-2', tenant: 'Fabrikam',        email: 'admin@fabrikam.com',  devices: '390', status: 'Active'  },
+  { id: 'u-3', tenant: 'Adventure Works', email: 'admin@adventure.com', devices: '612', status: 'Pending' },
 ];
 
-const emptyGroupCell = <span className="data-table__cell--group-header" role="presentation" />;
+const mediumRows: PriorityRow[] = [
+  { id: 'm-1', tenant: 'Northwind',    email: 'admin@northwind.com', devices: '210', status: 'Active'  },
+  { id: 'm-2', tenant: 'Tailspin',     email: 'admin@tailspin.com',  devices: '145', status: 'Pending' },
+  { id: 'm-3', tenant: 'Proseware',    email: 'admin@proseware.com', devices: '320', status: 'Active'  },
+  { id: 'm-4', tenant: 'Contoso UK',   email: 'uk@contoso.com',      devices: '280', status: 'Active'  },
+  { id: 'm-5', tenant: 'Fabrikam DE',  email: 'de@fabrikam.com',     devices: '198', status: 'Pending' },
+  { id: 'm-6', tenant: 'Northwind FR', email: 'fr@northwind.com',    devices: '425', status: 'Active'  },
+];
 
-export const RowGroups: StoryObj<typeof DataTable<PriorityGroupRow>> = {
+export const RowGroups: StoryObj<typeof DataTable<PriorityRow>> = {
   name: 'Row Groups',
   parameters: {
     docs: {
       description: {
         story:
-          'Row group headers use a bold label, a **circle Tag** (count badge colored by severity), and a **ChevronDown** ' +
-          'that rotates −90° when the group is collapsed. Click any group header to toggle its rows. ' +
-          'The `.data-table__cell--group-header` class sits on a `<span>` in every cell of the group row — ' +
-          'a `td:has(> .data-table__cell--group-header)` CSS rule applies the gray background directly to the `<td>`, ' +
-          'eliminating inter-cell gaps. Non-first columns render an empty presentation span to trigger the same rule.',
+          'Pass a `groups` array to render each group as a bordered card (8px radius, `border/light` border) ' +
+          'separated by a 16px gap. Each group has its own rows and optional numbered pagination. ' +
+          'The component manages collapse state internally — clicking the group header toggles its rows. ' +
+          'Use `defaultCollapsedGroupIds` to start specific groups collapsed.',
       },
     },
   },
   render: function RowGroupsStory() {
-    const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
-      new Set(['g-urgent', 'g-medium'])
-    );
+    const [urgentPage, setUrgentPage] = useState(1);
+    const [mediumPage, setMediumPage] = useState(1);
 
-    const toggleGroup = (groupId: string) =>
-      setExpandedGroups((prev) => {
-        const next = new Set(prev);
-        next.has(groupId) ? next.delete(groupId) : next.add(groupId);
-        return next;
-      });
-
-    // Build visible rows: always show group rows; show data rows only when group is expanded
-    const visibleRows: PriorityGroupRow[] = [];
-    let lastGroupId: string | null = null;
-    for (const row of priorityGroupData) {
-      if (row.rowType === 'group') {
-        lastGroupId = row.id;
-        visibleRows.push(row);
-      } else if (lastGroupId && expandedGroups.has(lastGroupId)) {
-        visibleRows.push(row);
-      }
-    }
-
-    const columns = [
-      {
-        id: 'tenant',
-        header: 'Tenant',
-        render: (_: unknown, row: PriorityGroupRow) => {
-          if (row.rowType === 'group') {
-            const isExpanded = expandedGroups.has(row.id);
-            return (
-              <span className="data-table__cell--group-header">
-                <button
-                  type="button"
-                  className="data-table__group-toggle"
-                  onClick={() => toggleGroup(row.id)}
-                  aria-expanded={isExpanded}
-                >
-                  <ChevronDown
-                    size={14}
-                    strokeWidth={2}
-                    className={`data-table__group-toggle-chevron${isExpanded ? '' : ' data-table__group-toggle-chevron--collapsed'}`}
-                  />
-                  <span className="data-table__group-indicator" aria-hidden />
-                  {row.groupLabel}
-                  <Tag variant="default" size="sm">
-                    {row.groupTagLabel ?? String(row.groupCount)}
-                  </Tag>
-                </button>
-              </span>
-            );
-          }
-          return <span>{row.tenant}</span>;
-        },
-      },
-      {
-        id: 'email',
-        header: 'Email',
-        render: (_: unknown, row: PriorityGroupRow) =>
-          row.rowType === 'group' ? emptyGroupCell : <span>{row.email}</span>,
-      },
-      {
-        id: 'devices',
-        header: 'Devices',
-        render: (_: unknown, row: PriorityGroupRow) =>
-          row.rowType === 'group' ? emptyGroupCell : <span>{row.devices}</span>,
-      },
+    const priorityColumns = [
+      { id: 'tenant',  header: 'Tenant'  },
+      { id: 'email',   header: 'Email'   },
+      { id: 'devices', header: 'Devices' },
       {
         id: 'status',
         header: 'Status',
-        render: (value: unknown, row: PriorityGroupRow) =>
-          row.rowType === 'group' ? emptyGroupCell : (
-            <Tag
-              variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'default'}
-              size="sm"
-            >
-              {String(value)}
-            </Tag>
-          ),
+        render: (value: unknown) => (
+          <Tag
+            variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'default'}
+            size="sm"
+          >
+            {String(value)}
+          </Tag>
+        ),
       },
     ];
 
     return (
-      <DataTable<PriorityGroupRow>
-        columns={columns as never}
-        rows={visibleRows}
+      <DataTable<PriorityRow>
+        columns={priorityColumns as never}
         getRowId={(row) => row.id}
-        toolbar={{ title: 'Tenants by Priority' }}
+        toolbar={{
+          title: 'Tenants by Priority',
+          onSearch: () => {},
+          searchPlaceholder: 'Search…',
+          inlineFilters: [
+            {
+              placeholder: 'Filter name',
+              options: [
+                { label: 'Active',  value: 'Active'  },
+                { label: 'Pending', value: 'Pending' },
+              ],
+            },
+          ],
+          onAddFilter: () => {},
+          rightAction: {
+            type: 'view',
+            viewOptions: [
+              { label: 'Table',   value: 'table'   },
+              { label: 'Card',    value: 'card'    },
+              { label: 'Compact', value: 'compact' },
+            ],
+            viewValue: 'table',
+          },
+        }}
+        groups={[
+          {
+            id: 'g-urgent',
+            header: (
+              <>
+                <span className="data-table__group-indicator" aria-hidden />
+                Urgent Priority
+                <Tag variant="default" size="sm">Default</Tag>
+              </>
+            ),
+            rows: urgentRows,
+            pagination: {
+              page: urgentPage,
+              pageSize: 3,
+              total: 36,
+              onPageChange: setUrgentPage,
+            },
+          },
+          {
+            id: 'g-medium',
+            header: (
+              <>
+                <span className="data-table__group-indicator" aria-hidden />
+                Medium Priority
+                <Tag variant="attention" size="circle">6</Tag>
+              </>
+            ),
+            rows: mediumRows,
+            pagination: {
+              page: mediumPage,
+              pageSize: 6,
+              total: 36,
+              onPageChange: setMediumPage,
+            },
+          },
+        ]}
       />
     );
   },

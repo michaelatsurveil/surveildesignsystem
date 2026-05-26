@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert } from 'lucide-react';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert, ChevronDown } from 'lucide-react';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { Filter as FilterComponent } from '../Filter/Filter';
@@ -91,11 +91,22 @@ export interface DataTablePagination {
   onPageSizeChange?: (size: number) => void;
 }
 
+export interface DataTableGroupConfig<T = Record<string, unknown>> {
+  /** Unique group ID */
+  id: string;
+  /** Content rendered after the chevron in the group header row (e.g., indicator + label + tag) */
+  header: React.ReactNode;
+  /** Rows belonging to this group */
+  rows: T[];
+  /** Per-group pagination */
+  pagination?: DataTablePagination;
+}
+
 export interface DataTableProps<T = Record<string, unknown>> {
   /** Column definitions */
   columns: DataTableColumn<T>[];
-  /** Row data (array of objects keyed by column id) */
-  rows: T[];
+  /** Row data (array of objects keyed by column id). Omit or pass [] when using `groups`. */
+  rows?: T[];
   /** Row key extractor for React keys */
   getRowId: (row: T) => string;
   /** Enable row selection (adds checkbox column) */
@@ -106,12 +117,19 @@ export interface DataTableProps<T = Record<string, unknown>> {
   onSelectionChange?: (selectedIds: Set<string>) => void;
   /** Toolbar configuration */
   toolbar?: DataTableToolbar;
-  /** Pagination configuration */
+  /** Pagination configuration (for non-grouped mode) */
   pagination?: DataTablePagination;
   /** Content shown when rows is empty. Use <DataTableEmptyState> for the standard empty state. */
   emptyState?: React.ReactNode;
   /** Optional additional class name for the wrapper */
   className?: string;
+  /**
+   * When provided, renders each group as a bordered card with its own rows and pagination.
+   * The `rows` prop is ignored when `groups` is set.
+   */
+  groups?: DataTableGroupConfig<T>[];
+  /** Group IDs that are collapsed on mount */
+  defaultCollapsedGroupIds?: string[];
 }
 
 /* ─── Empty State ──────────────────────────────────────────────────────────── */
@@ -161,7 +179,7 @@ export function DataTableEmptyState({
 
 export function DataTable<T extends Record<string, unknown>>({
   columns,
-  rows,
+  rows = [],
   getRowId,
   selectable = false,
   selectedRowIds = new Set(),
@@ -170,11 +188,17 @@ export function DataTable<T extends Record<string, unknown>>({
   pagination,
   emptyState,
   className = '',
+  groups,
+  defaultCollapsedGroupIds,
 }: DataTableProps<T>) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBarOpen, setFilterBarOpen] = useState(toolbar?.defaultFilterBarOpen ?? false);
   const [openFilterIndex, setOpenFilterIndex] = useState<number | null>(null);
   const [openInlineFilterIndex, setOpenInlineFilterIndex] = useState<number | null>(null);
+  const [collapsedGroupIds, setCollapsedGroupIds] = useState<Set<string>>(
+    new Set(defaultCollapsedGroupIds ?? [])
+  );
+
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
   const someSelected = selectable && selectedRowIds.size > 0;
   const indeterminate = someSelected && !allSelected;
@@ -201,14 +225,24 @@ export function DataTable<T extends Record<string, unknown>>({
     onSelectionChange(next);
   };
 
-  // Pagination calculations
+  const toggleGroup = (groupId: string) => {
+    setCollapsedGroupIds((prev) => {
+      const next = new Set(prev);
+      next.has(groupId) ? next.delete(groupId) : next.add(groupId);
+      return next;
+    });
+  };
+
+  // Pagination calculations (non-grouped mode)
   const totalPages = pagination ? Math.max(1, Math.ceil(pagination.total / pagination.pageSize)) : 1;
   const rangeStart = pagination ? (pagination.page - 1) * pagination.pageSize + 1 : 1;
   const rangeEnd = pagination ? Math.min(pagination.page * pagination.pageSize, pagination.total) : rows.length;
   const pageSizeOptions = pagination?.pageSizeOptions ?? [10, 25, 50, 100];
 
+  const isGrouped = Boolean(groups?.length);
+
   return (
-    <div className={`data-table__wrap ${className}`.trim()}>
+    <div className={`data-table__wrap ${isGrouped ? 'data-table__wrap--grouped' : ''} ${className}`.trim()}>
       {toolbar && (
         <div className="data-table__toolbar">
           <div className="data-table__toolbar-left">
@@ -343,143 +377,321 @@ export function DataTable<T extends Record<string, unknown>>({
         </div>
       )}
 
-      {rows.length === 0 && emptyState ? emptyState : (
-      <table className="data-table">
-        <thead className="data-table__head">
-          <tr>
-            {selectable && (
-              <th className="data-table__cell data-table__cell--checkbox" scope="col">
-                <label className="data-table__checkbox-label">
-                  <input
-                    ref={headerCheckRef}
-                    type="checkbox"
-                    className="data-table__checkbox-input"
-                    checked={allSelected}
-                    onChange={toggleAll}
-                    aria-label="Select all"
-                  />
-                  <span className="data-table__checkbox-box" aria-hidden />
-                </label>
-              </th>
-            )}
-            {columns.map((col) => (
-              <th key={col.id} className={['data-table__cell data-table__cell--head', col.headerClassName].filter(Boolean).join(' ')} scope="col">
-                <span className="data-table__head-text">
-                  {col.header}
-                  {col.sortable && (
-                    <span className="data-table__head-icon" aria-hidden>
-                      <MoreVertical size={16} strokeWidth={2} />
-                    </span>
-                  )}
-                </span>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="data-table__body">
-          {rows.map((row) => {
-            const rowId = getRowId(row);
-            const isSelected = selectedRowIds.has(rowId);
+      {/* ── Grouped layout ── */}
+      {isGrouped ? (
+        <table className="data-table data-table--grouped">
+          <thead className="data-table__head">
+            <tr>
+              {selectable && (
+                <th className="data-table__cell data-table__cell--head data-table__cell--checkbox" scope="col" />
+              )}
+              {columns.map((col) => (
+                <th
+                  key={col.id}
+                  className={['data-table__cell data-table__cell--head', col.headerClassName].filter(Boolean).join(' ')}
+                  scope="col"
+                >
+                  <span className="data-table__head-text">
+                    {col.header}
+                    {col.sortable && (
+                      <span className="data-table__head-icon" aria-hidden>
+                        <MoreVertical size={16} strokeWidth={2} />
+                      </span>
+                    )}
+                  </span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          {groups!.map((group, groupIndex) => {
+            const isCollapsed = collapsedGroupIds.has(group.id);
+            const colCount = columns.length + (selectable ? 1 : 0);
+            const gp = group.pagination;
+            const gTotalPages = gp ? Math.max(1, Math.ceil(gp.total / gp.pageSize)) : 1;
+            const pageCount = Math.min(gTotalPages, 10);
+
             return (
-              <tr key={rowId} className="data-table__row">
+              <Fragment key={group.id}>
+                {/* 16px gap between groups */}
+                {groupIndex > 0 && (
+                  <tbody className="data-table__group-spacer" aria-hidden="true">
+                    <tr><td colSpan={colCount} /></tr>
+                  </tbody>
+                )}
+
+                <tbody className={`data-table__group-body${isCollapsed ? ' data-table__group-body--collapsed' : ''}`}>
+                  {/* Group header row */}
+                  <tr className="data-table__group-header-row">
+                    <td colSpan={colCount} className="data-table__cell">
+                      <span className="data-table__cell--group-header">
+                        <button
+                          type="button"
+                          className="data-table__group-toggle"
+                          onClick={() => toggleGroup(group.id)}
+                          aria-expanded={!isCollapsed}
+                        >
+                          <ChevronDown
+                            size={14}
+                            strokeWidth={2}
+                            className={`data-table__group-toggle-chevron${isCollapsed ? ' data-table__group-toggle-chevron--collapsed' : ''}`}
+                          />
+                          {group.header}
+                        </button>
+                      </span>
+                    </td>
+                  </tr>
+
+                  {/* Data rows */}
+                  {!isCollapsed && group.rows.map((row) => {
+                    const rowId = getRowId(row);
+                    const isSelected = selectedRowIds.has(rowId);
+                    return (
+                      <tr key={rowId} className="data-table__row">
+                        {selectable && (
+                          <td className="data-table__cell data-table__cell--checkbox">
+                            <label className="data-table__checkbox-label">
+                              <input
+                                type="checkbox"
+                                className="data-table__checkbox-input"
+                                checked={isSelected}
+                                onChange={() => toggleRow(rowId)}
+                                aria-label={`Select row ${rowId}`}
+                              />
+                              <span className="data-table__checkbox-box" aria-hidden />
+                            </label>
+                          </td>
+                        )}
+                        {columns.map((col) => (
+                          <td key={col.id} className="data-table__cell">
+                            {col.editable && !col.render
+                              ? (
+                                <input
+                                  type="text"
+                                  className="data-table__cell-input"
+                                  defaultValue={String(row[col.id] ?? '')}
+                                  onChange={(e) => col.onCellChange?.(e.target.value, row)}
+                                  aria-label={col.header}
+                                />
+                              )
+                              : col.render
+                                ? col.render(row[col.id], row)
+                                : (row[col.id] as React.ReactNode)}
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+
+                  {/* Per-group pagination row */}
+                  {!isCollapsed && gp && (
+                    <tr className="data-table__group-pagination-row">
+                      <td colSpan={colCount} className="data-table__cell data-table__group-pagination-cell">
+                        <div className="data-table__group-pagination">
+                          <div className="data-table__pagination-nav">
+                            <button
+                              type="button"
+                              className="data-table__pagination-btn"
+                              onClick={() => gp.onPageChange(1)}
+                              disabled={gp.page <= 1}
+                              aria-label="First page"
+                            >
+                              <ChevronsLeft size={16} strokeWidth={2} />
+                            </button>
+                            <button
+                              type="button"
+                              className="data-table__pagination-btn"
+                              onClick={() => gp.onPageChange(gp.page - 1)}
+                              disabled={gp.page <= 1}
+                              aria-label="Previous page"
+                            >
+                              <ChevronLeft size={16} strokeWidth={2} />
+                            </button>
+                            {Array.from({ length: pageCount }, (_, i) => i + 1).map((p) => (
+                              <button
+                                key={p}
+                                type="button"
+                                className={`data-table__pagination-btn${p === gp.page ? ' data-table__pagination-btn--active' : ''}`}
+                                onClick={() => gp.onPageChange(p)}
+                                aria-label={`Page ${p}`}
+                                aria-current={p === gp.page ? 'page' : undefined}
+                              >
+                                {p}
+                              </button>
+                            ))}
+                            <button
+                              type="button"
+                              className="data-table__pagination-btn"
+                              onClick={() => gp.onPageChange(gp.page + 1)}
+                              disabled={gp.page >= gTotalPages}
+                              aria-label="Next page"
+                            >
+                              <ChevronRight size={16} strokeWidth={2} />
+                            </button>
+                            <button
+                              type="button"
+                              className="data-table__pagination-btn"
+                              onClick={() => gp.onPageChange(gTotalPages)}
+                              disabled={gp.page >= gTotalPages}
+                              aria-label="Last page"
+                            >
+                              <ChevronsRight size={16} strokeWidth={2} />
+                            </button>
+                          </div>
+                          <span className="data-table__pagination-summary">
+                            {gp.page} of {gTotalPages} pages ({gp.total} items)
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Fragment>
+            );
+          })}
+        </table>
+      ) : (
+        /* ── Regular (non-grouped) layout ── */
+        <>
+          {rows.length === 0 && emptyState ? emptyState : (
+          <table className="data-table">
+            <thead className="data-table__head">
+              <tr>
                 {selectable && (
-                  <td className="data-table__cell data-table__cell--checkbox">
+                  <th className="data-table__cell data-table__cell--checkbox" scope="col">
                     <label className="data-table__checkbox-label">
                       <input
+                        ref={headerCheckRef}
                         type="checkbox"
                         className="data-table__checkbox-input"
-                        checked={isSelected}
-                        onChange={() => toggleRow(rowId)}
-                        aria-label={`Select row ${rowId}`}
+                        checked={allSelected}
+                        onChange={toggleAll}
+                        aria-label="Select all"
                       />
                       <span className="data-table__checkbox-box" aria-hidden />
                     </label>
-                  </td>
+                  </th>
                 )}
                 {columns.map((col) => (
-                  <td key={col.id} className="data-table__cell">
-                    {col.editable && !col.render
-                      ? (
-                        <input
-                          type="text"
-                          className="data-table__cell-input"
-                          defaultValue={String(row[col.id] ?? '')}
-                          onChange={(e) => col.onCellChange?.(e.target.value, row)}
-                          aria-label={col.header}
-                        />
-                      )
-                      : col.render
-                        ? col.render(row[col.id], row)
-                        : (row[col.id] as React.ReactNode)}
-                  </td>
+                  <th key={col.id} className={['data-table__cell data-table__cell--head', col.headerClassName].filter(Boolean).join(' ')} scope="col">
+                    <span className="data-table__head-text">
+                      {col.header}
+                      {col.sortable && (
+                        <span className="data-table__head-icon" aria-hidden>
+                          <MoreVertical size={16} strokeWidth={2} />
+                        </span>
+                      )}
+                    </span>
+                  </th>
                 ))}
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
-      )}
+            </thead>
+            <tbody className="data-table__body">
+              {rows.map((row) => {
+                const rowId = getRowId(row);
+                const isSelected = selectedRowIds.has(rowId);
+                return (
+                  <tr key={rowId} className="data-table__row">
+                    {selectable && (
+                      <td className="data-table__cell data-table__cell--checkbox">
+                        <label className="data-table__checkbox-label">
+                          <input
+                            type="checkbox"
+                            className="data-table__checkbox-input"
+                            checked={isSelected}
+                            onChange={() => toggleRow(rowId)}
+                            aria-label={`Select row ${rowId}`}
+                          />
+                          <span className="data-table__checkbox-box" aria-hidden />
+                        </label>
+                      </td>
+                    )}
+                    {columns.map((col) => (
+                      <td key={col.id} className="data-table__cell">
+                        {col.editable && !col.render
+                          ? (
+                            <input
+                              type="text"
+                              className="data-table__cell-input"
+                              defaultValue={String(row[col.id] ?? '')}
+                              onChange={(e) => col.onCellChange?.(e.target.value, row)}
+                              aria-label={col.header}
+                            />
+                          )
+                          : col.render
+                            ? col.render(row[col.id], row)
+                            : (row[col.id] as React.ReactNode)}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          )}
 
-      {pagination && rows.length > 0 && (
-        <div className="data-table__pagination">
-          <div className="data-table__pagination-nav">
-            <button
-              type="button"
-              className="data-table__pagination-btn"
-              onClick={() => pagination.onPageChange(1)}
-              disabled={pagination.page <= 1}
-              aria-label="First page"
-            >
-              <ChevronsLeft size={16} strokeWidth={2} />
-            </button>
-            <button
-              type="button"
-              className="data-table__pagination-btn"
-              onClick={() => pagination.onPageChange(pagination.page - 1)}
-              disabled={pagination.page <= 1}
-              aria-label="Previous page"
-            >
-              <ChevronLeft size={16} strokeWidth={2} />
-            </button>
-            <button
-              type="button"
-              className="data-table__pagination-btn"
-              onClick={() => pagination.onPageChange(pagination.page + 1)}
-              disabled={pagination.page >= totalPages}
-              aria-label="Next page"
-            >
-              <ChevronRight size={16} strokeWidth={2} />
-            </button>
-            <button
-              type="button"
-              className="data-table__pagination-btn"
-              onClick={() => pagination.onPageChange(totalPages)}
-              disabled={pagination.page >= totalPages}
-              aria-label="Last page"
-            >
-              <ChevronsRight size={16} strokeWidth={2} />
-            </button>
-          </div>
+          {pagination && rows.length > 0 && (
+            <div className="data-table__pagination">
+              <div className="data-table__pagination-nav">
+                <button
+                  type="button"
+                  className="data-table__pagination-btn"
+                  onClick={() => pagination.onPageChange(1)}
+                  disabled={pagination.page <= 1}
+                  aria-label="First page"
+                >
+                  <ChevronsLeft size={16} strokeWidth={2} />
+                </button>
+                <button
+                  type="button"
+                  className="data-table__pagination-btn"
+                  onClick={() => pagination.onPageChange(pagination.page - 1)}
+                  disabled={pagination.page <= 1}
+                  aria-label="Previous page"
+                >
+                  <ChevronLeft size={16} strokeWidth={2} />
+                </button>
+                <button
+                  type="button"
+                  className="data-table__pagination-btn"
+                  onClick={() => pagination.onPageChange(pagination.page + 1)}
+                  disabled={pagination.page >= totalPages}
+                  aria-label="Next page"
+                >
+                  <ChevronRight size={16} strokeWidth={2} />
+                </button>
+                <button
+                  type="button"
+                  className="data-table__pagination-btn"
+                  onClick={() => pagination.onPageChange(totalPages)}
+                  disabled={pagination.page >= totalPages}
+                  aria-label="Last page"
+                >
+                  <ChevronsRight size={16} strokeWidth={2} />
+                </button>
+              </div>
 
-          <div className="data-table__pagination-right">
-            <label className="data-table__pagination-label">
-              Rows per page:
-              <select
-                className="data-table__pagination-select"
-                value={pagination.pageSize}
-                onChange={(e) => pagination.onPageSizeChange?.(Number(e.target.value))}
-                aria-label="Rows per page"
-              >
-                {pageSizeOptions.map((opt) => (
-                  <option key={opt} value={opt}>{opt}</option>
-                ))}
-              </select>
-            </label>
-            <span className="data-table__pagination-summary">
-              {rangeStart}–{rangeEnd} of {pagination.total}
-            </span>
-          </div>
-        </div>
+              <div className="data-table__pagination-right">
+                <label className="data-table__pagination-label">
+                  Rows per page:
+                  <select
+                    className="data-table__pagination-select"
+                    value={pagination.pageSize}
+                    onChange={(e) => pagination.onPageSizeChange?.(Number(e.target.value))}
+                    aria-label="Rows per page"
+                  >
+                    {pageSizeOptions.map((opt) => (
+                      <option key={opt} value={opt}>{opt}</option>
+                    ))}
+                  </select>
+                </label>
+                <span className="data-table__pagination-summary">
+                  {rangeStart}–{rangeEnd} of {pagination.total}
+                </span>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

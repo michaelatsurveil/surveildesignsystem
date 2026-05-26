@@ -657,3 +657,121 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
   font-weight: var(--font-weight-medium, 500);
   line-height: 16px;
 }
+
+/* ── Grouped layout ─────────────────────────────────────────────────────────── */
+
+/* Wrapper: remove outer card border/shadow in grouped mode — groups are their own cards */
+.data-table__wrap--grouped {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  overflow: visible;
+}
+
+/* No rounded corners on toolbar in grouped mode */
+.data-table__wrap--grouped .data-table__toolbar {
+  border-radius: 0;
+}
+
+/* Use separate borders so we can apply border-radius per group */
+.data-table--grouped {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Header cells keep their bottom border */
+.data-table--grouped .data-table__head .data-table__cell {
+  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+}
+
+/* ── Group spacer (16px gap between groups) ── */
+.data-table__group-spacer > tr > td {
+  height: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+/* ── Group body: bordered card per group ── */
+
+/* Left border on every first cell in a group row */
+.data-table__group-body > tr > .data-table__cell:first-child {
+  border-left: 1px solid var(--color-grey-100, #e5e7eb);
+}
+
+/* Right border on every last cell in a group row */
+.data-table__group-body > tr > .data-table__cell:last-child {
+  border-right: 1px solid var(--color-grey-100, #e5e7eb);
+}
+
+/* Top border + top radius on the first row of each group */
+.data-table__group-body > tr:first-child > .data-table__cell {
+  border-top: 1px solid var(--color-grey-100, #e5e7eb);
+}
+.data-table__group-body > tr:first-child > .data-table__cell:first-child {
+  border-top-left-radius: 8px;
+}
+.data-table__group-body > tr:first-child > .data-table__cell:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* Bottom border on every row (row separator lines) */
+.data-table__group-body > tr > .data-table__cell {
+  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+}
+
+/* Bottom radius on last row — applies whether it's the pagination row or a data row */
+.data-table__group-body > tr:last-child > .data-table__cell:first-child {
+  border-bottom-left-radius: 8px;
+}
+.data-table__group-body > tr:last-child > .data-table__cell:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+/*
+ * Override the global "remove border-bottom from last row" rule for grouped rows.
+ * Placed after that rule so source-order wins (same specificity).
+ * When last row = pagination row: gives the card its bottom edge.
+ * When last row = data row (no pagination): restores the bottom border + radius.
+ */
+.data-table__group-body > tr:last-child > .data-table__cell {
+  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+}
+
+/*
+ * In grouped tables, data rows always keep their bottom border even when
+ * they're the last row before the pagination row.
+ * This selector is more specific than `.data-table__row:last-child .data-table__cell`
+ * and also appears later in the file, so it wins.
+ */
+.data-table__group-body .data-table__row .data-table__cell {
+  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+}
+
+/* ── Group pagination row ── */
+
+/* Reset cell padding so the inner div controls spacing */
+.data-table__group-body .data-table__group-pagination-cell {
+  padding: 0;
+  height: auto;
+}
+
+.data-table__group-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  gap: var(--scale-400, 16px);
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  color: var(--color-grey-600, #3a3a3a);
+}
+
+/* ── Active (current) page button in numbered pagination ── */
+.data-table__pagination-btn--active {
+  background: var(--color-primary-50, #dce9f7);
+  border-color: var(--color-primary, #3165ad);
+  color: var(--color-primary, #3165ad);
+  font-weight: var(--font-weight-medium, 500);
+}
