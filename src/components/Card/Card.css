@@ -1,10 +1,13 @@
 /**
- * Card component from Figma Component Library
+ * Card component — Figma Component Library node 2283:10045
  * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=320-5290
  *
- * Container with optional header (icon in 40x40 block, title, status badge), body,
- * and footer (primary + secondary buttons, or label pills). Uses scale tokens.
+ * Two variants:
+ *  default  — stacked card with header, body text, optional footer buttons
+ *  list     — compact single-row item with title+tag inline, chevron, subtext
  */
+
+/* ─── Card shell (shared) ────────────────────────────────────────────────────── */
 
 .card {
   display: flex;
@@ -12,10 +15,11 @@
   width: 500px;
   background: var(--color-white, #ffffff);
   border-radius: var(--radius-lg, 8px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.10), 0 4px 6px -1px rgba(0, 0, 0, 0.10);
   border: 1px solid var(--color-grey-100, #e5e7eb);
-  padding: var(--scale-400, 16px);
+  padding: var(--scale-600, 24px);
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  box-sizing: border-box;
 }
 
 .card--interactive {
@@ -24,7 +28,7 @@
 }
 
 .card--interactive:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.14), 0 6px 10px -2px rgba(0, 0, 0, 0.10);
   border-color: var(--color-grey-200, #c0c0c0);
 }
 
@@ -33,13 +37,43 @@
   box-shadow: 0 0 0 4px rgba(49, 101, 173, 0.2), 0 0 0 2px var(--color-white, #ffffff);
 }
 
+/* ─── Shared: icon block ─────────────────────────────────────────────────────── */
+
+.card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background: var(--color-primary-50, #e5eefa);
+  border-radius: var(--radius-md, 4px);
+  color: var(--color-grey, #616161);
+}
+
+/* ─── Shared: title ──────────────────────────────────────────────────────────── */
+
+.card__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: 24px;
+  color: var(--color-grey-700, #272727);
+}
+
+/* ─── Default variant ────────────────────────────────────────────────────────── */
+
+.card--default {
+  gap: var(--scale-600, 24px);
+}
+
 .card__header {
-  margin-bottom: var(--scale-400, 16px);
+  /* No extra margin needed — gap on .card--default handles spacing */
 }
 
 .card__header-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--scale-300, 12px);
 }
 
@@ -50,46 +84,83 @@
   gap: var(--scale-200, 8px);
 }
 
-.card__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  background: var(--color-grey-50, #efefef);
-  border-radius: var(--radius-md, 4px);
-  color: var(--color-grey, #616161);
-}
-
-.card__title {
-  margin: 0;
-  font-size: 16px;
-  font-weight: var(--font-weight-bold, 700);
-  line-height: 24px;
-  color: var(--color-grey-700, #272727);
-}
-
-
 .card__body {
   flex: 1;
   font-size: 14px;
   font-weight: var(--font-weight-regular, 400);
   line-height: 20px;
   color: var(--color-grey-400, #818181);
-  margin-bottom: var(--scale-600, 24px);
-}
-
-.card__body:last-child {
-  margin-bottom: 0;
 }
 
 .card__footer {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
-  gap: var(--scale-300, 12px);
-  padding-top: var(--scale-600, 24px);
+  gap: var(--scale-200, 8px);
 }
 
+.card__footer--right {
+  justify-content: flex-end;
+}
+
+.card__footer--left {
+  justify-content: flex-start;
+}
+
+/* ─── List variant ───────────────────────────────────────────────────────────── */
+
+.card--list {
+  /* Override default column gap — list is a single flat row */
+  padding: var(--scale-400, 16px) var(--scale-600, 24px);
+}
+
+.card--list.card--interactive:hover .card__list-chevron {
+  color: var(--color-primary, #3165ad);
+}
+
+.card__list-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--scale-300, 12px);
+  width: 100%;
+}
+
+/* Content column: title + tag row, then subtext — both aligned to the same left edge */
+.card__list-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-100, 4px);
+  min-width: 0;
+}
+
+/* Title + tag on one horizontal line */
+.card__list-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+  flex-wrap: wrap;
+}
+
+/* Supporting sub-text: smaller, grey, aligned with title (inherits left edge of .card__list-content) */
+.card__list-subtext {
+  margin: 0;
+  font-size: 13px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 20px;
+  color: var(--color-grey-400, #818181);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dot separator helper: use in story as "Text 1 · Text 2" */
+
+/* Chevron */
+.card__list-chevron {
+  flex-shrink: 0;
+  color: var(--color-grey-300, #a0a0a0);
+  transition: color 0.15s;
+}
