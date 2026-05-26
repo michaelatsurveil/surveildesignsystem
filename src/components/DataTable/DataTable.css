@@ -683,9 +683,35 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
   border-spacing: 0;
 }
 
-/* Header cells keep their bottom border */
+/* ── Thead is visually part of the first group card ── */
+/* Give it top + bottom + side borders and top radius so it merges with the first group */
 .data-table--grouped .data-table__head .data-table__cell {
+  border-top: 1px solid var(--color-grey-100, #e5e7eb);
   border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+}
+.data-table--grouped .data-table__head .data-table__cell:first-child {
+  border-left: 1px solid var(--color-grey-100, #e5e7eb);
+  border-top-left-radius: var(--radius-lg, 8px);
+}
+.data-table--grouped .data-table__head .data-table__cell:last-child {
+  border-right: 1px solid var(--color-grey-100, #e5e7eb);
+  border-top-right-radius: var(--radius-lg, 8px);
+}
+
+/* First group body sits directly below thead — remove duplicate top border/radius */
+.data-table--grouped .data-table__head + .data-table__group-body > tr:first-child > .data-table__cell {
+  border-top: none;
+}
+.data-table--grouped .data-table__head + .data-table__group-body > tr:first-child > .data-table__cell:first-child {
+  border-top-left-radius: 0;
+}
+.data-table--grouped .data-table__head + .data-table__group-body > tr:first-child > .data-table__cell:last-child {
+  border-top-right-radius: 0;
+}
+
+/* 8px breathing room between toolbar bottom and the first group card */
+.data-table__wrap--grouped .data-table--grouped {
+  margin-top: 8px;
 }
 
 /* ── Group spacer (16px gap between groups) ── */
