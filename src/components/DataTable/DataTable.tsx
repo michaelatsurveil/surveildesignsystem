@@ -235,8 +235,6 @@ export function DataTable<T extends Record<string, unknown>>({
 
   // Pagination calculations (non-grouped mode)
   const totalPages = pagination ? Math.max(1, Math.ceil(pagination.total / pagination.pageSize)) : 1;
-  const rangeStart = pagination ? (pagination.page - 1) * pagination.pageSize + 1 : 1;
-  const rangeEnd = pagination ? Math.min(pagination.page * pagination.pageSize, pagination.total) : rows.length;
   const pageSizeOptions = pagination?.pageSizeOptions ?? [10, 25, 50, 100];
 
   const isGrouped = Boolean(groups?.length);
@@ -249,38 +247,6 @@ export function DataTable<T extends Record<string, unknown>>({
             {toolbar.title && (
               <span className="data-table__toolbar-title">{toolbar.title}</span>
             )}
-          </div>
-          <div className="data-table__toolbar-right">
-            {/* Legacy icon buttons — shown only when legacy props are provided */}
-            {(toolbar.onFilter || toolbar.filters || toolbar.onRefresh || toolbar.onDownload) && (
-              <div className="data-table__toolbar-icons">
-                {(toolbar.onFilter || toolbar.filters) && (
-                  <button
-                    type="button"
-                    className={`data-table__toolbar-btn${filterBarOpen ? ' data-table__toolbar-btn--active' : ''}`}
-                    onClick={() => {
-                      if (toolbar.filters?.length) setFilterBarOpen(v => !v);
-                      toolbar.onFilter?.();
-                    }}
-                    aria-label="Filter"
-                    aria-expanded={toolbar.filters?.length ? filterBarOpen : undefined}
-                  >
-                    <Filter size={16} strokeWidth={2} />
-                  </button>
-                )}
-                {toolbar.onRefresh && (
-                  <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onRefresh} aria-label="Refresh">
-                    <RefreshCw size={16} strokeWidth={2} />
-                  </button>
-                )}
-                {toolbar.onDownload && (
-                  <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onDownload} aria-label="Download">
-                    <Download size={16} strokeWidth={2} />
-                  </button>
-                )}
-              </div>
-            )}
-
             {/* Search + inline filters (new layout) */}
             {(toolbar.onSearch || toolbar.inlineFilters) && (
               <div className="data-table__toolbar-filters">
@@ -321,6 +287,37 @@ export function DataTable<T extends Record<string, unknown>>({
                     options={[]}
                     onAddFilter={toolbar.onAddFilter}
                   />
+                )}
+              </div>
+            )}
+          </div>
+          <div className="data-table__toolbar-right">
+            {/* Legacy icon buttons — shown only when legacy props are provided */}
+            {(toolbar.onFilter || toolbar.filters || toolbar.onRefresh || toolbar.onDownload) && (
+              <div className="data-table__toolbar-icons">
+                {(toolbar.onFilter || toolbar.filters) && (
+                  <button
+                    type="button"
+                    className={`data-table__toolbar-btn${filterBarOpen ? ' data-table__toolbar-btn--active' : ''}`}
+                    onClick={() => {
+                      if (toolbar.filters?.length) setFilterBarOpen(v => !v);
+                      toolbar.onFilter?.();
+                    }}
+                    aria-label="Filter"
+                    aria-expanded={toolbar.filters?.length ? filterBarOpen : undefined}
+                  >
+                    <Filter size={16} strokeWidth={2} />
+                  </button>
+                )}
+                {toolbar.onRefresh && (
+                  <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onRefresh} aria-label="Refresh">
+                    <RefreshCw size={16} strokeWidth={2} />
+                  </button>
+                )}
+                {toolbar.onDownload && (
+                  <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onDownload} aria-label="Download">
+                    <Download size={16} strokeWidth={2} />
+                  </button>
                 )}
               </div>
             )}
@@ -651,6 +648,18 @@ export function DataTable<T extends Record<string, unknown>>({
                 >
                   <ChevronLeft size={16} strokeWidth={2} />
                 </button>
+                {Array.from({ length: Math.min(totalPages, 10) }, (_, i) => i + 1).map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    className={`data-table__pagination-btn${p === pagination.page ? ' data-table__pagination-btn--active' : ''}`}
+                    onClick={() => pagination.onPageChange(p)}
+                    aria-label={`Page ${p}`}
+                    aria-current={p === pagination.page ? 'page' : undefined}
+                  >
+                    {p}
+                  </button>
+                ))}
                 <button
                   type="button"
                   className="data-table__pagination-btn"
@@ -686,7 +695,7 @@ export function DataTable<T extends Record<string, unknown>>({
                   </select>
                 </label>
                 <span className="data-table__pagination-summary">
-                  {rangeStart}–{rangeEnd} of {pagination.total}
+                  {pagination.page} of {totalPages} pages ({pagination.total} items)
                 </span>
               </div>
             </div>

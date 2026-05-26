@@ -67,59 +67,184 @@ const meta: Meta<typeof DataTable> = {
 
 export default meta;
 
-type Story = StoryObj<typeof DataTable<TenantRow>>;
+// ─── Overview data (tree: 4 regions × 9 rows each = 36 total, 4 pages) ───────
+
+type OverviewRow = {
+  id: string;
+  type: 'parent' | 'child';
+  parentId?: string;
+  name: string;
+  region: string;
+  devices: number;
+  users: number;
+  status: 'Active' | 'Pending' | 'Warning';
+};
+
+const overviewData: OverviewRow[] = [
+  // APAC — 1 parent + 8 children = 9 rows (page 1)
+  { id: 'apac',   type: 'parent',                   name: 'APAC',         region: 'Asia Pacific',          devices: 1240, users:  3820, status: 'Active'  },
+  { id: 'apac-1', type: 'child', parentId: 'apac',  name: 'Contoso AU',   region: 'Australia',             devices:  480, users:  1200, status: 'Active'  },
+  { id: 'apac-2', type: 'child', parentId: 'apac',  name: 'Fabrikam SG',  region: 'Singapore',             devices:  390, users:  1140, status: 'Active'  },
+  { id: 'apac-3', type: 'child', parentId: 'apac',  name: 'Northwind JP', region: 'Japan',                 devices:  370, users:  1480, status: 'Pending' },
+  { id: 'apac-4', type: 'child', parentId: 'apac',  name: 'Tailspin NZ',  region: 'New Zealand',           devices:  220, users:   680, status: 'Active'  },
+  { id: 'apac-5', type: 'child', parentId: 'apac',  name: 'Proseware IN', region: 'India',                 devices:  510, users:  1620, status: 'Active'  },
+  { id: 'apac-6', type: 'child', parentId: 'apac',  name: 'Contoso HK',   region: 'Hong Kong',             devices:  145, users:   430, status: 'Warning' },
+  { id: 'apac-7', type: 'child', parentId: 'apac',  name: 'Fabrikam KR',  region: 'South Korea',           devices:  285, users:   840, status: 'Active'  },
+  { id: 'apac-8', type: 'child', parentId: 'apac',  name: 'Northwind MY', region: 'Malaysia',              devices:  195, users:   570, status: 'Active'  },
+  // EMEA — 1 parent + 8 children = 9 rows (page 2)
+  { id: 'emea',   type: 'parent',                   name: 'EMEA',         region: 'Europe / Middle East',  devices: 2105, users:  6430, status: 'Active'  },
+  { id: 'emea-1', type: 'child', parentId: 'emea',  name: 'Contoso UK',   region: 'United Kingdom',        devices:  720, users:  2100, status: 'Active'  },
+  { id: 'emea-2', type: 'child', parentId: 'emea',  name: 'Fabrikam DE',  region: 'Germany',               devices:  580, users:  1890, status: 'Active'  },
+  { id: 'emea-3', type: 'child', parentId: 'emea',  name: 'Northwind FR', region: 'France',                devices:  805, users:  2440, status: 'Active'  },
+  { id: 'emea-4', type: 'child', parentId: 'emea',  name: 'Tailspin NL',  region: 'Netherlands',           devices:  310, users:   920, status: 'Pending' },
+  { id: 'emea-5', type: 'child', parentId: 'emea',  name: 'Proseware SE', region: 'Sweden',                devices:  245, users:   730, status: 'Active'  },
+  { id: 'emea-6', type: 'child', parentId: 'emea',  name: 'Contoso AE',   region: 'UAE',                   devices:  190, users:   560, status: 'Active'  },
+  { id: 'emea-7', type: 'child', parentId: 'emea',  name: 'Fabrikam PL',  region: 'Poland',                devices:  175, users:   520, status: 'Warning' },
+  { id: 'emea-8', type: 'child', parentId: 'emea',  name: 'Northwind IT', region: 'Italy',                 devices:  410, users:  1240, status: 'Active'  },
+  // Americas — 1 parent + 8 children = 9 rows (page 3)
+  { id: 'amer',   type: 'parent',                   name: 'Americas',     region: 'North / South America', devices: 3870, users: 11250, status: 'Active'  },
+  { id: 'amer-1', type: 'child', parentId: 'amer',  name: 'Contoso US',   region: 'United States',         devices: 1420, users:  4800, status: 'Active'  },
+  { id: 'amer-2', type: 'child', parentId: 'amer',  name: 'Fabrikam CA',  region: 'Canada',                devices:  980, users:  3200, status: 'Active'  },
+  { id: 'amer-3', type: 'child', parentId: 'amer',  name: 'Northwind BR', region: 'Brazil',                devices: 1470, users:  3250, status: 'Pending' },
+  { id: 'amer-4', type: 'child', parentId: 'amer',  name: 'Tailspin MX',  region: 'Mexico',                devices:  320, users:   980, status: 'Active'  },
+  { id: 'amer-5', type: 'child', parentId: 'amer',  name: 'Proseware AR', region: 'Argentina',             devices:  210, users:   640, status: 'Active'  },
+  { id: 'amer-6', type: 'child', parentId: 'amer',  name: 'Contoso CO',   region: 'Colombia',              devices:  195, users:   590, status: 'Warning' },
+  { id: 'amer-7', type: 'child', parentId: 'amer',  name: 'Fabrikam CL',  region: 'Chile',                 devices:  280, users:   840, status: 'Active'  },
+  { id: 'amer-8', type: 'child', parentId: 'amer',  name: 'Northwind PE', region: 'Peru',                  devices:  165, users:   480, status: 'Active'  },
+  // APJ — 1 parent + 8 children = 9 rows (page 4)
+  { id: 'apj',    type: 'parent',                   name: 'APJ',          region: 'Asia Pacific Japan',    devices: 1640, users:  4920, status: 'Active'  },
+  { id: 'apj-1',  type: 'child', parentId: 'apj',   name: 'Contoso JP',   region: 'Japan',                 devices:  440, users:  1320, status: 'Active'  },
+  { id: 'apj-2',  type: 'child', parentId: 'apj',   name: 'Fabrikam TH',  region: 'Thailand',              devices:  280, users:   840, status: 'Active'  },
+  { id: 'apj-3',  type: 'child', parentId: 'apj',   name: 'Northwind VN', region: 'Vietnam',               devices:  310, users:   930, status: 'Pending' },
+  { id: 'apj-4',  type: 'child', parentId: 'apj',   name: 'Tailspin PH',  region: 'Philippines',           devices:  195, users:   585, status: 'Active'  },
+  { id: 'apj-5',  type: 'child', parentId: 'apj',   name: 'Proseware ID', region: 'Indonesia',             devices:  420, users:  1260, status: 'Active'  },
+  { id: 'apj-6',  type: 'child', parentId: 'apj',   name: 'Contoso TW',   region: 'Taiwan',                devices:  165, users:   495, status: 'Warning' },
+  { id: 'apj-7',  type: 'child', parentId: 'apj',   name: 'Fabrikam MM',  region: 'Myanmar',               devices:   95, users:   285, status: 'Active'  },
+  { id: 'apj-8',  type: 'child', parentId: 'apj',   name: 'Northwind PK', region: 'Pakistan',              devices:  215, users:   645, status: 'Active'  },
+];
 
 // ─── Overview story ────────────────────────────────────────────────────────
 
-export const Default: Story = {
-  name: 'Overview — Toolbar + Pagination + Selection',
+export const Default: StoryObj<typeof DataTable<OverviewRow>> = {
+  name: 'Overview — Tree + Numbers + Tags + Pagination',
   render: function Overview() {
     const [query, setQuery] = useState('');
     const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+    const pageSize = 9;
+    const [expandedIds, setExpandedIds] = useState<Set<string>>(
+      new Set(['apac', 'emea', 'amer', 'apj'])
+    );
     const [filterStatus, setFilterStatus] = useState('');
-    const [filterType, setFilterType] = useState('');
     const [viewMode, setViewMode] = useState('table');
 
-    const filtered = allRows.filter((r) => {
-      if (query && !r.tenant.toLowerCase().includes(query.toLowerCase()) && !r.tenantEmail.toLowerCase().includes(query.toLowerCase())) return false;
-      if (filterStatus && r.status !== filterStatus) return false;
-      if (filterType && r.type !== filterType) return false;
-      return true;
+    const toggle = (id: string) =>
+      setExpandedIds((prev) => {
+        const next = new Set(prev);
+        next.has(id) ? next.delete(id) : next.add(id);
+        return next;
+      });
+
+    // Build visible rows: parents always visible; children only when parent is expanded
+    const allVisible = overviewData.filter(
+      (row) => row.type === 'parent' || expandedIds.has(row.parentId!)
+    );
+
+    // Apply search + status filter (status filter skips parent rows so they always show)
+    const filtered = allVisible.filter((row) => {
+      const matchesQuery =
+        !query ||
+        row.name.toLowerCase().includes(query.toLowerCase()) ||
+        row.region.toLowerCase().includes(query.toLowerCase());
+      const matchesStatus =
+        !filterStatus || row.type === 'parent' || row.status === filterStatus;
+      return matchesQuery && matchesStatus;
     });
+
+    const total = filtered.length;
     const pagedRows = filtered.slice((page - 1) * pageSize, page * pageSize);
 
+    const columns = [
+      {
+        id: 'name',
+        header: 'Name',
+        headerClassName: 'data-table__cell--head-chevron',
+        render: (_: unknown, row: OverviewRow) => {
+          if (row.type === 'parent') {
+            const isOpen = expandedIds.has(row.id);
+            return (
+              <span style={{ display: 'flex', alignItems: 'center', marginLeft: '-4px' }}>
+                <button
+                  type="button"
+                  style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, width: 16, background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'var(--color-grey,#616161)' }}
+                  onClick={() => { toggle(row.id); setPage(1); }}
+                  aria-label={isOpen ? 'Collapse' : 'Expand'}
+                >
+                  {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                </button>
+                <strong style={{ fontWeight: 600, color: 'var(--color-grey-700,#272727)' }}>{row.name}</strong>
+              </span>
+            );
+          }
+          return (
+            <span className="data-table__cell--child-tree" style={{ display: 'block' }}>
+              {row.name}
+            </span>
+          );
+        },
+      },
+      { id: 'region', header: 'Region' },
+      {
+        id: 'devices',
+        header: 'Devices',
+        headerClassName: 'data-table__cell--right',
+        render: (value: unknown) => (
+          <span className="data-table__cell-number" style={{ display: 'block', textAlign: 'right' }}>
+            {Number(value).toLocaleString()}
+          </span>
+        ),
+      },
+      {
+        id: 'users',
+        header: 'Users',
+        headerClassName: 'data-table__cell--right',
+        render: (value: unknown) => (
+          <span className="data-table__cell-number" style={{ display: 'block', textAlign: 'right' }}>
+            {Number(value).toLocaleString()}
+          </span>
+        ),
+      },
+      {
+        id: 'status',
+        header: 'Status',
+        render: (value: unknown) => (
+          <Tag
+            variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'attention'}
+            size="sm"
+          >
+            {String(value)}
+          </Tag>
+        ),
+      },
+    ];
+
     return (
-      <DataTable<TenantRow>
-        columns={overviewColumns}
+      <DataTable<OverviewRow>
+        columns={columns as never}
         rows={pagedRows}
-        getRowId={(row) => row.tenantEmail}
-        selectable
-        selectedRowIds={selectedIds}
-        onSelectionChange={setSelectedIds}
+        getRowId={(row) => row.id}
         toolbar={{
           onSearch: (q) => { setQuery(q); setPage(1); },
-          searchPlaceholder: 'Search tenants…',
+          searchPlaceholder: 'Search…',
           inlineFilters: [
             {
               placeholder: 'Status',
               options: [
-                { label: 'Active', value: 'Active' },
+                { label: 'Active',  value: 'Active'  },
                 { label: 'Pending', value: 'Pending' },
-                { label: 'Default', value: 'Default' },
+                { label: 'Warning', value: 'Warning' },
               ],
               value: filterStatus || undefined,
               onSelect: (v) => { setFilterStatus(v); setPage(1); },
-            },
-            {
-              placeholder: 'Type',
-              options: [
-                { label: 'M365', value: 'M365' },
-                { label: 'Google', value: 'Google' },
-              ],
-              value: filterType || undefined,
-              onSelect: (v) => { setFilterType(v); setPage(1); },
             },
           ],
           onAddFilter: () => {},
@@ -137,10 +262,8 @@ export const Default: Story = {
         pagination={{
           page,
           pageSize,
-          total: filtered.length,
-          pageSizeOptions: [10, 25, 50],
-          onPageChange: setPage,
-          onPageSizeChange: (size) => { setPageSize(size); setPage(1); },
+          total,
+          onPageChange: (p) => setPage(p),
         }}
       />
     );
