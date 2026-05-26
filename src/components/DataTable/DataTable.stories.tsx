@@ -80,6 +80,7 @@ export const Default: Story = {
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const [filterStatus, setFilterStatus] = useState('');
     const [filterType, setFilterType] = useState('');
+    const [viewMode, setViewMode] = useState('table');
 
     const filtered = allRows.filter((r) => {
       if (query && !r.tenant.toLowerCase().includes(query.toLowerCase()) && !r.tenantEmail.toLowerCase().includes(query.toLowerCase())) return false;
@@ -98,10 +99,11 @@ export const Default: Story = {
         selectedRowIds={selectedIds}
         onSelectionChange={setSelectedIds}
         toolbar={{
-          title: 'Tenants',
-          filters: [
+          onSearch: (q) => { setQuery(q); setPage(1); },
+          searchPlaceholder: 'Search tenants…',
+          inlineFilters: [
             {
-              placeholder: 'Filter name',
+              placeholder: 'Status',
               options: [
                 { label: 'Active', value: 'Active' },
                 { label: 'Pending', value: 'Pending' },
@@ -111,7 +113,7 @@ export const Default: Story = {
               onSelect: (v) => { setFilterStatus(v); setPage(1); },
             },
             {
-              placeholder: 'Filter name',
+              placeholder: 'Type',
               options: [
                 { label: 'M365', value: 'M365' },
                 { label: 'Google', value: 'Google' },
@@ -119,23 +121,18 @@ export const Default: Story = {
               value: filterType || undefined,
               onSelect: (v) => { setFilterType(v); setPage(1); },
             },
-            {
-              placeholder: 'Filter name',
-              options: [{ label: 'Navigator', value: 'Navigator' }],
-              value: undefined,
-              onSelect: () => {},
-            },
-            {
-              placeholder: 'Filter name',
-              options: [],
-              value: undefined,
-              onSelect: () => {},
-            },
           ],
-          onRefresh: () => {},
-          onDownload: () => {},
-          onSearch: (q) => { setQuery(q); setPage(1); },
-          searchPlaceholder: 'Search tenants…',
+          onAddFilter: () => {},
+          rightAction: {
+            type: 'view',
+            viewOptions: [
+              { label: 'Table',   value: 'table'   },
+              { label: 'Card',    value: 'card'    },
+              { label: 'Compact', value: 'compact' },
+            ],
+            viewValue: viewMode,
+            onViewChange: setViewMode,
+          },
         }}
         pagination={{
           page,
@@ -144,84 +141,6 @@ export const Default: Story = {
           pageSizeOptions: [10, 25, 50],
           onPageChange: setPage,
           onPageSizeChange: (size) => { setPageSize(size); setPage(1); },
-        }}
-      />
-    );
-  },
-};
-
-// ─── Filter Bar story ─────────────────────────────────────────────────────
-
-export const FilterBar: Story = {
-  name: 'Toolbar — Filter Bar',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Clicking the filter icon in the toolbar expands a filter bar below it. ' +
-          'Each `DataTableFilterConfig` in the `toolbar.filters` array renders as a full-width `Filter` component. ' +
-          'Pass `defaultFilterBarOpen: true` to start the bar expanded. ' +
-          'The active filter icon turns blue to indicate the bar is open.',
-      },
-    },
-  },
-  render: function FilterBarStory() {
-    const [filterStatus, setFilterStatus] = useState('');
-    const [filterType, setFilterType] = useState('');
-    const [filterSource, setFilterSource] = useState('');
-
-    const filtered = allRows.filter((r) => {
-      if (filterStatus && r.status !== filterStatus) return false;
-      if (filterType && r.type !== filterType) return false;
-      if (filterSource && r.source !== filterSource) return false;
-      return true;
-    });
-
-    return (
-      <DataTable<TenantRow>
-        columns={overviewColumns}
-        rows={filtered.slice(0, 10)}
-        getRowId={(row) => row.tenantEmail}
-        toolbar={{
-          title: 'Table Title',
-          defaultFilterBarOpen: true,
-          filters: [
-            {
-              placeholder: 'Filter name',
-              options: [
-                { label: 'Active', value: 'Active' },
-                { label: 'Pending', value: 'Pending' },
-                { label: 'Default', value: 'Default' },
-              ],
-              value: filterStatus || undefined,
-              onSelect: setFilterStatus,
-            },
-            {
-              placeholder: 'Filter name',
-              options: [
-                { label: 'M365', value: 'M365' },
-                { label: 'Google', value: 'Google' },
-              ],
-              value: filterType || undefined,
-              onSelect: setFilterType,
-            },
-            {
-              placeholder: 'Filter name',
-              options: [{ label: 'Navigator', value: 'Navigator' }],
-              value: filterSource || undefined,
-              onSelect: setFilterSource,
-            },
-            {
-              placeholder: 'Filter name',
-              options: [],
-              value: undefined,
-              onSelect: () => {},
-            },
-          ],
-          onRefresh: () => {},
-          onDownload: () => {},
-          onSearch: () => {},
-          searchPlaceholder: 'Search…',
         }}
       />
     );
@@ -250,7 +169,12 @@ export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {
           columns={overviewColumns}
           rows={[]}
           getRowId={(row) => row.tenantEmail}
-          toolbar={{ title: 'Tenants', onFilter: () => {}, onRefresh: () => {}, onDownload: () => {} }}
+          toolbar={{
+            onSearch: () => {},
+            searchPlaceholder: 'Search…',
+            inlineFilters: [{ placeholder: 'Status', options: [] }],
+            rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }], viewValue: 'table' },
+          }}
           emptyState={
             <DataTableEmptyState
               secondaryAction={{ label: 'Import data' }}
@@ -267,7 +191,7 @@ export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {
           columns={overviewColumns}
           rows={[]}
           getRowId={(row) => row.tenantEmail}
-          toolbar={{ title: 'Tenants' }}
+          toolbar={{ onSearch: () => {}, rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }], viewValue: 'table' } }}
           emptyState={<DataTableEmptyState />}
         />
       </div>
@@ -279,7 +203,7 @@ export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {
           columns={overviewColumns}
           rows={[]}
           getRowId={(row) => row.tenantEmail}
-          toolbar={{ title: 'Tenants' }}
+          toolbar={{ onSearch: () => {}, rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }], viewValue: 'table' } }}
           emptyState={
             <DataTableEmptyState
               heading="No tenants found"
@@ -564,7 +488,7 @@ export const CellTypes: StoryObj<typeof DataTable<CellTypeRow>> = {
       columns={cellTypeColumns as never}
       rows={cellTypeRows}
       getRowId={(row) => row.id}
-      toolbar={{ title: 'Data Cell Types' }}
+      toolbar={{ onSearch: () => {}, rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }], viewValue: 'table' } }}
     />
   ),
 };
@@ -666,7 +590,13 @@ export const TreeView: StoryObj<typeof DataTable<TreeRow>> = {
         columns={columns as never}
         rows={visibleRows}
         getRowId={(row) => row.id}
-        toolbar={{ title: 'Tenants by Region' }}
+        toolbar={{
+          onSearch: () => {},
+          searchPlaceholder: 'Search…',
+          inlineFilters: [{ placeholder: 'Status', options: [{ label: 'Active', value: 'Active' }, { label: 'Pending', value: 'Pending' }] }],
+          onAddFilter: () => {},
+          rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }, { label: 'Card', value: 'card' }], viewValue: 'table' },
+        }}
       />
     );
   },
@@ -737,7 +667,6 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityRow>> = {
         columns={priorityColumns as never}
         getRowId={(row) => row.id}
         toolbar={{
-          title: 'Tenants by Priority',
           onSearch: () => {},
           searchPlaceholder: 'Search…',
           inlineFilters: [
@@ -869,7 +798,13 @@ export const EditableCells: StoryObj<typeof DataTable<EditableRow>> = {
         columns={columns as never}
         rows={rows}
         getRowId={(row) => row.id}
-        toolbar={{ title: 'Editable Tenants' }}
+        toolbar={{
+          onSearch: () => {},
+          searchPlaceholder: 'Search…',
+          inlineFilters: [{ placeholder: 'Status', options: [{ label: 'Active', value: 'Active' }, { label: 'Pending', value: 'Pending' }] }],
+          onAddFilter: () => {},
+          rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }, { label: 'Card', value: 'card' }], viewValue: 'table' },
+        }}
       />
     );
   },
@@ -905,7 +840,6 @@ export const ToolbarWithButtons: StoryObj<typeof DataTable<TenantRow>> = {
         rows={filtered}
         getRowId={(row) => row.tenantEmail}
         toolbar={{
-          title: 'Tenants',
           onSearch: (q) => setQuery(q),
           searchPlaceholder: 'Search tenants…',
           inlineFilters: [
@@ -972,7 +906,6 @@ export const ToolbarWithViewDropdown: StoryObj<typeof DataTable<TenantRow>> = {
         rows={filtered}
         getRowId={(row) => row.tenantEmail}
         toolbar={{
-          title: 'Tenants',
           onSearch: (q) => setQuery(q),
           searchPlaceholder: 'Search tenants…',
           inlineFilters: [
