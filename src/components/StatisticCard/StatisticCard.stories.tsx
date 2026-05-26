@@ -54,7 +54,7 @@ export const Default: Story = {
 
       <div>
         <div style={sectionLabel}>Default (value + comparison)</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           <StatisticCard
             variant="default"
             title="Statistic Title"
@@ -92,7 +92,7 @@ export const Default: Story = {
 
       <div>
         <div style={sectionLabel}>Stacked (metric rows)</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           <StatisticCard
             variant="stacked"
             title="Statistic Title"
@@ -133,7 +133,7 @@ export const Default: Story = {
 
       <div>
         <div style={sectionLabel}>Progress bar</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           <StatisticCard
             variant="progress"
             title="Statistic Title"
@@ -178,7 +178,7 @@ export const DefaultVariant: Story = {
     },
   },
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
       <StatisticCard
         variant="default"
         title="Statistic Title"
@@ -268,7 +268,7 @@ export const ProgressVariant: Story = {
     },
   },
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
       <StatisticCard
         variant="progress"
         title="Statistic Title"
@@ -309,7 +309,7 @@ export const NoActionBar: Story = {
     },
   },
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
       <StatisticCard
         variant="default"
         title="Value only"
