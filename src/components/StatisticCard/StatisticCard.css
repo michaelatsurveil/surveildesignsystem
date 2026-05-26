@@ -1,41 +1,53 @@
 /**
- * Statistic Card — Figma 90-682 (exploded state)
+ * Statistic Card — Figma 87:409 / node 90-682
  * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=90-682
  *
- * Structure: header (icon + title + badge) → value + comparison → supporting text → labels / actions.
- * Vertical sizing hugs content when optional pieces are omitted (conditional margins).
+ * Three variants:
+ *  default   → large value + stat comparison + action bar
+ *  stacked   → list of labelled metric rows + action bar
+ *  progress  → linear progress bar + action bar
  */
+
+/* ─── Card shell ─────────────────────────────────────────────────────────────── */
 
 .statistic-card {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   width: 100%;
-  min-height: 0;
   box-sizing: border-box;
-  container-type: inline-size; /* enables container queries on this card */
+  container-type: inline-size;
   background: var(--color-white, #ffffff);
-  border-radius: 8px;
-  box-shadow: none;
-  border: 1px solid var(--color-grey-100, #e5e7eb);
-  padding: var(--scale-400, 16px);
+  border-radius: var(--radius-lg, 8px);
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  padding: var(--scale-400, 16px) var(--scale-500, 20px);
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  gap: var(--scale-400, 16px);
 }
+
+/* Progress variant has a tighter gap between sections */
+.statistic-card--progress {
+  gap: var(--scale-200, 8px);
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────────── */
 
 .statistic-card__header {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: var(--scale-400, 16px);
-  margin-bottom: var(--scale-400, 16px);
   min-width: 0;
 }
 
 .statistic-card__header-left {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: var(--scale-300, 12px);
+  gap: var(--scale-200, 8px);
   min-width: 0;
+  flex: 1;
 }
 
 .statistic-card__icon {
@@ -43,66 +55,93 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--color-warning, #db9315);
+  color: var(--color-warning, #ac5c11);
 }
 
 .statistic-card__title {
-  flex: 1;
-  min-width: 0;
   margin: 0;
-  font-size: 14px;
-  font-weight: var(--font-weight-semibold, 600);
-  line-height: 20px;
+  font-size: 16px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 24px;
   color: var(--color-grey, #616161);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .statistic-card__badge {
   flex-shrink: 0;
   padding: var(--scale-100, 4px) 10px;
-  border-radius: var(--radius-lg, 8px);
+  border-radius: 12px;
   background: var(--color-grey-50, #efefef);
   color: var(--color-grey, #616161);
   font-size: 12px;
-  font-weight: var(--font-weight-medium, 500);
+  font-weight: var(--font-weight-regular, 400);
   line-height: 16px;
+  white-space: nowrap;
 }
 
-/* Value row: only add bottom margin when supporting text or footer follows (vertical hug) */
-.statistic-card__value-row {
+/* Dropdown trigger in header right slot */
+.statistic-card__dropdown-trigger {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--scale-100, 4px);
+  padding: var(--scale-100, 4px) var(--scale-200, 8px);
+  height: 28px;
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border-radius: var(--radius-sm, 4px);
+  background: var(--color-white, #ffffff);
+  color: var(--color-grey-400, #818181);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.statistic-card__dropdown-trigger:hover {
+  border-color: var(--color-grey-200, #c0c0c0);
+  color: var(--color-grey, #616161);
+}
+
+.statistic-card__dropdown-trigger:focus-visible {
+  outline: 2px solid var(--color-primary, #3165ad);
+  outline-offset: 2px;
+}
+
+/* ─── Body (wraps main content + action bar) ─────────────────────────────────── */
+
+.statistic-card__body {
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  gap: var(--scale-300, 12px);
-  margin-bottom: 0;
+  flex-direction: column;
+  gap: var(--scale-900, 40px);
 }
 
-/* Stack comparison below value on tablet and mobile viewports */
-@media (max-width: 768px) {
-  .statistic-card__value-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--scale-100, 4px);
-  }
-}
+/* ─── Default variant: value + comparison ────────────────────────────────────── */
 
-/* Also stack when the card itself is narrow (e.g. in a grid column) */
-@container (max-width: 360px) {
-  .statistic-card__value-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--scale-100, 4px);
-  }
-}
-.statistic-card--has-supporting .statistic-card__value-row,
-.statistic-card--has-footer .statistic-card__value-row {
-  margin-bottom: var(--scale-200, 8px);
+.statistic-card__statistic {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-100, 4px);
 }
 
 .statistic-card__value {
-  font-size: 24px;
-  font-weight: var(--font-weight-bold, 700);
-  line-height: 32px;
-  color: var(--color-primary-900, #111827);
+  font-size: 32px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 40px;
+  color: var(--color-grey-700, #272727);
+}
+
+.statistic-card__comparison-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+  flex-wrap: wrap;
 }
 
 .statistic-card__comparison {
@@ -111,8 +150,8 @@
   gap: var(--scale-100, 4px);
   flex-shrink: 0;
   font-size: 14px;
-  font-weight: var(--font-weight-regular, 400);
-  line-height: 20px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 16px;
 }
 
 .statistic-card__comparison--up {
@@ -127,17 +166,145 @@
   color: var(--color-grey, #616161);
 }
 
-/* Supporting text: only add bottom margin when footer follows (vertical hug) */
-.statistic-card__supporting {
-  margin: 0;
+.statistic-card__comparison-context {
   font-size: 14px;
   font-weight: var(--font-weight-regular, 400);
-  line-height: 20px;
+  line-height: 16px;
   color: var(--color-grey-400, #818181);
 }
-.statistic-card--has-footer .statistic-card__supporting {
-  margin-bottom: var(--scale-600, 24px);
+
+/* ─── Stacked variant: metric rows ───────────────────────────────────────────── */
+
+.statistic-card__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-200, 8px);
 }
+
+.statistic-card__metric-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-200, 8px);
+}
+
+.statistic-card__metric-label {
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
+  color: var(--color-grey, #616161);
+}
+
+.statistic-card__metric-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+}
+
+.statistic-card__metric-value {
+  font-size: 20px;
+  font-weight: var(--font-weight-bold, 700);
+  line-height: 24px;
+  color: var(--color-grey, #616161);
+}
+
+/* ─── Progress variant: bar + label ─────────────────────────────────────────── */
+
+.statistic-card__progress-wrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--scale-300, 12px);
+}
+
+.statistic-card__progress-track {
+  flex: 1;
+  height: 4px;
+  border-radius: 20px;
+  background: var(--color-grey-50, #efefef);
+  overflow: hidden;
+  position: relative;
+}
+
+.statistic-card__progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 20px;
+  background: var(--color-success, #15803d);
+  transition: width 0.3s ease;
+}
+
+/* Status colour overrides for the fill */
+.statistic-card__progress-track--success .statistic-card__progress-fill {
+  background: var(--color-success, #15803d);
+}
+
+.statistic-card__progress-track--warning .statistic-card__progress-fill {
+  background: var(--color-warning, #ac5c11);
+}
+
+.statistic-card__progress-track--error .statistic-card__progress-fill {
+  background: var(--color-error, #e61c1d);
+}
+
+.statistic-card__progress-label {
+  flex-shrink: 0;
+  font-size: 18px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 28px;
+  color: var(--color-grey, #616161);
+  white-space: nowrap;
+}
+
+/* ─── Action bar (shared footer) ─────────────────────────────────────────────── */
+
+.statistic-card__action-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--scale-300, 12px);
+  border-top: 1px solid var(--color-grey-100, #dfdfdf);
+  padding-top: var(--scale-300, 12px);
+}
+
+.statistic-card__supporting {
+  margin: 0;
+  font-size: 12px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
+  color: var(--color-grey-400, #818181);
+}
+
+.statistic-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-100, 4px);
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 16px;
+  color: var(--color-primary, #3165ad);
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.statistic-card__cta:hover {
+  opacity: 0.8;
+}
+
+.statistic-card__cta:focus-visible {
+  outline: 2px solid var(--color-primary, #3165ad);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ─── Legacy footer (primaryAction / secondaryAction) ────────────────────────── */
 
 .statistic-card__footer {
   display: flex;
@@ -145,10 +312,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--scale-300, 12px);
-  padding-top: 0;
-  margin-top: 0;
-}
-.statistic-card--has-footer .statistic-card__footer {
+  border-top: 1px solid var(--color-grey-100, #dfdfdf);
   padding-top: var(--scale-400, 16px);
 }
 
@@ -172,9 +336,9 @@
   margin-left: auto;
 }
 
-/* ── Responsive container queries ───────────────────────────────────────────── */
+/* ─── Responsive container queries ──────────────────────────────────────────── */
 
-/* Narrow card: wrap header badge onto its own line */
+/* Narrow: wrap header badge/dropdown onto own line */
 @container (max-width: 280px) {
   .statistic-card__header {
     flex-wrap: wrap;
@@ -184,7 +348,15 @@
   }
 }
 
-/* Narrow card: stack footer labels + actions vertically, full-width buttons */
+/* Narrow: stack action bar vertically */
+@container (max-width: 360px) {
+  .statistic-card__action-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Narrow: stack legacy footer */
 @container (max-width: 400px) {
   .statistic-card__footer {
     flex-direction: column;
