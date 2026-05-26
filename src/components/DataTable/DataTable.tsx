@@ -104,11 +104,11 @@ export interface DataTableGroupConfig<T = Record<string, unknown>> {
 
 export interface DataTableProps<T = Record<string, unknown>> {
   /** Column definitions */
-  columns: DataTableColumn<T>[];
+  columns?: DataTableColumn<T>[];
   /** Row data (array of objects keyed by column id). Omit or pass [] when using `groups`. */
   rows?: T[];
   /** Row key extractor for React keys */
-  getRowId: (row: T) => string;
+  getRowId?: (row: T) => string;
   /** Enable row selection (adds checkbox column) */
   selectable?: boolean;
   /** Selected row ids (controlled) */
@@ -178,9 +178,9 @@ export function DataTableEmptyState({
 }
 
 export function DataTable<T extends Record<string, unknown>>({
-  columns,
+  columns = [],
   rows = [],
-  getRowId,
+  getRowId = () => '',
   selectable = false,
   selectedRowIds = new Set(),
   onSelectionChange,
