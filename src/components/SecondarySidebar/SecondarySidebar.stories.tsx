@@ -1,12 +1,21 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
   Users,
   Settings,
   FileText,
-  ArrowLeft,
   Lock,
   ShieldCheck,
   ClipboardList,
+  Home,
+  Cloud,
+  Grid,
+  Bell,
+  BarChart2,
+  ChevronsLeftRight,
+  ChevronRight,
+  Star,
+  LogOut,
 } from 'lucide-react';
 import { SecondarySidebar } from './SecondarySidebar';
 
@@ -68,15 +77,10 @@ export const Default: Story = {
       { label: 'Archived Reports',   icon: <FileText size={iconSize} strokeWidth={stroke} />, href: '#', disabled: true },
     ];
 
-    const footerItems = [
-      { label: 'Back to Homepage', icon: <ArrowLeft size={iconSize} strokeWidth={stroke} />, href: '#' },
-    ];
-
     return (
       <SecondarySidebar
         account={account}
         items={mainItems}
-        footerItems={footerItems}
         version="Version 4.3.3"
         collapsible
       />
@@ -105,18 +109,113 @@ export const OldVersion: Story = {
       { label: 'Audit Logs',                      icon: <ClipboardList size={iconSize} strokeWidth={stroke} />, href: '#' },
     ];
 
-    const footerItems = [
-      { label: 'Back to Homepage', icon: <ArrowLeft size={iconSize} strokeWidth={stroke} />, href: '#' },
-    ];
-
     return (
       <div style={{ paddingRight: 120 }}>
         <SecondarySidebar
           account={account}
           items={mainItems}
-          footerItems={footerItems}
           version="Version 4.3.3"
           menuToggle
+        />
+      </div>
+    );
+  },
+};
+
+export const CollapsedIntoPrimary: Story = {
+  name: 'Collapsed into Primary Nav',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Shows the secondary sidebar alongside the primary navigation. Click the ChevronsLeftRight icon in the secondary sidebar header to collapse it — the primary navigation fills the viewport, matching the final collapsed layout.',
+      },
+    },
+  },
+  render: () => {
+    const [, setCollapsed] = useState(false);
+
+    const account = { name: 'ITEXACT Limited', email: 'jade.chau@surveil.co' };
+
+    const mainItems = [
+      { label: 'Manage Users',                       icon: <Users         size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Manage Permissions',                 icon: <Lock          size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Manage Recommendation Restrictions', icon: <ShieldCheck   size={iconSize} strokeWidth={stroke} />, href: '#' },
+      { label: 'Platform Settings',                  icon: <Settings      size={iconSize} strokeWidth={stroke} />, href: '#', active: true },
+      { label: 'Audit Logs',                         icon: <ClipboardList size={iconSize} strokeWidth={stroke} />, href: '#' },
+    ];
+
+    const navItems = [
+      { label: 'Home',                icon: Home },
+      { label: 'Azure',               icon: Cloud },
+      { label: 'MultiCloud',          icon: Grid },
+      { label: 'Microsoft 365',       icon: Grid },
+      { label: 'Alerts and Metrics',  icon: Bell },
+      { label: 'Custom Analytics',    icon: BarChart2 },
+      { label: 'Partner',             icon: Users },
+      { label: 'Configuration',       icon: Settings },
+      { label: 'Settings',            icon: Settings },
+    ];
+
+    return (
+      <div style={{ display: 'flex', background: '#ffffff', border: '1px solid #efefef', borderRadius: 8, overflow: 'hidden', minHeight: 620 }}>
+        {/* primary nav mock */}
+        <div style={{ width: 260, minHeight: 620, background: '#ffffff', borderRight: '1px solid #efefef', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+          {/* header */}
+          <div style={{ height: 56, borderBottom: '1px solid #efefef', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', flexShrink: 0 }}>
+            <span style={{ fontWeight: 600, fontSize: 16, color: '#111' }}>Surveil</span>
+            <ChevronsLeftRight size={18} strokeWidth={1.5} style={{ color: '#616161', cursor: 'pointer' }} />
+          </div>
+          {/* nav items */}
+          <div style={{ flex: 1, overflowY: 'auto', paddingTop: 8, paddingBottom: 8 }}>
+            {navItems.map(({ label, icon: Icon }) => (
+              <div
+                key={label}
+                style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 16px', cursor: 'pointer', color: '#616161', fontSize: 14 }}
+              >
+                <Icon size={18} strokeWidth={1.5} style={{ flexShrink: 0 }} />
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+          {/* bottom section */}
+          <hr style={{ borderTop: '1px solid #efefef', margin: 0, border: 'none', borderTopStyle: 'solid', borderTopColor: '#efefef', borderTopWidth: 1 }} />
+          {/* account row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', cursor: 'pointer' }}>
+            <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#3a3a3a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 600, fontSize: 13, color: '#111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>ITEXACT Limited</div>
+              <div style={{ fontSize: 12, color: '#616161', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>jade.chau@surveil.co</div>
+            </div>
+            <ChevronRight size={16} strokeWidth={1.5} style={{ color: '#616161', flexShrink: 0 }} />
+          </div>
+          {/* whats new */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 16px', cursor: 'pointer', color: '#616161', fontSize: 14 }}>
+            <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#efefef', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Star size={16} strokeWidth={1.5} />
+            </div>
+            <span>Whats new</span>
+          </div>
+          {/* logout */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 16px', cursor: 'pointer', color: '#616161', fontSize: 14, marginBottom: 8 }}>
+            <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#efefef', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <LogOut size={16} strokeWidth={1.5} />
+            </div>
+            <span>Logout</span>
+          </div>
+        </div>
+        {/* secondary sidebar */}
+        <SecondarySidebar
+          account={account}
+          items={mainItems}
+          version="Version 4.3.3"
+          collapsible
+          onCollapseChange={setCollapsed}
         />
       </div>
     );

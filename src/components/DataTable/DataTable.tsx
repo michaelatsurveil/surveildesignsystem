@@ -4,7 +4,21 @@ import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { Filter as FilterComponent } from '../Filter/Filter';
 import type { FilterOption } from '../Filter/Filter';
+import { Dropdown } from '../Dropdown/Dropdown';
+import type { DropdownOption } from '../Dropdown/Dropdown';
 import './DataTable.css';
+
+export interface DataTableToolbarRightAction {
+  /** 'buttons' shows primary + secondary Button; 'view' shows the View dropdown */
+  type: 'buttons' | 'view';
+  // For type='buttons'
+  primary?: { label: string; onClick?: () => void };
+  secondary?: { label: string; onClick?: () => void };
+  // For type='view'
+  viewOptions?: DropdownOption[];
+  viewValue?: string;
+  onViewChange?: (value: string) => void;
+}
 
 export interface DataTableFilterConfig {
   /** Placeholder text shown in the filter trigger */
@@ -37,6 +51,12 @@ export interface DataTableToolbar {
   onSearch?: (query: string) => void;
   /** Search placeholder text */
   searchPlaceholder?: string;
+  /** Filter components shown inline in the toolbar (next to search) */
+  inlineFilters?: DataTableFilterConfig[];
+  /** Callback for the "+ New filter" button shown after inline filters */
+  onAddFilter?: () => void;
+  /** Right-side action: primary+secondary buttons, or a View dropdown */
+  rightAction?: DataTableToolbarRightAction;
 }
 
 export interface DataTableColumn<T = Record<string, unknown>> {
@@ -154,6 +174,7 @@ export function DataTable<T extends Record<string, unknown>>({
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBarOpen, setFilterBarOpen] = useState(toolbar?.defaultFilterBarOpen ?? false);
   const [openFilterIndex, setOpenFilterIndex] = useState<number | null>(null);
+  const [openInlineFilterIndex, setOpenInlineFilterIndex] = useState<number | null>(null);
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
   const someSelected = selectable && selectedRowIds.size > 0;
   const indeterminate = someSelected && !allSelected;
@@ -196,46 +217,105 @@ export function DataTable<T extends Record<string, unknown>>({
             )}
           </div>
           <div className="data-table__toolbar-right">
-            <div className="data-table__toolbar-icons">
-              {(toolbar.onFilter || toolbar.filters) && (
-                <button
-                  type="button"
-                  className={`data-table__toolbar-btn${filterBarOpen ? ' data-table__toolbar-btn--active' : ''}`}
-                  onClick={() => {
-                    if (toolbar.filters?.length) setFilterBarOpen(v => !v);
-                    toolbar.onFilter?.();
-                  }}
-                  aria-label="Filter"
-                  aria-expanded={toolbar.filters?.length ? filterBarOpen : undefined}
-                >
-                  <Filter size={16} strokeWidth={2} />
-                </button>
-              )}
-              {toolbar.onRefresh && (
-                <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onRefresh} aria-label="Refresh">
-                  <RefreshCw size={16} strokeWidth={2} />
-                </button>
-              )}
-              {toolbar.onDownload && (
-                <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onDownload} aria-label="Download">
-                  <Download size={16} strokeWidth={2} />
-                </button>
-              )}
-            </div>
-            {toolbar.onSearch && (
-              <div className="data-table__toolbar-search">
-                <Search size={12} strokeWidth={2} className="data-table__toolbar-search-icon" aria-hidden />
-                <input
-                  type="text"
-                  className="data-table__toolbar-search-input"
-                  placeholder={toolbar.searchPlaceholder ?? 'Search…'}
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    toolbar.onSearch?.(e.target.value);
-                  }}
-                  aria-label="Search table"
-                />
+            {/* Legacy icon buttons — shown only when legacy props are provided */}
+            {(toolbar.onFilter || toolbar.filters || toolbar.onRefresh || toolbar.onDownload) && (
+              <div className="data-table__toolbar-icons">
+                {(toolbar.onFilter || toolbar.filters) && (
+                  <button
+                    type="button"
+                    className={`data-table__toolbar-btn${filterBarOpen ? ' data-table__toolbar-btn--active' : ''}`}
+                    onClick={() => {
+                      if (toolbar.filters?.length) setFilterBarOpen(v => !v);
+                      toolbar.onFilter?.();
+                    }}
+                    aria-label="Filter"
+                    aria-expanded={toolbar.filters?.length ? filterBarOpen : undefined}
+                  >
+                    <Filter size={16} strokeWidth={2} />
+                  </button>
+                )}
+                {toolbar.onRefresh && (
+                  <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onRefresh} aria-label="Refresh">
+                    <RefreshCw size={16} strokeWidth={2} />
+                  </button>
+                )}
+                {toolbar.onDownload && (
+                  <button type="button" className="data-table__toolbar-btn" onClick={toolbar.onDownload} aria-label="Download">
+                    <Download size={16} strokeWidth={2} />
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Search + inline filters (new layout) */}
+            {(toolbar.onSearch || toolbar.inlineFilters) && (
+              <div className="data-table__toolbar-filters">
+                {toolbar.onSearch && (
+                  <div className="data-table__toolbar-search">
+                    <Search size={12} strokeWidth={2} className="data-table__toolbar-search-icon" aria-hidden />
+                    <input
+                      type="text"
+                      className="data-table__toolbar-search-input"
+                      placeholder={toolbar.searchPlaceholder ?? 'Search…'}
+                      value={searchQuery}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        toolbar.onSearch?.(e.target.value);
+                      }}
+                      aria-label="Search table"
+                    />
+                  </div>
+                )}
+                {toolbar.inlineFilters?.map((filter, i) => (
+                  <FilterComponent
+                    key={i}
+                    placeholder={filter.placeholder}
+                    options={filter.options}
+                    value={filter.value}
+                    open={openInlineFilterIndex === i}
+                    onToggle={() => setOpenInlineFilterIndex(prev => prev === i ? null : i)}
+                    onSelect={(v) => {
+                      filter.onSelect?.(v);
+                      setOpenInlineFilterIndex(null);
+                    }}
+                  />
+                ))}
+                {toolbar.onAddFilter && (
+                  <FilterComponent
+                    variant="new-filter"
+                    placeholder="New filter"
+                    options={[]}
+                    onAddFilter={toolbar.onAddFilter}
+                  />
+                )}
+              </div>
+            )}
+
+            {/* Right actions (new layout) */}
+            {toolbar.rightAction && (
+              <div className="data-table__toolbar-actions">
+                {toolbar.rightAction.type === 'buttons' && (
+                  <>
+                    {toolbar.rightAction.secondary && (
+                      <Button variant="secondary" size="sm" onClick={toolbar.rightAction.secondary.onClick}>
+                        {toolbar.rightAction.secondary.label}
+                      </Button>
+                    )}
+                    {toolbar.rightAction.primary && (
+                      <Button variant="primary" size="sm" onClick={toolbar.rightAction.primary.onClick}>
+                        {toolbar.rightAction.primary.label}
+                      </Button>
+                    )}
+                  </>
+                )}
+                {toolbar.rightAction.type === 'view' && toolbar.rightAction.viewOptions && (
+                  <Dropdown
+                    options={toolbar.rightAction.viewOptions}
+                    value={toolbar.rightAction.viewValue}
+                    onChange={toolbar.rightAction.onViewChange}
+                    placeholder="View"
+                  />
+                )}
               </div>
             )}
           </div>

@@ -572,10 +572,41 @@
   gap: 4px;
 }
 
+/* ── Inline toolbar filters (new layout) ───────────────────────────────── */
+.data-table__toolbar-filters {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+  flex: 1;
+  flex-wrap: nowrap;
+}
+
+/* ── Toolbar right actions ─────────────────────────────────────────────── */
+.data-table__toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+  flex-shrink: 0;
+}
+
 /* ── Row Group Header ────────────────────────────────────────────────── */
 /* Apply background directly to the td so there are no inter-cell gaps */
 td.data-table__cell:has(> .data-table__cell--group-header) {
   background: var(--color-surface-table-default, #ffffff);
+  padding-top: 16px;
+  padding-bottom: 16px;
+  height: auto;
+}
+
+/* 8×8 status indicator dot in Row Group Header */
+.data-table__group-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-icon-success, #15803d);
+  background-color: var(--color-success-50, #effff5);
+  flex-shrink: 0;
+  display: inline-block;
 }
 
 .data-table__cell--group-header {

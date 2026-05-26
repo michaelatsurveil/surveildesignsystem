@@ -27,7 +27,7 @@ const allRows: TenantRow[] = Array.from({ length: 50 }, (_, i) => ({
   status: i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Pending' : 'Default',
 }));
 
-const overviewColumns = [
+export const overviewColumns = [
   { id: 'tenant', header: 'Tenant', sortable: true },
   { id: 'tenantEmail', header: 'Tenant Email', sortable: true },
   { id: 'type', header: 'Type', sortable: true },
@@ -492,7 +492,7 @@ function renderCellPreview(type: string): React.ReactNode {
         <span className="data-table__cell--group-header">
           <button type="button" className="data-table__group-toggle">
             <ChevronDown size={14} strokeWidth={2} className="data-table__group-toggle-chevron" />
-            <Tag variant="critical" size="circle">3</Tag>
+            <span className="data-table__group-indicator" aria-hidden />
             Group Name
             <Tag variant="default" size="sm">Error</Tag>
           </button>
@@ -761,9 +761,7 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityGroupRow>> = {
                     strokeWidth={2}
                     className={`data-table__group-toggle-chevron${isExpanded ? '' : ' data-table__group-toggle-chevron--collapsed'}`}
                   />
-                  <Tag variant={row.groupVariant ?? 'default'} size="circle">
-                    {String(row.groupCount)}
-                  </Tag>
+                  <span className="data-table__group-indicator" aria-hidden />
                   {row.groupLabel}
                   <Tag variant="default" size="sm">
                     {row.groupTagLabel ?? String(row.groupCount)}
@@ -882,6 +880,144 @@ export const EditableCells: StoryObj<typeof DataTable<EditableRow>> = {
         rows={rows}
         getRowId={(row) => row.id}
         toolbar={{ title: 'Editable Tenants' }}
+      />
+    );
+  },
+};
+
+// ─── Toolbar with Button Actions story ────────────────────────────────────
+
+export const ToolbarWithButtons: StoryObj<typeof DataTable<TenantRow>> = {
+  name: 'Toolbar — Button Actions',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'New toolbar layout with inline search, filter chips, and primary + secondary action buttons on the right.',
+      },
+    },
+  },
+  render: function ToolbarWithButtonsStory() {
+    const [query, setQuery] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');
+    const [filterType, setFilterType] = useState('');
+
+    const filtered = allRows.slice(0, 10).filter((r) => {
+      if (query && !r.tenant.toLowerCase().includes(query.toLowerCase())) return false;
+      if (filterStatus && r.status !== filterStatus) return false;
+      if (filterType && r.type !== filterType) return false;
+      return true;
+    });
+
+    return (
+      <DataTable<TenantRow>
+        columns={overviewColumns}
+        rows={filtered}
+        getRowId={(row) => row.tenantEmail}
+        toolbar={{
+          title: 'Tenants',
+          onSearch: (q) => setQuery(q),
+          searchPlaceholder: 'Search tenants…',
+          inlineFilters: [
+            {
+              placeholder: 'Status',
+              options: [
+                { label: 'Active', value: 'Active' },
+                { label: 'Pending', value: 'Pending' },
+                { label: 'Default', value: 'Default' },
+              ],
+              value: filterStatus || undefined,
+              onSelect: setFilterStatus,
+            },
+            {
+              placeholder: 'Type',
+              options: [
+                { label: 'M365', value: 'M365' },
+                { label: 'Google', value: 'Google' },
+              ],
+              value: filterType || undefined,
+              onSelect: setFilterType,
+            },
+          ],
+          onAddFilter: () => {},
+          rightAction: {
+            type: 'buttons',
+            primary: { label: 'Add tenant' },
+            secondary: { label: 'Import' },
+          },
+        }}
+      />
+    );
+  },
+};
+
+// ─── Toolbar with View Dropdown story ─────────────────────────────────────
+
+export const ToolbarWithViewDropdown: StoryObj<typeof DataTable<TenantRow>> = {
+  name: 'Toolbar — View Dropdown',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Same toolbar layout but right-side action replaced with a View dropdown (Table / Card / Compact options).',
+      },
+    },
+  },
+  render: function ToolbarWithViewDropdownStory() {
+    const [query, setQuery] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');
+    const [filterType, setFilterType] = useState('');
+    const [viewMode, setViewMode] = useState('table');
+
+    const filtered = allRows.slice(0, 10).filter((r) => {
+      if (query && !r.tenant.toLowerCase().includes(query.toLowerCase())) return false;
+      if (filterStatus && r.status !== filterStatus) return false;
+      if (filterType && r.type !== filterType) return false;
+      return true;
+    });
+
+    return (
+      <DataTable<TenantRow>
+        columns={overviewColumns}
+        rows={filtered}
+        getRowId={(row) => row.tenantEmail}
+        toolbar={{
+          title: 'Tenants',
+          onSearch: (q) => setQuery(q),
+          searchPlaceholder: 'Search tenants…',
+          inlineFilters: [
+            {
+              placeholder: 'Status',
+              options: [
+                { label: 'Active', value: 'Active' },
+                { label: 'Pending', value: 'Pending' },
+                { label: 'Default', value: 'Default' },
+              ],
+              value: filterStatus || undefined,
+              onSelect: setFilterStatus,
+            },
+            {
+              placeholder: 'Type',
+              options: [
+                { label: 'M365', value: 'M365' },
+                { label: 'Google', value: 'Google' },
+              ],
+              value: filterType || undefined,
+              onSelect: setFilterType,
+            },
+          ],
+          onAddFilter: () => {},
+          rightAction: {
+            type: 'view',
+            viewOptions: [
+              { label: 'Table', value: 'table' },
+              { label: 'Card', value: 'card' },
+              { label: 'Compact', value: 'compact' },
+            ],
+            viewValue: viewMode,
+            onViewChange: setViewMode,
+          },
+        }}
       />
     );
   },
