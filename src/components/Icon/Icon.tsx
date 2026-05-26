@@ -7,6 +7,7 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type IconColor =
   | 'default'
+  | 'light'
   | 'muted'
   | 'primary'
   | 'success'
@@ -47,6 +48,7 @@ const sizeMap: Record<IconSize, number> = {
 
 const colorMap: Record<IconColor, string> = {
   default: tokens.color.icon.default,
+  light: tokens.color.icon.light,
   muted: tokens.color.icon.muted,
   primary: tokens.color.icon.primary,
   success: tokens.color.icon.success,

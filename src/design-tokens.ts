@@ -180,6 +180,9 @@ export const tokens = {
     // Surface
     surface: {
       default: '#f7f7f7',
+      table: {
+        default: '#ffffff',
+      },
     },
     // Text
     text: {
@@ -196,6 +199,7 @@ export const tokens = {
     // Icons (Lucide)
     icon: {
       default: '#616161',
+      light: '#818181',   // neutral/400 — default/light icon
       muted: '#a0a0a0',
       primary: '#3165ad',
       success: '#15803d',

@@ -18,7 +18,8 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: var(--scale-200, 8px) 8px;
+  height: var(--scale-800, 32px);
+  padding: var(--scale-200, 8px);
   background: var(--color-neutral-white, #ffffff);
   border: 1px solid var(--color-grey-100, #dfdfdf);
   border-radius: var(--radius-md, 4px);
@@ -26,6 +27,7 @@
   cursor: pointer;
   white-space: nowrap;
   transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
 }
 
 .dropdown__trigger:hover .dropdown__trigger-label {

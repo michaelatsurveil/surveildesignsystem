@@ -3,10 +3,8 @@
  * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=168-4711
  *
  * 250px compact panel: account header · flat nav list · version + divider + footer nav
- * Collapse behaviour mirrors the Navigator sidebar:
- * - ChevronsLeftRight toggle inside the header
- * - Collapses to a 48px icon-only strip
- * - Hover temporarily expands as a floating overlay
+ * Collapse: entire sidebar hides (width → 0). A circular white tab button sits on
+ * the sidebar boundary so the user can re-expand.
  */
 
 /* ─── Wrapper ────────────────────────────────────────────────────────────────── */
@@ -17,6 +15,7 @@
   display: inline-flex;
   align-items: flex-start;
   transition: width 0.2s ease;
+  overflow: visible;
 }
 
 /* ─── Sidebar ─────────────────────────────────────────────────────────────────── */
@@ -95,7 +94,7 @@
   text-overflow: ellipsis;
 }
 
-/* ─── Collapse toggle button ─────────────────────────────────────────────────── */
+/* ─── Collapse toggle button (inside header, visible when expanded) ──────────── */
 
 .secondary-sidebar__collapse-btn {
   display: inline-flex;
@@ -118,6 +117,42 @@
 }
 
 .secondary-sidebar__collapse-btn:focus-visible {
+  outline: 2px solid var(--color-primary, #3165ad);
+  outline-offset: 2px;
+}
+
+/* ─── Floating tab button (collapsed state) ──────────────────────────────────
+ * Circular white button centred on the sidebar boundary (left edge of the
+ * 0-width wrapper = right edge of the primary sidebar). Half of the button
+ * sits inside the primary sidebar, half in the content area.
+ */
+
+.secondary-sidebar__tab {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: #ffffff;
+  border: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--color-grey, #616161);
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.secondary-sidebar__tab:hover {
+  color: var(--color-primary, #3165ad);
+  background-color: var(--color-grey-50, #f5f5f5);
+}
+
+.secondary-sidebar__tab:focus-visible {
   outline: 2px solid var(--color-primary, #3165ad);
   outline-offset: 2px;
 }
@@ -193,13 +228,6 @@
   cursor: not-allowed;
 }
 
-/* Icon-only collapsed state: centre the icon, remove horizontal padding */
-.secondary-sidebar__item--icon-only {
-  justify-content: center;
-  padding: 8px;
-  gap: 0;
-}
-
 /* Icon */
 .secondary-sidebar__item-icon {
   display: inline-flex;
@@ -215,10 +243,6 @@
 .secondary-sidebar__item-icon svg {
   width: 20px;
   height: 20px;
-}
-
-.secondary-sidebar__item--icon-only .secondary-sidebar__item-icon {
-  margin-right: 0;
 }
 
 .secondary-sidebar__item-label {
@@ -254,6 +278,14 @@
   border-top: 1px solid var(--color-border-light, #efefef);
 }
 
+/* ─── Collapsed state ────────────────────────────────────────────────────────
+ * Width is driven to 0 via inline style. The aside hides entirely.
+ * The floating .secondary-sidebar__tab button remains visible outside the aside.
+ */
+.secondary-sidebar--collapsed {
+  overflow: hidden;
+}
+
 /* ─── External menu toggle ───────────────────────────────────────────────────
  * Tertiary "≡ Menu" button rendered outside the sidebar panel, 10px to the
  * right of and 10px below the top — alternative collapse trigger.
@@ -267,35 +299,4 @@
   align-items: center;
   gap: var(--scale-100, 4px);
   white-space: nowrap;
-}
-
-/* ─── Collapsed state ─────────────────────────────────────────────────────────
- * Width is driven by inline style on the aside (48px icon strip).
- * All items still render — just icon-only.
- */
-.secondary-sidebar--collapsed {
-  overflow: hidden;
-}
-
-/* Header: centre the toggle icon when no account text is visible */
-.secondary-sidebar--collapsed .secondary-sidebar__header {
-  justify-content: center;
-  padding: 0;
-}
-
-/* Nav / footer: remove the 24px container padding so icons fit the 48px strip */
-.secondary-sidebar--collapsed .secondary-sidebar__nav,
-.secondary-sidebar--collapsed .secondary-sidebar__footer .secondary-sidebar__list {
-  padding: 0;
-}
-
-/* ─── Hover-expanded overlay ──────────────────────────────────────────────────
- * When the collapsed sidebar is hovered it expands (width via inline style)
- * and floats over the content with a drop shadow.
- */
-.secondary-sidebar--hover-expanded {
-  overflow: visible;
-  position: absolute;
-  z-index: 100;
-  box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
 }

@@ -106,8 +106,8 @@
 
 .data-table__toolbar-search-input {
   width: 180px;
-  height: 28px;
-  padding: 0 8px 0 28px;
+  height: var(--scale-800, 32px);
+  padding: var(--scale-200, 8px) var(--scale-200, 8px) var(--scale-200, 8px) 28px;
   border: 1px solid var(--color-grey-200, #d1d5db);
   border-radius: var(--radius-md, 4px);
   background: var(--color-neutral-white, #ffffff);
@@ -116,6 +116,7 @@
   color: var(--color-grey-600, #3a3a3a);
   box-shadow: var(--shadow-sm);
   outline: none;
+  box-sizing: border-box;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
@@ -574,7 +575,7 @@
 /* ── Row Group Header ────────────────────────────────────────────────── */
 /* Apply background directly to the td so there are no inter-cell gaps */
 td.data-table__cell:has(> .data-table__cell--group-header) {
-  background: var(--color-grey-25, #f7f7f7);
+  background: var(--color-surface-table-default, #ffffff);
 }
 
 .data-table__cell--group-header {
@@ -583,7 +584,7 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
   width: 100%;
 }
 
-/* Toggle button: bold label + circle tag + chevron, all inline */
+/* Toggle button: chevron (left) · circle tag · label text · default tag */
 .data-table__group-toggle {
   display: inline-flex;
   align-items: center;
@@ -593,10 +594,9 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
   padding: 0;
   cursor: pointer;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
-  font-size: 12px;
-  font-weight: var(--font-weight-semibold, 600);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium, 500);
   color: var(--color-grey-700, #272727);
-  letter-spacing: 0.02em;
 }
 
 .data-table__group-toggle:focus-visible {
@@ -607,6 +607,7 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
 
 .data-table__group-toggle-chevron {
   color: var(--color-grey, #616161);
+  flex-shrink: 0;
   transition: transform 0.15s ease;
 }
 

@@ -124,8 +124,11 @@
   --color-neutral-white: #ffffff;
   --color-background: #ffffff;
   --color-background-alt: #f9fafb;
+  --color-surface-default: #f7f7f7;
+  --color-surface-table-default: #ffffff;
   --color-scrim: rgba(0, 0, 0, 0.2);
   --color-icon: #616161;
+  --color-icon-light: #818181;
   --color-icon-muted: #a0a0a0;
   --color-icon-primary: #3165ad;
   --color-icon-success: #15803d;

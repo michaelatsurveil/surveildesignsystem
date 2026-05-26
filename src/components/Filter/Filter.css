@@ -28,7 +28,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--scale-200, 8px);
-  padding: 5px var(--scale-200, 8px);
+  height: var(--scale-800, 32px);
+  padding: var(--scale-200, 8px);
   background: var(--color-white, #ffffff);
   border: 1px solid var(--color-border-dark, #dfdfdf);
   border-radius: var(--radius-md, 4px);
@@ -36,6 +37,7 @@
   cursor: pointer;
   white-space: nowrap;
   transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
 }
 
 .filter__trigger:hover {
@@ -138,4 +140,43 @@
 
 .filter__search::placeholder {
   color: var(--color-grey-400, #818181);
+}
+
+/* ── New filter variant ── */
+
+.filter__trigger--new {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--scale-100, 4px);
+  height: var(--scale-800, 32px);
+  padding: var(--scale-200, 8px);
+  background: var(--color-white, #ffffff);
+  border: 1px dashed var(--color-grey-200, #c0c0c0);
+  border-radius: var(--radius-md, 4px);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: var(--scale-500, 20px);
+  color: var(--color-grey-400, #818181);
+  box-sizing: border-box;
+  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+}
+
+.filter__trigger--new:hover {
+  border-color: var(--color-grey-300, #a0a0a0);
+  color: var(--color-grey, #616161);
+  background: var(--color-grey-25, #f7f7f7);
+}
+
+.filter__trigger--new:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
+}
+
+.filter__trigger--new-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
 }

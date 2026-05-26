@@ -33,7 +33,7 @@ const meta: Meta<typeof SecondarySidebar> = {
     docs: {
       description: {
         component:
-          'Compact contextual sidebar (250px) used alongside the primary navigation. Contains an account header, flat nav items, an optional version label, a divider, and footer links. Supports collapse to a 48px icon-only strip with hover-expand overlay. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=168-4711)',
+          'Compact contextual sidebar (250px) used alongside the primary navigation. Contains an account header, flat nav items, an optional version label, a divider, and footer links. Supports full collapse — the panel hides entirely and a circular white chevron tab sits on the sidebar boundary for re-expansion. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=168-4711)',
       },
     },
   },
@@ -53,7 +53,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Full-featured SecondarySidebar with account header, nav items, version label, footer link, and collapse toggle. Click the chevron icon in the header to collapse to a 48px icon strip — hover to temporarily expand.',
+          'Full-featured SecondarySidebar with account header, nav items, version label, footer link, and collapse toggle. Click the ChevronsLeftRight icon in the header to fully hide the sidebar — a circular white chevron tab appears on the boundary; click it to re-expand.',
       },
     },
   },

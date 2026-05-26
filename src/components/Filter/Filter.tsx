@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import './Filter.css';
 
 export interface FilterOption {
@@ -24,6 +24,13 @@ export interface FilterProps {
   onSelect?: (value: string) => void;
   /** Optional class name for the root element */
   className?: string;
+  /**
+   * Variant: 'default' renders the standard filter dropdown;
+   * 'new-filter' renders an "Add filter" ghost button for adding filters.
+   */
+  variant?: 'default' | 'new-filter';
+  /** Called when the 'new-filter' button is clicked */
+  onAddFilter?: () => void;
 }
 
 /**
@@ -41,6 +48,8 @@ export function Filter({
   options = [],
   onSelect,
   className = '',
+  variant = 'default',
+  onAddFilter,
 }: FilterProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -72,6 +81,22 @@ export function Filter({
         opt.label.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : options;
+
+  // ── New filter variant ──────────────────────────────────────────────────────
+  if (variant === 'new-filter') {
+    return (
+      <button
+        type="button"
+        className={`filter__trigger--new ${className}`.trim()}
+        onClick={onAddFilter}
+      >
+        <span className="filter__trigger--new-icon" aria-hidden>
+          <Plus size={14} strokeWidth={2} />
+        </span>
+        New filter
+      </button>
+    );
+  }
 
   return (
     <div

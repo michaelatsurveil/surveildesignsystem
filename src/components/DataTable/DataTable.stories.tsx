@@ -491,9 +491,10 @@ function renderCellPreview(type: string): React.ReactNode {
       return (
         <span className="data-table__cell--group-header">
           <button type="button" className="data-table__group-toggle">
-            Group Name
-            <Tag variant="critical" size="sm">Error</Tag>
             <ChevronDown size={14} strokeWidth={2} className="data-table__group-toggle-chevron" />
+            <Tag variant="critical" size="circle">3</Tag>
+            Group Name
+            <Tag variant="default" size="sm">Error</Tag>
           </button>
         </span>
       );
@@ -755,15 +756,18 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityGroupRow>> = {
                   onClick={() => toggleGroup(row.id)}
                   aria-expanded={isExpanded}
                 >
-                  {row.groupLabel}
-                  <Tag variant={row.groupVariant ?? 'default'} size="sm">
-                    {row.groupTagLabel ?? String(row.groupCount)}
-                  </Tag>
                   <ChevronDown
                     size={14}
                     strokeWidth={2}
                     className={`data-table__group-toggle-chevron${isExpanded ? '' : ' data-table__group-toggle-chevron--collapsed'}`}
                   />
+                  <Tag variant={row.groupVariant ?? 'default'} size="circle">
+                    {String(row.groupCount)}
+                  </Tag>
+                  {row.groupLabel}
+                  <Tag variant="default" size="sm">
+                    {row.groupTagLabel ?? String(row.groupCount)}
+                  </Tag>
                 </button>
               </span>
             );

@@ -168,6 +168,38 @@ export const ActiveTyping: Story = {
   },
 };
 
+// ─── New Filter variant ───────────────────────────────────────────────────────
+
+export const NewFilter: Story = {
+  name: 'New Filter variant',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Pass `variant="new-filter"` to render an "Add filter" ghost button with a dashed border. ' +
+          'Use at the end of a filter bar to let users append additional filters. ' +
+          'The `onAddFilter` callback fires on click.',
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', gap: 8, alignItems: 'center', paddingBottom: 40 }}>
+      <Filter
+        placeholder="Status"
+        options={STATUS_OPTIONS}
+      />
+      <Filter
+        placeholder="Type"
+        options={TYPE_OPTIONS}
+      />
+      <Filter
+        variant="new-filter"
+        onAddFilter={() => alert('Add filter clicked')}
+      />
+    </div>
+  ),
+};
+
 // ─── Multiple Filters ─────────────────────────────────────────────────────────
 
 export const MultipleFilters: Story = {

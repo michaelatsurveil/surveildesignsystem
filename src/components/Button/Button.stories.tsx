@@ -14,7 +14,7 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component:
-          'Action button with five types (primary, secondary, tertiary, danger, link) and three sizes (sm 24px, md 28px, lg 32px). [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=153-1427)',
+          'Action button with five types (primary, secondary, tertiary, danger, link) and three sizes (sm 28px, md 32px, lg 36px). [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=153-1427)',
       },
     },
   },
@@ -53,21 +53,21 @@ export const Default: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
 
       <div>
-        <div style={labelStyle}>Types — Small (24px)</div>
+        <div style={labelStyle}>Types — Small (28px)</div>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
           {variants.map(v => <Button key={v} variant={v} size="sm">{labelFor(v)}</Button>)}
         </div>
       </div>
 
       <div>
-        <div style={labelStyle}>Types — Medium (28px)</div>
+        <div style={labelStyle}>Types — Medium (32px)</div>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
           {variants.map(v => <Button key={v} variant={v} size="md">{labelFor(v)}</Button>)}
         </div>
       </div>
 
       <div>
-        <div style={labelStyle}>Types — Large (32px)</div>
+        <div style={labelStyle}>Types — Large (36px)</div>
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
           {variants.map(v => <Button key={v} variant={v} size="lg">{labelFor(v)}</Button>)}
         </div>

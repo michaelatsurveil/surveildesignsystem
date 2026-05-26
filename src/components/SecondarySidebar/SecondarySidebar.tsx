@@ -5,14 +5,15 @@
  * Compact contextual panel (250px) with account header, flat nav items,
  * optional version label, divider, and footer nav items.
  *
- * Collapse behaviour mirrors the Navigator sidebar:
- * - ChevronsLeftRight toggle inside the header (not an external button)
- * - Collapses to a 48px icon-only strip
- * - Hover temporarily expands as a floating overlay
+ * Collapse behaviour:
+ * - ChevronsLeftRight toggle inside the header collapses the sidebar entirely
+ * - Collapses to width 0 (fully hidden)
+ * - A circular white ChevronRight tab button sits on the sidebar boundary,
+ *   allowing the user to re-expand
  */
 
 import { useState } from 'react';
-import { ChevronsLeftRight, Menu } from 'lucide-react';
+import { ChevronsLeftRight, ChevronRight, Menu } from 'lucide-react';
 import { Button } from '../Button/Button';
 import './SecondarySidebar.css';
 
@@ -38,7 +39,7 @@ export interface SecondarySidebarProps {
   version?: string;
   /** Width in px when expanded; default 250 */
   width?: number;
-  /** Width in px when collapsed (icon-only strip); default 48 */
+  /** @deprecated No longer used — sidebar collapses to 0 width */
   collapsedWidth?: number;
   /** Show the collapse toggle; default false */
   collapsible?: boolean;
@@ -59,7 +60,6 @@ export function SecondarySidebar({
   footerItems,
   version,
   width = 250,
-  collapsedWidth = 48,
   collapsible = false,
   menuToggle = false,
   defaultCollapsed = false,
@@ -67,15 +67,10 @@ export function SecondarySidebar({
   className = '',
 }: SecondarySidebarProps) {
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
-  const [hovered, setHovered] = useState(false);
-
-  // Visually open when permanently expanded OR temporarily hover-expanded
-  const isOpen = !collapsed || hovered;
 
   const handleToggle = () => {
     const next = !collapsed;
     setCollapsed(next);
-    if (!next) setHovered(false);
     onCollapseChange?.(next);
   };
 
@@ -84,25 +79,22 @@ export function SecondarySidebar({
   return (
     <div
       className="secondary-sidebar-wrap"
-      style={{ width: isOpen ? `${width}px` : `${collapsedWidth}px` }}
+      style={{ width: collapsed ? '0px' : `${width}px` }}
     >
       <aside
         className={[
           'secondary-sidebar',
-          !isOpen ? 'secondary-sidebar--collapsed' : '',
-          collapsed && hovered ? 'secondary-sidebar--hover-expanded' : '',
+          collapsed ? 'secondary-sidebar--collapsed' : '',
           className,
         ].filter(Boolean).join(' ')}
-        style={{ width: isOpen ? `${width}px` : `${collapsedWidth}px` }}
+        style={{ width: collapsed ? '0px' : `${width}px` }}
         role="navigation"
         aria-label="Secondary navigation"
-        onMouseEnter={() => { if (collapsible && collapsed) setHovered(true); }}
-        onMouseLeave={() => { if (collapsible) setHovered(false); }}
       >
         {/* ── Header: account + collapse toggle ── */}
         {showHeader && (
           <div className="secondary-sidebar__header">
-            {account && isOpen && (
+            {account && (
               <>
                 <div className="secondary-sidebar__account-avatar" aria-hidden>
                   {account.avatar ?? (
@@ -122,8 +114,8 @@ export function SecondarySidebar({
                 type="button"
                 className="secondary-sidebar__collapse-btn"
                 onClick={handleToggle}
-                aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-                title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                aria-label="Collapse sidebar"
+                title="Collapse sidebar"
               >
                 <ChevronsLeftRight size={14} aria-hidden />
               </button>
@@ -136,7 +128,7 @@ export function SecondarySidebar({
           <ul className="secondary-sidebar__list" role="list">
             {items.map((item, i) => (
               <li key={i}>
-                <SecondarySidebarNavItem item={item} isCollapsed={!isOpen} />
+                <SecondarySidebarNavItem item={item} />
               </li>
             ))}
           </ul>
@@ -145,15 +137,15 @@ export function SecondarySidebar({
         {/* ── Footer ── */}
         {(version || (footerItems && footerItems.length > 0)) && (
           <div className="secondary-sidebar__footer">
-            {isOpen && version && (
+            {version && (
               <span className="secondary-sidebar__version">{version}</span>
             )}
-            {isOpen && <hr className="secondary-sidebar__divider" />}
+            <hr className="secondary-sidebar__divider" />
             {footerItems && footerItems.length > 0 && (
               <ul className="secondary-sidebar__list" role="list">
                 {footerItems.map((item, i) => (
                   <li key={i}>
-                    <SecondarySidebarNavItem item={item} isCollapsed={!isOpen} />
+                    <SecondarySidebarNavItem item={item} />
                   </li>
                 ))}
               </ul>
@@ -161,6 +153,19 @@ export function SecondarySidebar({
           </div>
         )}
       </aside>
+
+      {/* ── Floating tab: circular white chevron on the sidebar boundary ── */}
+      {collapsible && collapsed && (
+        <button
+          type="button"
+          className="secondary-sidebar__tab"
+          onClick={handleToggle}
+          aria-label="Expand sidebar"
+          title="Expand sidebar"
+        >
+          <ChevronRight size={14} aria-hidden />
+        </button>
+      )}
 
       {/* ── External menu toggle (old-version style) ── */}
       {menuToggle && (
@@ -179,18 +184,11 @@ export function SecondarySidebar({
   );
 }
 
-function SecondarySidebarNavItem({
-  item,
-  isCollapsed,
-}: {
-  item: SecondarySidebarItem;
-  isCollapsed: boolean;
-}) {
+function SecondarySidebarNavItem({ item }: { item: SecondarySidebarItem }) {
   const cls = [
     'secondary-sidebar__item',
     item.active ? 'secondary-sidebar__item--active' : '',
     item.disabled ? 'secondary-sidebar__item--disabled' : '',
-    isCollapsed ? 'secondary-sidebar__item--icon-only' : '',
   ].filter(Boolean).join(' ');
 
   const content = (
@@ -200,28 +198,24 @@ function SecondarySidebarNavItem({
           {item.icon}
         </span>
       )}
-      {!isCollapsed && (
-        <span className="secondary-sidebar__item-label">{item.label}</span>
-      )}
+      <span className="secondary-sidebar__item-label">{item.label}</span>
     </>
   );
 
-  const titleAttr = isCollapsed ? item.label : undefined;
-
   if (item.disabled) {
-    return <span className={cls} title={titleAttr}>{content}</span>;
+    return <span className={cls}>{content}</span>;
   }
 
   if (item.href) {
     return (
-      <a href={item.href} className={cls} onClick={e => e.preventDefault()} title={titleAttr}>
+      <a href={item.href} className={cls} onClick={e => e.preventDefault()}>
         {content}
       </a>
     );
   }
 
   return (
-    <button type="button" className={cls} onClick={item.onClick} title={titleAttr}>
+    <button type="button" className={cls} onClick={item.onClick}>
       {content}
     </button>
   );
