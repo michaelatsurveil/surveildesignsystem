@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert, ChevronDown } from 'lucide-react';
+import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert, ChevronDown, Check } from 'lucide-react';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { Filter as FilterComponent } from '../Filter/Filter';
@@ -8,9 +8,22 @@ import { Dropdown } from '../Dropdown/Dropdown';
 import type { DropdownOption } from '../Dropdown/Dropdown';
 import './DataTable.css';
 
+export interface DataTableViewPanelSection {
+  /** Section heading shown above the controls */
+  label: string;
+  /** 'segment' renders a segmented toggle (e.g. Annual / Monthly); 'list' renders checkable items (e.g. Group by) */
+  type: 'segment' | 'list';
+  /** Available options */
+  options: { label: string; value: string }[];
+  /** Currently selected value */
+  value?: string;
+  /** Called when the user picks an option */
+  onChange?: (value: string) => void;
+}
+
 export interface DataTableToolbarRightAction {
-  /** 'buttons' shows primary + secondary Button; 'view' shows the View dropdown */
-  type: 'buttons' | 'view';
+  /** 'buttons' shows primary + secondary Button; 'view' shows a simple dropdown; 'view-panel' shows a rich panel with sections */
+  type: 'buttons' | 'view' | 'view-panel';
   // For type='buttons'
   primary?: { label: string; onClick?: () => void };
   secondary?: { label: string; onClick?: () => void };
@@ -18,6 +31,8 @@ export interface DataTableToolbarRightAction {
   viewOptions?: DropdownOption[];
   viewValue?: string;
   onViewChange?: (value: string) => void;
+  // For type='view-panel'
+  viewPanelSections?: DataTableViewPanelSection[];
 }
 
 export interface DataTableFilterConfig {
@@ -198,6 +213,8 @@ export function DataTable<T extends Record<string, unknown>>({
   const [collapsedGroupIds, setCollapsedGroupIds] = useState<Set<string>>(
     new Set(defaultCollapsedGroupIds ?? [])
   );
+  const [viewPanelOpen, setViewPanelOpen] = useState(false);
+  const viewPanelRef = useRef<HTMLDivElement>(null);
 
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
   const someSelected = selectable && selectedRowIds.size > 0;
@@ -207,6 +224,17 @@ export function DataTable<T extends Record<string, unknown>>({
   useEffect(() => {
     if (headerCheckRef.current) headerCheckRef.current.indeterminate = indeterminate;
   }, [indeterminate]);
+
+  useEffect(() => {
+    if (!viewPanelOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (viewPanelRef.current && !viewPanelRef.current.contains(e.target as Node)) {
+        setViewPanelOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [viewPanelOpen]);
 
   const toggleAll = () => {
     if (!onSelectionChange) return;
@@ -346,6 +374,64 @@ export function DataTable<T extends Record<string, unknown>>({
                     onChange={toolbar.rightAction.onViewChange}
                     placeholder="View"
                   />
+                )}
+                {toolbar.rightAction.type === 'view-panel' && toolbar.rightAction.viewPanelSections && (
+                  <div className="data-table__view-panel-wrap" ref={viewPanelRef}>
+                    <button
+                      type="button"
+                      className={`data-table__view-panel-trigger${viewPanelOpen ? ' data-table__view-panel-trigger--open' : ''}`}
+                      onClick={() => setViewPanelOpen(v => !v)}
+                      aria-haspopup="true"
+                      aria-expanded={viewPanelOpen}
+                    >
+                      View
+                      <ChevronDown
+                        size={14}
+                        strokeWidth={2}
+                        className={`data-table__view-panel-chevron${viewPanelOpen ? ' data-table__view-panel-chevron--open' : ''}`}
+                      />
+                    </button>
+                    {viewPanelOpen && (
+                      <div className="data-table__view-panel" role="dialog" aria-label="View options">
+                        {toolbar.rightAction.viewPanelSections.map((section, si) => (
+                          <div key={si} className="data-table__view-panel-section">
+                            <div className="data-table__view-panel-heading">{section.label}</div>
+                            {section.type === 'segment' ? (
+                              <div className="data-table__view-panel-segments">
+                                {section.options.map(opt => (
+                                  <button
+                                    key={opt.value}
+                                    type="button"
+                                    className={`data-table__view-panel-segment${opt.value === section.value ? ' data-table__view-panel-segment--active' : ''}`}
+                                    onClick={() => section.onChange?.(opt.value)}
+                                  >
+                                    {opt.label}
+                                  </button>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="data-table__view-panel-list">
+                                {section.options.map(opt => (
+                                  <button
+                                    key={opt.value}
+                                    type="button"
+                                    className="data-table__view-panel-item"
+                                    onClick={() => section.onChange?.(opt.value)}
+                                  >
+                                    {opt.value === section.value
+                                      ? <Check size={14} strokeWidth={2} className="data-table__view-panel-check" aria-hidden />
+                                      : <span className="data-table__view-panel-check-placeholder" aria-hidden />
+                                    }
+                                    {opt.label}
+                                  </button>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             )}

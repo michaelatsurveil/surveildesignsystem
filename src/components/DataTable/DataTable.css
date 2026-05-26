@@ -592,6 +592,154 @@
   flex-shrink: 0;
 }
 
+/* ── View panel (rich dropdown with Period + Group by sections) ─────────── */
+
+.data-table__view-panel-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.data-table__view-panel-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--scale-800, 32px);
+  padding: 0 12px;
+  border: 1px solid var(--color-grey-200, #d1d5db);
+  border-radius: var(--radius-md, 4px);
+  background: var(--color-neutral-white, #ffffff);
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  color: var(--color-grey-600, #3a3a3a);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.data-table__view-panel-trigger:hover {
+  border-color: var(--color-grey-300, #a0a0a0);
+}
+
+.data-table__view-panel-trigger--open,
+.data-table__view-panel-trigger:focus-visible {
+  outline: none;
+  border-color: var(--color-primary, #3165ad);
+  box-shadow: 0 0 0 3px rgba(49, 101, 173, 0.15);
+}
+
+.data-table__view-panel-chevron {
+  color: var(--color-grey, #616161);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.data-table__view-panel-chevron--open {
+  transform: rotate(180deg);
+}
+
+.data-table__view-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 200;
+  min-width: 220px;
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-grey-100, #e5e7eb);
+  border-radius: var(--radius-lg, 8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  padding: 4px 0;
+  overflow: hidden;
+}
+
+.data-table__view-panel-section {
+  padding: 12px 16px;
+}
+
+.data-table__view-panel-section + .data-table__view-panel-section {
+  border-top: 1px solid var(--color-grey-100, #e5e7eb);
+}
+
+.data-table__view-panel-heading {
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-grey-600, #3a3a3a);
+  margin-bottom: 10px;
+}
+
+/* Segment control (e.g. Annual | Monthly) */
+.data-table__view-panel-segments {
+  display: inline-flex;
+  border: 1px solid var(--color-grey-200, #d1d5db);
+  border-radius: var(--radius-md, 4px);
+  overflow: hidden;
+}
+
+.data-table__view-panel-segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 16px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 13px;
+  color: var(--color-grey, #616161);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.data-table__view-panel-segment + .data-table__view-panel-segment {
+  border-left: 1px solid var(--color-grey-200, #d1d5db);
+}
+
+.data-table__view-panel-segment--active {
+  background: var(--color-grey-50, #efefef);
+  color: var(--color-grey-700, #272727);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+/* List items (e.g. Group by options) */
+.data-table__view-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.data-table__view-panel-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 4px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 14px;
+  color: var(--color-grey, #616161);
+  cursor: pointer;
+  border-radius: var(--radius-sm, 2px);
+  text-align: left;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.data-table__view-panel-item:hover {
+  background: var(--color-grey-25, #f7f7f7);
+  color: var(--color-grey-700, #272727);
+}
+
+.data-table__view-panel-check {
+  color: var(--color-grey-700, #272727);
+  flex-shrink: 0;
+}
+
+.data-table__view-panel-check-placeholder {
+  display: inline-block;
+  width: 14px;
+  flex-shrink: 0;
+}
+
 /* ── Row Group Header ────────────────────────────────────────────────── */
 /* Apply background directly to the td so there are no inter-cell gaps */
 td.data-table__cell:has(> .data-table__cell--group-header) {
