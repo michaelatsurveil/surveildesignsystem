@@ -73,6 +73,8 @@ export function Filter({
   onAddFilter,
 }: FilterProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const fieldWrapRef = useRef<HTMLDivElement>(null);
+  const valueWrapRef = useRef<HTMLDivElement>(null);
 
   // Internal panel state — staged before the user clicks "Add"
   const [panelField, setPanelField] = useState(fieldValue ?? '');
@@ -103,6 +105,21 @@ export function Filter({
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open, onToggle]);
 
+  // Close field/value dropdowns when clicking outside their wrap (but still inside the panel)
+  useEffect(() => {
+    if (!fieldDropdownOpen && !valueDropdownOpen) return;
+    function handleDropdownClickOutside(e: MouseEvent) {
+      if (fieldDropdownOpen && fieldWrapRef.current && !fieldWrapRef.current.contains(e.target as Node)) {
+        setFieldDropdownOpen(false);
+      }
+      if (valueDropdownOpen && valueWrapRef.current && !valueWrapRef.current.contains(e.target as Node)) {
+        setValueDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleDropdownClickOutside);
+    return () => document.removeEventListener('mousedown', handleDropdownClickOutside);
+  }, [fieldDropdownOpen, valueDropdownOpen]);
+
   // ── new-filter variant ────────────────────────────────────────────────────
 
   if (variant === 'new-filter') {
@@ -129,6 +146,8 @@ export function Filter({
 
   const handleAdd = () => {
     if (panelField && panelValues.length > 0) {
+      setFieldDropdownOpen(false);
+      setValueDropdownOpen(false);
       onApply?.(panelField, panelValues);
       onToggle?.();
     }
@@ -218,7 +237,7 @@ export function Filter({
           <div className="filter__panel-body">
             <div className="filter__panel-section">
               <span className="filter__panel-label">Title</span>
-              <div className="filter__panel-row-wrap">
+              <div className="filter__panel-row-wrap" ref={fieldWrapRef}>
                 <button
                   type="button"
                   className={[
@@ -279,7 +298,7 @@ export function Filter({
             {/* Value multiselect */}
             <div className="filter__panel-section">
               <span className="filter__panel-label">Value(s)</span>
-              <div className="filter__panel-row-wrap">
+              <div className="filter__panel-row-wrap" ref={valueWrapRef}>
                 <button
                   type="button"
                   className={[

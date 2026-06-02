@@ -20,7 +20,7 @@ const meta: Meta<typeof Filter> = {
           'Once applied the trigger becomes a chip showing the active filter with a × to remove. ' +
           '[Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=340-3889)',
       },
-      story: { height: '320px' },
+      story: { height: '440px' },
     },
   },
 };
@@ -209,7 +209,7 @@ export const NewFilter: Story = {
     const [values, setValues] = useState<string[]>(['active']);
 
     return (
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center', paddingBottom: 40 }}>
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center', paddingBottom: 340 }}>
         <Filter
           fields={SAMPLE_FIELDS}
           fieldValue={fieldValue}
