@@ -99,8 +99,6 @@ export const Default: StoryObj<typeof DataTable<TenantRow>> = {
     const [pageSize, setPageSize] = useState(10);
     const [filterField, setFilterField] = useState<string | undefined>();
     const [filterValues, setFilterValues] = useState<string[]>([]);
-    const [period, setPeriod] = useState('annual');
-    const [groupBy, setGroupBy] = useState('priority');
 
     const filtered = allRows.filter((r) => {
       if (query && !r.tenant.toLowerCase().includes(query.toLowerCase()) && !r.tenantEmail.toLowerCase().includes(query.toLowerCase())) return false;
@@ -128,34 +126,6 @@ export const Default: StoryObj<typeof DataTable<TenantRow>> = {
             },
           ],
           onAddFilter: () => {},
-          rightAction: {
-            type: 'view-panel',
-            viewPanelSections: [
-              {
-                label: 'Period',
-                type: 'segment',
-                options: [
-                  { label: 'Annual',  value: 'annual'  },
-                  { label: 'Monthly', value: 'monthly' },
-                ],
-                value: period,
-                onChange: setPeriod,
-              },
-              {
-                label: 'Group by',
-                type: 'list',
-                options: [
-                  { label: 'Priority',     value: 'priority'     },
-                  { label: 'Renewals',     value: 'renewals'     },
-                  { label: 'Effort',       value: 'effort'       },
-                  { label: 'Status',       value: 'status'       },
-                  { label: 'Sub-category', value: 'sub-category' },
-                ],
-                value: groupBy,
-                onChange: setGroupBy,
-              },
-            ],
-          },
         }}
         pagination={{
           page,
@@ -855,11 +825,6 @@ export const ToolbarWithButtons: StoryObj<typeof DataTable<TenantRow>> = {
             },
           ],
           onAddFilter: () => {},
-          rightAction: {
-            type: 'buttons',
-            primary: { label: 'Add tenant' },
-            secondary: { label: 'Import' },
-          },
         }}
       />
     );

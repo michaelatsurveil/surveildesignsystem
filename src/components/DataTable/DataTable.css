@@ -175,7 +175,7 @@
 }
 
 .data-table__head {
-  background: var(--color-surface-table-default, #f9fafb);
+  background: var(--color-surface-table-heading, #f9fafb);
 }
 
 .data-table__cell {
@@ -183,6 +183,7 @@
   height: 32px;
   text-align: left;
   vertical-align: middle;
+  background: var(--color-surface-table-default, #ffffff);
   border-bottom: 1px solid var(--color-border-light, #e5e7eb);
   box-sizing: border-box;
 }
@@ -193,7 +194,7 @@
   font-size: 12px;
   font-weight: var(--font-weight-semibold, 600);
   color: var(--color-text-secondary, #6b7280);
-  background: var(--color-surface-table-default, #f9fafb);
+  background: var(--color-surface-table-heading, #f9fafb);
 }
 
 /* ── Header cell position variants (left / center / right)
@@ -244,7 +245,11 @@
 }
 
 .data-table__body .data-table__row:hover .data-table__cell {
-  background: var(--color-grey-25, #f7f7f7);
+  background: var(--color-surface-table-hover, #f7f7f7);
+}
+
+.data-table__body .data-table__row:active .data-table__cell {
+  background: var(--color-surface-table-pressed, #efefef);
 }
 
 /* ── Link cell ──────────────────────────────────────────────────────────────── */

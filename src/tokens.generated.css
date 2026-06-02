@@ -126,6 +126,9 @@
   --color-background-alt: #f9fafb;
   --color-surface-default: #f7f7f7;
   --color-surface-table-default: #ffffff;
+  --color-surface-table-heading: #f9fafb;
+  --color-surface-table-hover: #f7f7f7;
+  --color-surface-table-pressed: #efefef;
   --color-scrim: rgba(0, 0, 0, 0.2);
   --color-icon: #616161;
   --color-icon-light: #818181;
