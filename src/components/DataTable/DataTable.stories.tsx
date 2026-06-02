@@ -9,6 +9,28 @@ import { Badge } from '../Badge/Badge';
 import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
 
+// ─── Shared filter fields (used across stories) ───────────────────────────
+
+export const TENANT_FILTER_FIELDS = [
+  {
+    label: 'Status',
+    value: 'status',
+    options: [
+      { label: 'Active',  value: 'Active'  },
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Default', value: 'Default' },
+    ],
+  },
+  {
+    label: 'Type',
+    value: 'type',
+    options: [
+      { label: 'M365',   value: 'M365'   },
+      { label: 'Google', value: 'Google' },
+    ],
+  },
+];
+
 // ─── Shared sample data for the main overview ──────────────────────────────
 
 type TenantRow = {
@@ -75,15 +97,15 @@ export const Default: StoryObj<typeof DataTable<TenantRow>> = {
     const [query, setQuery] = useState('');
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    const [filterStatus, setFilterStatus] = useState('');
-    const [filterType, setFilterType] = useState('');
+    const [filterField, setFilterField] = useState<string | undefined>();
+    const [filterValues, setFilterValues] = useState<string[]>([]);
     const [period, setPeriod] = useState('annual');
     const [groupBy, setGroupBy] = useState('priority');
 
     const filtered = allRows.filter((r) => {
       if (query && !r.tenant.toLowerCase().includes(query.toLowerCase()) && !r.tenantEmail.toLowerCase().includes(query.toLowerCase())) return false;
-      if (filterStatus && r.status !== filterStatus) return false;
-      if (filterType && r.type !== filterType) return false;
+      if (filterField === 'status' && filterValues.length > 0 && !filterValues.includes(r.status)) return false;
+      if (filterField === 'type' && filterValues.length > 0 && !filterValues.includes(r.type)) return false;
       return true;
     });
     const pagedRows = filtered.slice((page - 1) * pageSize, page * pageSize);
@@ -98,23 +120,11 @@ export const Default: StoryObj<typeof DataTable<TenantRow>> = {
           searchPlaceholder: 'Search tenants…',
           inlineFilters: [
             {
-              placeholder: 'Status',
-              options: [
-                { label: 'Active',  value: 'Active'  },
-                { label: 'Pending', value: 'Pending' },
-                { label: 'Default', value: 'Default' },
-              ],
-              value: filterStatus || undefined,
-              onSelect: (v) => { setFilterStatus(v); setPage(1); },
-            },
-            {
-              placeholder: 'Type',
-              options: [
-                { label: 'M365',   value: 'M365'   },
-                { label: 'Google', value: 'Google' },
-              ],
-              value: filterType || undefined,
-              onSelect: (v) => { setFilterType(v); setPage(1); },
+              fields: TENANT_FILTER_FIELDS,
+              fieldValue: filterField,
+              values: filterValues,
+              onApply: (fv, vals) => { setFilterField(fv); setFilterValues(vals); setPage(1); },
+              onRemove: () => { setFilterField(undefined); setFilterValues([]); setPage(1); },
             },
           ],
           onAddFilter: () => {},
@@ -185,7 +195,7 @@ export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {
           toolbar={{
             onSearch: () => {},
             searchPlaceholder: 'Search…',
-            inlineFilters: [{ placeholder: 'Status', options: [] }],
+            inlineFilters: [{ fields: TENANT_FILTER_FIELDS }],
           }}
           emptyState={
             <DataTableEmptyState
@@ -605,7 +615,7 @@ export const TreeView: StoryObj<typeof DataTable<TreeRow>> = {
         toolbar={{
           onSearch: () => {},
           searchPlaceholder: 'Search…',
-          inlineFilters: [{ placeholder: 'Status', options: [{ label: 'Active', value: 'Active' }, { label: 'Pending', value: 'Pending' }] }],
+          inlineFilters: [{ fields: TENANT_FILTER_FIELDS }],
           onAddFilter: () => {},
         }}
       />
@@ -680,15 +690,7 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityRow>> = {
         toolbar={{
           onSearch: () => {},
           searchPlaceholder: 'Search…',
-          inlineFilters: [
-            {
-              placeholder: 'Filter name',
-              options: [
-                { label: 'Active',  value: 'Active'  },
-                { label: 'Pending', value: 'Pending' },
-              ],
-            },
-          ],
+          inlineFilters: [{ fields: TENANT_FILTER_FIELDS }],
           onAddFilter: () => {},
         }}
         groups={[
@@ -803,7 +805,7 @@ export const EditableCells: StoryObj<typeof DataTable<EditableRow>> = {
         toolbar={{
           onSearch: () => {},
           searchPlaceholder: 'Search…',
-          inlineFilters: [{ placeholder: 'Status', options: [{ label: 'Active', value: 'Active' }, { label: 'Pending', value: 'Pending' }] }],
+          inlineFilters: [{ fields: TENANT_FILTER_FIELDS }],
           onAddFilter: () => {},
         }}
       />
@@ -825,13 +827,13 @@ export const ToolbarWithButtons: StoryObj<typeof DataTable<TenantRow>> = {
   },
   render: function ToolbarWithButtonsStory() {
     const [query, setQuery] = useState('');
-    const [filterStatus, setFilterStatus] = useState('');
-    const [filterType, setFilterType] = useState('');
+    const [filterField, setFilterField] = useState<string | undefined>();
+    const [filterValues, setFilterValues] = useState<string[]>([]);
 
     const filtered = allRows.slice(0, 10).filter((r) => {
       if (query && !r.tenant.toLowerCase().includes(query.toLowerCase())) return false;
-      if (filterStatus && r.status !== filterStatus) return false;
-      if (filterType && r.type !== filterType) return false;
+      if (filterField === 'status' && filterValues.length > 0 && !filterValues.includes(r.status)) return false;
+      if (filterField === 'type'   && filterValues.length > 0 && !filterValues.includes(r.type))   return false;
       return true;
     });
 
@@ -845,23 +847,11 @@ export const ToolbarWithButtons: StoryObj<typeof DataTable<TenantRow>> = {
           searchPlaceholder: 'Search tenants…',
           inlineFilters: [
             {
-              placeholder: 'Status',
-              options: [
-                { label: 'Active', value: 'Active' },
-                { label: 'Pending', value: 'Pending' },
-                { label: 'Default', value: 'Default' },
-              ],
-              value: filterStatus || undefined,
-              onSelect: setFilterStatus,
-            },
-            {
-              placeholder: 'Type',
-              options: [
-                { label: 'M365', value: 'M365' },
-                { label: 'Google', value: 'Google' },
-              ],
-              value: filterType || undefined,
-              onSelect: setFilterType,
+              fields: TENANT_FILTER_FIELDS,
+              fieldValue: filterField,
+              values: filterValues,
+              onApply: (fv, vals) => { setFilterField(fv); setFilterValues(vals); },
+              onRemove: () => { setFilterField(undefined); setFilterValues([]); },
             },
           ],
           onAddFilter: () => {},

@@ -1,43 +1,38 @@
 /**
- * Filter component
- * Figma: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=340-3889
+ * Filter component — field-selector dropdown + value multiselect in one.
  *
- * Dropdown trigger with optional label, placeholder/value text and a chevron.
+ * Idle:    [Select Filter ▾]
+ * Applied: [FieldName: Val1, Val2 ▾] [×]
+ * Open:    above trigger + floating panel (Add Filter panel)
+ *
+ * Figma: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=340-3889
+ * Tokens: --color-border-light (#e5e7eb), --color-surface-table-default (#f9fafb)
  */
 
 .filter {
   position: relative;
   display: inline-flex;
   flex-direction: column;
-  gap: var(--scale-100, 4px);
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
 }
 
-/* ── Label ── */
-
-.filter__label {
-  font-size: 12px;
-  font-weight: var(--font-weight-medium, 500);
-  line-height: var(--scale-500, 20px);
-  color: var(--color-grey-700, #272727);
-}
-
-/* ── Trigger button ── */
+/* ── Idle / open trigger ───────────────────────────────────────────────────── */
 
 .filter__trigger {
   display: inline-flex;
   align-items: center;
-  gap: var(--scale-200, 8px);
-  height: var(--scale-800, 32px);
-  padding: var(--scale-200, 8px);
-  background: var(--color-white, #ffffff);
+  gap: 8px;
+  height: 32px;
+  padding: 0 8px;
+  background: var(--color-neutral-white, #ffffff);
   border: 1px solid var(--color-border-dark, #dfdfdf);
   border-radius: var(--radius-md, 4px);
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 0.15s, box-shadow 0.15s;
   box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.15s;
 }
 
 .filter__trigger:hover {
@@ -49,26 +44,33 @@
   box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
 }
 
-.filter--open .filter__trigger {
-  border-color: var(--color-primary, #3165ad);
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05), 0 0 0 1px var(--color-primary, #3165ad);
+/* Active — panel is open */
+.filter__trigger--active {
+  border-color: var(--color-primary-900, #203b61);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05), 0 0 0 1px var(--color-primary-900, #203b61);
 }
 
-/* ── Text ── */
+/* Selected — filter has been applied */
+.filter__trigger--selected {
+  border-color: var(--color-primary-900, #203b61);
+}
+
+/* ── Trigger text ─────────────────────────────────────────────────────────── */
 
 .filter__trigger-text {
   flex: 1;
   font-size: 14px;
   font-weight: var(--font-weight-regular, 400);
-  line-height: var(--scale-500, 20px);
+  line-height: 20px;
   color: var(--color-grey-700, #272727);
+  text-align: left;
 }
 
 .filter__trigger-text--placeholder {
   color: var(--color-grey-400, #818181);
 }
 
-/* ── Chevron ── */
+/* ── Chevron icon ─────────────────────────────────────────────────────────── */
 
 .filter__chevron {
   display: inline-flex;
@@ -77,80 +79,335 @@
   flex-shrink: 0;
 }
 
-/* ── Dropdown ── */
+/* ── Applied filter chip ──────────────────────────────────────────────────── */
 
-.filter__dropdown {
-  position: absolute;
-  top: calc(100% + var(--scale-100, 4px));
-  left: 0;
-  z-index: 200;
-  min-width: 100%;
-  background: var(--color-white, #ffffff);
-  border: 1px solid var(--color-border-light, #e5e7eb);
-  border-radius: var(--radius-lg, 8px);
-  box-shadow: var(--shadow-md);
-  padding: var(--scale-100, 4px) 0;
-  margin: 0;
-  list-style: none;
+.filter--applied {
+  display: inline-flex;
+  align-items: stretch;
 }
 
-.filter__option {
-  padding: var(--scale-150, 6px) var(--scale-300, 12px);
+/* Left part: chip label + chevron */
+.filter__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 8px;
+  background: var(--color-grey-25, #f7f7f7);
+  border: 1px solid var(--color-border-dark, #dfdfdf);
+  border-right: none;
+  border-radius: var(--radius-md, 4px) 0 0 var(--radius-md, 4px);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--color-grey-700, #272727);
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: background 0.1s;
+}
+
+.filter__chip:hover {
+  background: var(--color-grey-50, #efefef);
+}
+
+.filter__chip:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
+}
+
+.filter__chip-label {
+  flex: 1;
   font-size: 14px;
   font-weight: var(--font-weight-regular, 400);
-  line-height: var(--scale-500, 20px);
+  line-height: 20px;
+}
+
+.filter__chip-chevron {
+  color: var(--color-grey-400, #818181);
+  flex-shrink: 0;
+}
+
+/* Right part: × remove button */
+.filter__chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 32px;
+  background: var(--color-grey-25, #f7f7f7);
+  border: 1px solid var(--color-border-dark, #dfdfdf);
+  border-left: none;
+  border-radius: 0 var(--radius-md, 4px) var(--radius-md, 4px) 0;
+  cursor: pointer;
+  color: var(--color-grey-400, #818181);
+  box-sizing: border-box;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+}
+
+.filter__chip-remove:hover {
+  background: var(--color-critical-50, #ffe1e1);
+  color: var(--color-critical-600, #e61c1d);
+  border-color: var(--color-critical-200, #ffb3b3);
+}
+
+.filter__chip-remove:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
+}
+
+/* ── Floating panel ───────────────────────────────────────────────────────── */
+
+.filter__panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 200;
+  width: 282px;
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-border-light, #e5e7eb);
+  border-radius: var(--radius-md, 4px);
+  box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.1), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Panel header — "Add Filter" label */
+.filter__panel-header {
+  padding: 12px 16px 10px;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-grey-400, #818181);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
+}
+
+.filter__panel-body {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Field / value section */
+.filter__panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter__panel-label {
+  font-size: 12px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 16px;
+  color: var(--color-grey-700, #272727);
+}
+
+/* Wrapper to position the nested dropdown menu */
+.filter__panel-row-wrap {
+  position: relative;
+}
+
+/* Panel trigger buttons (field selector + value selector) */
+.filter__panel-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 32px;
+  padding: 0 8px;
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-border-dark, #dfdfdf);
+  border-radius: var(--radius-md, 4px);
+  cursor: pointer;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.filter__panel-trigger:hover {
+  border-color: var(--color-grey-300, #a0a0a0);
+}
+
+.filter__panel-trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
+}
+
+.filter__panel-trigger--open {
+  border-color: var(--color-primary-900, #203b61);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05), 0 0 0 1px var(--color-primary-900, #203b61);
+}
+
+.filter__panel-trigger--selected {
+  border-color: var(--color-primary-900, #203b61);
+}
+
+.filter__panel-trigger--disabled,
+.filter__panel-trigger:disabled {
+  background: var(--color-grey-50, #efefef);
+  border-color: var(--color-border-dark, #dfdfdf);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.filter__panel-trigger-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 20px;
+  color: var(--color-grey-700, #272727);
+  text-align: left;
+}
+
+.filter__panel-trigger-text--placeholder {
+  color: var(--color-grey-400, #818181);
+}
+
+/* ── Panel dropdown menus (field list + value list) ───────────────────────── */
+
+.filter__panel-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 210;
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-border-light, #e5e7eb);
+  border-radius: var(--radius-md, 4px);
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px 2px rgba(0, 0, 0, 0.05);
+  padding: 4px 0;
+  margin: 0;
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.filter__panel-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 20px;
   color: var(--color-grey, #616161);
   cursor: pointer;
   transition: background 0.1s;
 }
 
-.filter__option:hover {
-  background: var(--color-grey-50, #f3f4f6);
+.filter__panel-option:hover {
+  background: var(--color-grey-25, #f7f7f7);
 }
 
-.filter__option--selected {
-  color: var(--color-primary, #3165ad);
+.filter__panel-option--selected {
+  color: var(--color-primary-900, #203b61);
   font-weight: var(--font-weight-medium, 500);
 }
 
-.filter__option--empty {
-  color: var(--color-grey-400, #818181);
-  cursor: default;
-}
-
-.filter__option--empty:hover {
-  background: none;
-}
-
-/* ── Search input (active/typing state) ── */
-
-.filter__search {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
-  font-size: 14px;
-  font-weight: var(--font-weight-regular, 400);
-  line-height: var(--scale-500, 20px);
+/* Checkbox option (value multiselect) */
+.filter__panel-option--checked {
+  background: var(--color-grey-50, #efefef);
+  font-weight: var(--font-weight-semibold, 600);
   color: var(--color-grey-700, #272727);
-  min-width: 0;
-  padding: 0;
 }
 
-.filter__search::placeholder {
-  color: var(--color-grey-400, #818181);
+.filter__panel-option-check {
+  color: var(--color-primary-900, #203b61);
+  flex-shrink: 0;
 }
 
-/* ── New filter variant ── */
+/* Custom checkbox indicator */
+.filter__checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--color-grey-300, #d1d5db);
+  border-radius: 3px;
+  background: var(--color-neutral-white, #ffffff);
+  flex-shrink: 0;
+  color: transparent;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+}
+
+.filter__panel-option--checked .filter__checkbox {
+  background: var(--color-primary, #3165ad);
+  border-color: var(--color-primary, #3165ad);
+  color: var(--color-neutral-white, #ffffff);
+}
+
+/* ── Action bar ───────────────────────────────────────────────────────────── */
+
+.filter__panel-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border-light, #e5e7eb);
+}
+
+.filter__panel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-md, 4px);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 20px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+
+.filter__panel-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
+}
+
+/* Cancel */
+.filter__panel-btn--cancel {
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-border-dark, #dfdfdf);
+  color: var(--color-primary-900, #203b61);
+}
+
+.filter__panel-btn--cancel:hover {
+  background: var(--color-grey-25, #f7f7f7);
+  border-color: var(--color-grey-300, #a0a0a0);
+}
+
+/* Add — disabled until field + values selected */
+.filter__panel-btn--add:disabled {
+  background: var(--color-border-dark, #dfdfdf);
+  border: 1px solid var(--color-grey-200, #c0c0c0);
+  color: var(--color-grey, #616161);
+  cursor: not-allowed;
+}
+
+.filter__panel-btn--add:not(:disabled) {
+  background: var(--color-primary-700, #27518c);
+  border: 1px solid var(--color-primary-700, #27518c);
+  color: var(--color-neutral-white, #ffffff);
+}
+
+.filter__panel-btn--add:not(:disabled):hover {
+  background: var(--color-primary-900, #203b61);
+  border-color: var(--color-primary-900, #203b61);
+}
+
+/* ── New filter variant ───────────────────────────────────────────────────── */
 
 .filter__trigger--new {
   display: inline-flex;
   align-items: center;
-  gap: var(--scale-100, 4px);
-  height: var(--scale-800, 32px);
-  padding: var(--scale-200, 8px);
-  background: var(--color-white, #ffffff);
+  gap: 4px;
+  height: 32px;
+  padding: 0 8px;
+  background: var(--color-neutral-white, #ffffff);
   border: 1px dashed var(--color-grey-200, #c0c0c0);
   border-radius: var(--radius-md, 4px);
   cursor: pointer;
@@ -158,10 +415,9 @@
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   font-size: 14px;
   font-weight: var(--font-weight-regular, 400);
-  line-height: var(--scale-500, 20px);
   color: var(--color-grey-400, #818181);
   box-sizing: border-box;
-  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 
 .filter__trigger--new:hover {

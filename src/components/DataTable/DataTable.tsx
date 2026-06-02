@@ -3,7 +3,7 @@ import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, F
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { Filter as FilterComponent } from '../Filter/Filter';
-import type { FilterOption } from '../Filter/Filter';
+import type { FilterField } from '../Filter/Filter';
 import './DataTable.css';
 
 export interface DataTableViewPanelSection {
@@ -30,14 +30,21 @@ export interface DataTableToolbarRightAction {
 }
 
 export interface DataTableFilterConfig {
-  /** Placeholder text shown in the filter trigger */
-  placeholder: string;
-  /** Available options */
-  options: FilterOption[];
-  /** Currently selected value (controlled) */
-  value?: string;
-  /** Called when an option is selected */
-  onSelect?: (value: string) => void;
+  /**
+   * Available filter fields shown in the field-selector dropdown.
+   * Each field carries its own value options for the multiselect.
+   */
+  fields: FilterField[];
+  /** Currently applied field value (controlled) */
+  fieldValue?: string;
+  /** Currently applied values — multiselect (controlled) */
+  values?: string[];
+  /** Called when the user clicks "Add" in the filter panel */
+  onApply?: (fieldValue: string, values: string[]) => void;
+  /** Called when the × remove button on the applied chip is clicked */
+  onRemove?: () => void;
+  /** Placeholder for the idle trigger. Defaults to "Select Filter" */
+  placeholder?: string;
 }
 
 export interface DataTableToolbar {
@@ -291,13 +298,18 @@ export function DataTable<T extends Record<string, unknown>>({
                 {toolbar.inlineFilters?.map((filter, i) => (
                   <FilterComponent
                     key={i}
+                    fields={filter.fields}
+                    fieldValue={filter.fieldValue}
+                    values={filter.values}
                     placeholder={filter.placeholder}
-                    options={filter.options}
-                    value={filter.value}
                     open={openInlineFilterIndex === i}
                     onToggle={() => setOpenInlineFilterIndex(prev => prev === i ? null : i)}
-                    onSelect={(v) => {
-                      filter.onSelect?.(v);
+                    onApply={(fv, vals) => {
+                      filter.onApply?.(fv, vals);
+                      setOpenInlineFilterIndex(null);
+                    }}
+                    onRemove={() => {
+                      filter.onRemove?.();
                       setOpenInlineFilterIndex(null);
                     }}
                   />
@@ -305,8 +317,6 @@ export function DataTable<T extends Record<string, unknown>>({
                 {toolbar.onAddFilter && (
                   <FilterComponent
                     variant="new-filter"
-                    placeholder="New filter"
-                    options={[]}
                     onAddFilter={toolbar.onAddFilter}
                   />
                 )}
@@ -431,13 +441,18 @@ export function DataTable<T extends Record<string, unknown>>({
           {toolbar.filters.map((filter, i) => (
             <div key={i} className="data-table__filter-bar-item">
               <FilterComponent
+                fields={filter.fields}
+                fieldValue={filter.fieldValue}
+                values={filter.values}
                 placeholder={filter.placeholder}
-                options={filter.options}
-                value={filter.value}
                 open={openFilterIndex === i}
                 onToggle={() => setOpenFilterIndex(prev => prev === i ? null : i)}
-                onSelect={(v) => {
-                  filter.onSelect?.(v);
+                onApply={(fv, vals) => {
+                  filter.onApply?.(fv, vals);
+                  setOpenFilterIndex(null);
+                }}
+                onRemove={() => {
+                  filter.onRemove?.();
                   setOpenFilterIndex(null);
                 }}
               />
