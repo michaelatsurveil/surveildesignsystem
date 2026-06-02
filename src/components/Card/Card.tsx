@@ -10,13 +10,13 @@
 
 import { ChevronRight } from 'lucide-react';
 import { Button } from '../Button/Button';
-import { Tag } from '../Tag/Tag';
-import type { TagVariant } from '../Tag/Tag';
+import { Badge } from '../Badge/Badge';
+import type { BadgeVariant } from '../Badge/Badge';
 import './Card.css';
 
 export type CardStatusVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 
-const STATUS_TO_TAG: Record<CardStatusVariant, TagVariant> = {
+const STATUS_TO_TAG: Record<CardStatusVariant, BadgeVariant> = {
   default:  'default',
   success:  'success',
   error:    'critical',
@@ -119,9 +119,9 @@ export function Card({
             <div className="card__list-heading">
               <h6 className="card__title">{title}</h6>
               {status != null && status !== '' && (
-                <Tag variant={STATUS_TO_TAG[statusVariant]} size="sm">
+                <Badge variant={STATUS_TO_TAG[statusVariant]} size="sm">
                   {status}
-                </Tag>
+                </Badge>
               )}
             </div>
             {/* Supporting sub-text aligned with title (indented past icon) */}
@@ -153,7 +153,7 @@ export function Card({
           <div className="card__header-text">
             <h6 className="card__title">{title}</h6>
             {status != null && status !== '' && (
-              <Tag variant={STATUS_TO_TAG[statusVariant]} size="sm">{status}</Tag>
+              <Badge variant={STATUS_TO_TAG[statusVariant]} size="sm">{status}</Badge>
             )}
           </div>
         </div>

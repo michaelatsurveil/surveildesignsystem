@@ -9,8 +9,8 @@
  */
 
 import { ArrowDown, ArrowUp, ArrowRight, ChevronDown, Minus } from 'lucide-react';
-import { Tag } from '../Tag/Tag';
-import type { TagVariant } from '../Tag/Tag';
+import { Badge } from '../Badge/Badge';
+import type { BadgeVariant } from '../Badge/Badge';
 import { Button } from '../Button/Button';
 import './StatisticCard.css';
 
@@ -22,7 +22,7 @@ export interface StatisticMetricItem {
   /** Bold metric value */
   value: string;
   /** Optional tag badge (e.g. { label: 'Success', variant: 'success' }) */
-  tag?: { label: string; variant?: TagVariant };
+  tag?: { label: string; variant?: BadgeVariant };
 }
 
 export interface StatisticCardProps {
@@ -181,9 +181,9 @@ export function StatisticCard({
                   <div className="statistic-card__metric-row">
                     <span className="statistic-card__metric-value">{m.value}</span>
                     {m.tag != null && (
-                      <Tag variant={m.tag.variant ?? 'success'} size="sm">
+                      <Badge variant={m.tag.variant ?? 'success'} size="sm">
                         {m.tag.label}
-                      </Tag>
+                      </Badge>
                     )}
                   </div>
                 </div>

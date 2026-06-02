@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tag } from './Tag';
+import { Hash } from 'lucide-react';
 
 const meta: Meta<typeof Tag> = {
   title: 'Display/Tag',
@@ -9,23 +11,19 @@ const meta: Meta<typeof Tag> = {
     layout: 'padded',
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-1063',
+      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=2671-6588',
     },
     docs: {
       description: {
         component:
-          'Semantic badge/tag with three shape variants: **Circle** (18×18px numeric), **Default Full Rounded** (Body/xsm pill), and **Large Full Rounded** (Body/sm pill). [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-1063)',
+          'User-assigned label with optional leading icon and remove button. Two sizes: **Default** (12px, 8px icon) and **Large** (14px, 12px icon). Supports hover, clickable, and removable states. Tags imply user ownership — for system-generated status indicators use Badge. [Figma →](https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=2671-6588)',
       },
     },
   },
   argTypes: {
-    variant: {
-      control: 'select',
-      options: ['default', 'info', 'success', 'critical', 'attention', 'warning', 'purple', 'rose', 'orange', 'jade', 'teal', 'aqua'],
-    },
     size: {
       control: 'select',
-      options: ['circle', 'sm', 'lg'],
+      options: ['default', 'large'],
     },
   },
 };
@@ -34,46 +32,60 @@ export default meta;
 
 type Story = StoryObj<typeof Tag>;
 
-const semanticVariants = ['default', 'info', 'success', 'critical', 'attention', 'warning'] as const;
-const colourVariants = ['purple', 'rose', 'orange', 'jade', 'teal', 'aqua'] as const;
-const variants = [...semanticVariants, ...colourVariants] as const;
-
 const sectionLabel = (text: string) => (
   <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>
     {text}
   </p>
 );
 
-const label = (v: string) => v.charAt(0).toUpperCase() + v.slice(1);
-
 export const Default: Story = {
-  name: 'Overview — All Variants',
+  name: 'Overview — All States',
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        {sectionLabel('Semantic')}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {semanticVariants.map(v => <Tag key={v} variant={v} size="circle">9</Tag>)}
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {semanticVariants.map(v => <Tag key={v} variant={v} size="sm">{label(v)}</Tag>)}
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {semanticVariants.map(v => <Tag key={v} variant={v} size="lg">{label(v)}</Tag>)}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {sectionLabel('Default size')}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+          <Tag size="default">Tag</Tag>
+          <Tag size="default" icon={<Hash />}>With icon</Tag>
+          <Tag size="default" onRemove={() => {}}>Removable</Tag>
+          <Tag size="default" icon={<Hash />} onRemove={() => {}}>Icon + Remove</Tag>
+          <Tag size="default" onClick={() => {}}>Clickable</Tag>
         </div>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        {sectionLabel('Colour')}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {colourVariants.map(v => <Tag key={v} variant={v} size="circle">9</Tag>)}
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {colourVariants.map(v => <Tag key={v} variant={v} size="sm">{label(v)}</Tag>)}
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {colourVariants.map(v => <Tag key={v} variant={v} size="lg">{label(v)}</Tag>)}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {sectionLabel('Large size')}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+          <Tag size="large">Tag</Tag>
+          <Tag size="large" icon={<Hash />}>With icon</Tag>
+          <Tag size="large" onRemove={() => {}}>Removable</Tag>
+          <Tag size="large" icon={<Hash />} onRemove={() => {}}>Icon + Remove</Tag>
+          <Tag size="large" onClick={() => {}}>Clickable</Tag>
         </div>
       </div>
     </div>
   ),
+};
+
+function RemovableExample() {
+  const [tags, setTags] = useState(['Finance', 'Security', 'Technology', 'Operations']);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {sectionLabel('Interactive — click × to remove')}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        {tags.map((t) => (
+          <Tag key={t} size="default" onRemove={() => setTags((prev) => prev.filter((x) => x !== t))}>
+            {t}
+          </Tag>
+        ))}
+        {tags.length === 0 && (
+          <span style={{ fontSize: 12, color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>All tags removed</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export const Removable: Story = {
+  name: 'Removable Tags',
+  render: () => <RemovableExample />,
 };

@@ -1,0 +1,142 @@
+/**
+ * MultiSelect component styles — Figma Component Library node 2675-8189
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=2675-8189
+ *
+ * Trigger + floating checkbox menu. States: idle, hover, selected, open, disabled.
+ */
+
+.multiselect {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+}
+
+/* ── Trigger ── */
+
+.multiselect__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--scale-800, 32px);
+  padding: var(--scale-200, 8px);
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border-radius: var(--radius-md, 4px);
+  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+  min-width: 150px;
+}
+
+.multiselect__trigger:hover .multiselect__trigger-label {
+  color: var(--color-grey, #616161);
+}
+
+.multiselect__trigger:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
+}
+
+.multiselect--open .multiselect__trigger,
+.multiselect--selected .multiselect__trigger {
+  border-color: var(--color-primary-600, #27518c);
+  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+}
+
+.multiselect--disabled .multiselect__trigger {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Trigger label ── */
+
+.multiselect__trigger-label {
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
+  color: var(--color-grey-400, #818181);
+  flex: 1;
+  text-align: left;
+}
+
+.multiselect--selected .multiselect__trigger-label {
+  color: var(--color-grey, #616161);
+}
+
+/* ── Chevron ── */
+
+.multiselect__chevron {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--color-grey-400, #818181);
+  transition: transform 0.15s;
+}
+
+.multiselect__chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ── Menu panel ── */
+
+.multiselect__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 200;
+  min-width: 100%;
+  background: var(--color-white, #ffffff);
+  border-radius: var(--radius-md, 4px);
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px 2px rgba(0, 0, 0, 0.05);
+  padding: 4px 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* ── Menu item ── */
+
+.multiselect__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.multiselect__item:hover {
+  background: var(--color-grey-50, #f7f7f7);
+}
+
+.multiselect__item--checked {
+  background: var(--color-grey-100, #efefef);
+}
+
+.multiselect__item--checked .multiselect__item-label {
+  font-weight: 600;
+}
+
+/* ── Checkbox ── */
+
+.multiselect__checkbox {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: var(--color-primary-600, #3165ad);
+  pointer-events: none;
+}
+
+/* ── Item label ── */
+
+.multiselect__item-label {
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 20px;
+  color: var(--color-grey, #616161);
+  white-space: nowrap;
+}

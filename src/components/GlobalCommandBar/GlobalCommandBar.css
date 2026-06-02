@@ -1,0 +1,101 @@
+/**
+ * Global Command Bar — title bar for all screens
+ * Left: optional back button + title
+ * Right: optional secondary action, primary action, table-editor icon button
+ */
+
+.gcb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 16px;
+  background: var(--color-neutral-white, #ffffff);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
+  box-sizing: border-box;
+  width: 100%;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+}
+
+/* ── Left ── */
+
+.gcb__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.gcb__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-md, 4px);
+  color: var(--color-grey-700, #374151);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.1s, color 0.1s;
+}
+
+.gcb__back:hover {
+  background: var(--color-grey-50, #f7f7f7);
+  color: var(--color-grey-900, #111827);
+}
+
+.gcb__back:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
+}
+
+.gcb__title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--color-grey-900, #111827);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Right ── */
+
+.gcb__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Table editor icon button ── */
+
+.gcb__table-editor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: var(--color-neutral-white, #ffffff);
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border-radius: var(--radius-md, 4px);
+  color: var(--color-grey-600, #616161);
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s, color 0.1s;
+}
+
+.gcb__table-editor:hover {
+  background: var(--color-grey-50, #f7f7f7);
+  border-color: var(--color-grey-300, #d1d5db);
+  color: var(--color-grey-900, #111827);
+}
+
+.gcb__table-editor:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
+}

@@ -1,107 +1,134 @@
 /**
- * Tag (badge) styles — Figma Component Library node 304-1063
- * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=304-1063
+ * Tag component styles — Figma Component Library node 2671-6588
+ * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=2671-6588
  *
- * Three shape/size variants:
- *   circle      — fixed 18×18px numeric badge (Shape=Circle, Sizes=Default)
- *   sm          — Full Rounded Default: 1px 8px · Body/xsm 12px (Shape=Full Rounded, Sizes=Default)
- *   lg          — Full Rounded Large:  2px 8px · Body/sm  14px (Shape=Full Rounded, Sizes=Large)
+ * Two sizes:
+ *   default  — 2px 8px padding · 8px icon · Body/xsm 12px
+ *   large    — 8px 12px padding · 12px icon · Body/sm 14px
+ *
+ * States: default, hover, clickable (active)
+ * Optional: leading icon, trailing remove (×) button
  */
 
 .tag {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 4px;
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   font-weight: var(--font-weight-regular, 400);
-  border-radius: 9999px;
-  border: 1px solid transparent;
+  border-radius: var(--radius-md, 4px);
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  background-color: var(--color-grey-50, #f7f7f7);
+  color: var(--color-grey-900, #272727);
   white-space: nowrap;
   box-sizing: border-box;
+  transition: background-color 0.1s, color 0.1s;
 }
 
-/* ─── Circle — fixed 18×18px, Body/xsm ─────────────────────────────────────── */
-.tag--circle {
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  font-size: 12px;
-  line-height: 16px;
+.tag:hover {
+  background-color: var(--color-grey-100, #efefef);
+  color: var(--color-primary-700, #27518c);
 }
 
-/* ─── Full Rounded Default — 1px 8px, Body/xsm ──────────────────────────────── */
-.tag--sm {
-  padding: 1px 8px;
-  font-size: 12px;
-  line-height: 16px;
-}
-
-/* ─── Full Rounded Large — 2px 8px, Body/sm ─────────────────────────────────── */
-.tag--lg {
+/* ─── Default size — 2px 8px, Body/xsm 12px ─────────────────────────────────── */
+.tag--default {
   padding: 2px 8px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ─── Large size — 8px 12px, Body/sm 14px ───────────────────────────────────── */
+.tag--large {
+  padding: 8px 12px;
   font-size: 14px;
   line-height: 16px;
-  height: 20px;
 }
 
-/* ─── Colour variants ────────────────────────────────────────────────────────── */
-
-.tag--default {
-  background-color: var(--color-grey-50, #f9fafb);
-  color: var(--color-grey-700, #374151);
+/* ─── Clickable state ────────────────────────────────────────────────────────── */
+.tag--clickable {
+  cursor: pointer;
+  user-select: none;
 }
 
-.tag--info {
-  background-color: var(--color-primary-50, #e5eefa);
-  color: var(--color-primary-700, #3165ad);
+.tag--clickable:hover {
+  background-color: var(--color-grey-100, #efefef);
+  color: var(--color-primary-800, #27518c);
 }
 
-.tag--success {
-  background-color: var(--color-success-50, #effff5);
-  color: var(--color-success-700, #15803d);
+.tag--clickable:active {
+  background-color: var(--color-grey-100, #efefef);
+  color: var(--color-primary-900, #203b61);
 }
 
-.tag--critical {
-  background-color: var(--color-error-50, #ffe1e1);
-  color: var(--color-error-700, #e61c1d);
+.tag--clickable:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
 }
 
-.tag--attention {
-  background-color: var(--color-warning-50, #fdf9e9);
-  color: var(--color-warning-700, #a86c00);
+/* ─── Leading icon ───────────────────────────────────────────────────────────── */
+.tag__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: inherit;
 }
 
-.tag--warning {
-  background-color: var(--color-warning-100, #fbf1c6);
-  color: var(--color-warning-800, #6c3517);
+.tag--default .tag__icon {
+  width: 8px;
+  height: 8px;
 }
 
-.tag--purple {
-  background-color: var(--color-purple-50, #e5d8fb);
-  color: var(--color-purple-600, #632ebe);
+.tag--large .tag__icon {
+  width: 12px;
+  height: 12px;
 }
 
-.tag--rose {
-  background-color: var(--color-rose-50, #fad7e1);
-  color: var(--color-rose-700, #8b2040);
+.tag__icon svg {
+  width: 100%;
+  height: 100%;
 }
 
-.tag--orange {
-  background-color: var(--color-orange-50, #fce0d4);
-  color: var(--color-orange-700, #903b19);
+/* ─── Label ──────────────────────────────────────────────────────────────────── */
+.tag__label {
+  color: inherit;
 }
 
-.tag--jade {
-  background-color: var(--color-jade-50, #d1f1e4);
-  color: var(--color-jade-700, #0e6e49);
+/* ─── Remove button ──────────────────────────────────────────────────────────── */
+.tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  flex-shrink: 0;
+  border-radius: 2px;
+  transition: color 0.1s;
 }
 
-.tag--teal {
-  background-color: var(--color-teal-50, #ccf3f0);
-  color: var(--color-teal-700, #00746b);
+.tag--default .tag__remove {
+  width: 8px;
+  height: 8px;
 }
 
-.tag--aqua {
-  background-color: var(--color-aqua-50, #dbe9f7);
-  color: var(--color-aqua-700, #2c5682);
+.tag--large .tag__remove {
+  width: 12px;
+  height: 12px;
+}
+
+.tag__remove svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tag__remove:hover {
+  color: var(--color-error-600, #e61c1d);
+}
+
+.tag__remove:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring-primary, 0 0 0 2px rgba(49, 101, 173, 0.3));
 }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SideDrawer } from './SideDrawer';
 import { Button } from '../Button/Button';
-import { Tag } from '../Tag/Tag';
+import { Badge } from '../Badge/Badge';
 import { Input } from '../Input/Input';
 import { Dropdown } from '../Dropdown/Dropdown';
 
@@ -199,7 +199,7 @@ export const DetailsPanel: Story = {
                 <DrawerField label="Tenant name">ITEXACT Limited</DrawerField>
                 <DrawerField label="Type">M365</DrawerField>
                 <DrawerField label="Status">
-                  <Tag variant="success" size="sm">Active</Tag>
+                  <Badge variant="success" size="sm">Active</Badge>
                 </DrawerField>
                 <DrawerField label="Source">Navigator</DrawerField>
               </div>
@@ -211,7 +211,7 @@ export const DetailsPanel: Story = {
                 <DrawerField label="Email">jade.chau@surveil.co</DrawerField>
                 <DrawerField label="Created">12 Jan 2024</DrawerField>
                 <DrawerField label="Review status">
-                  <Tag variant="attention" size="sm">Pending review</Tag>
+                  <Badge variant="attention" size="sm">Pending review</Badge>
                 </DrawerField>
               </div>
             </DrawerSection>

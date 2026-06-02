@@ -4,8 +4,6 @@ import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { Filter as FilterComponent } from '../Filter/Filter';
 import type { FilterOption } from '../Filter/Filter';
-import { Dropdown } from '../Dropdown/Dropdown';
-import type { DropdownOption } from '../Dropdown/Dropdown';
 import './DataTable.css';
 
 export interface DataTableViewPanelSection {
@@ -22,15 +20,11 @@ export interface DataTableViewPanelSection {
 }
 
 export interface DataTableToolbarRightAction {
-  /** 'buttons' shows primary + secondary Button; 'view' shows a simple dropdown; 'view-panel' shows a rich panel with sections */
-  type: 'buttons' | 'view' | 'view-panel';
+  /** 'buttons' shows primary + secondary Button; 'view-panel' shows a rich panel with sections */
+  type: 'buttons' | 'view-panel';
   // For type='buttons'
   primary?: { label: string; onClick?: () => void };
   secondary?: { label: string; onClick?: () => void };
-  // For type='view'
-  viewOptions?: DropdownOption[];
-  viewValue?: string;
-  onViewChange?: (value: string) => void;
   // For type='view-panel'
   viewPanelSections?: DataTableViewPanelSection[];
 }
@@ -366,14 +360,6 @@ export function DataTable<T extends Record<string, unknown>>({
                       </Button>
                     )}
                   </>
-                )}
-                {toolbar.rightAction.type === 'view' && toolbar.rightAction.viewOptions && (
-                  <Dropdown
-                    options={toolbar.rightAction.viewOptions}
-                    value={toolbar.rightAction.viewValue}
-                    onChange={toolbar.rightAction.onViewChange}
-                    placeholder="View"
-                  />
                 )}
                 {toolbar.rightAction.type === 'view-panel' && toolbar.rightAction.viewPanelSections && (
                   <div className="data-table__view-panel-wrap" ref={viewPanelRef}>

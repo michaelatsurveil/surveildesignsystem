@@ -5,7 +5,7 @@ import {
   Mail, ExternalLink, ArrowUpRight,
 } from 'lucide-react';
 import { DataTable, DataTableEmptyState } from './DataTable';
-import { Tag } from '../Tag/Tag';
+import { Badge } from '../Badge/Badge';
 import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
 
@@ -37,9 +37,9 @@ export const overviewColumns = [
     header: 'Status',
     sortable: true,
     render: (value: unknown) => (
-      <Tag variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'default'} size="sm">
+      <Badge variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'default'} size="sm">
         {String(value)}
-      </Tag>
+      </Badge>
     ),
   },
 ];
@@ -186,7 +186,6 @@ export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {
             onSearch: () => {},
             searchPlaceholder: 'Search…',
             inlineFilters: [{ placeholder: 'Status', options: [] }],
-            rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }], viewValue: 'table' },
           }}
           emptyState={
             <DataTableEmptyState
@@ -204,7 +203,7 @@ export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {
           columns={overviewColumns}
           rows={[]}
           getRowId={(row) => row.tenantEmail}
-          toolbar={{ onSearch: () => {}, rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }], viewValue: 'table' } }}
+          toolbar={{ onSearch: () => {} }}
           emptyState={<DataTableEmptyState />}
         />
       </div>
@@ -216,7 +215,7 @@ export const EmptyState: StoryObj<typeof DataTable<TenantRow>> = {
           columns={overviewColumns}
           rows={[]}
           getRowId={(row) => row.tenantEmail}
-          toolbar={{ onSearch: () => {}, rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }], viewValue: 'table' } }}
+          toolbar={{ onSearch: () => {} }}
           emptyState={
             <DataTableEmptyState
               heading="No tenants found"
@@ -316,14 +315,14 @@ function renderCellPreview(type: string): React.ReactNode {
       );
 
     case 'badge':
-      return <Tag variant="success" size="sm">Active</Tag>;
+      return <Badge variant="success" size="sm">Active</Badge>;
 
     case 'multiple-badges':
       return (
         <span style={{ display: 'inline-flex', gap: 4, flexWrap: 'wrap' }}>
-          <Tag variant="info" size="sm">M365</Tag>
-          <Tag variant="success" size="sm">Active</Tag>
-          <Tag variant="attention" size="sm">Pending</Tag>
+          <Badge variant="info" size="sm">M365</Badge>
+          <Badge variant="success" size="sm">Active</Badge>
+          <Badge variant="attention" size="sm">Pending</Badge>
         </span>
       );
 
@@ -431,7 +430,7 @@ function renderCellPreview(type: string): React.ReactNode {
             <ChevronDown size={14} strokeWidth={2} className="data-table__group-toggle-chevron" />
             <span className="data-table__group-indicator" aria-hidden />
             Group Name
-            <Tag variant="default" size="sm">Error</Tag>
+            <Badge variant="default" size="sm">Error</Badge>
           </button>
         </span>
       );
@@ -591,9 +590,9 @@ export const TreeView: StoryObj<typeof DataTable<TreeRow>> = {
         id: 'status',
         header: 'Status',
         render: (value: unknown) => (
-          <Tag variant={value === 'Active' ? 'success' : 'attention'} size="sm">
+          <Badge variant={value === 'Active' ? 'success' : 'attention'} size="sm">
             {String(value)}
-          </Tag>
+          </Badge>
         ),
       },
     ];
@@ -608,7 +607,6 @@ export const TreeView: StoryObj<typeof DataTable<TreeRow>> = {
           searchPlaceholder: 'Search…',
           inlineFilters: [{ placeholder: 'Status', options: [{ label: 'Active', value: 'Active' }, { label: 'Pending', value: 'Pending' }] }],
           onAddFilter: () => {},
-          rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }, { label: 'Card', value: 'card' }], viewValue: 'table' },
         }}
       />
     );
@@ -665,12 +663,12 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityRow>> = {
         id: 'status',
         header: 'Status',
         render: (value: unknown) => (
-          <Tag
+          <Badge
             variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'default'}
             size="sm"
           >
             {String(value)}
-          </Tag>
+          </Badge>
         ),
       },
     ];
@@ -692,15 +690,6 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityRow>> = {
             },
           ],
           onAddFilter: () => {},
-          rightAction: {
-            type: 'view',
-            viewOptions: [
-              { label: 'Table',   value: 'table'   },
-              { label: 'Card',    value: 'card'    },
-              { label: 'Compact', value: 'compact' },
-            ],
-            viewValue: 'table',
-          },
         }}
         groups={[
           {
@@ -709,7 +698,7 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityRow>> = {
               <>
                 <span className="data-table__group-indicator" aria-hidden />
                 Urgent Priority
-                <Tag variant="default" size="sm">Default</Tag>
+                <Badge variant="default" size="sm">Default</Badge>
               </>
             ),
             rows: urgentRows,
@@ -726,7 +715,7 @@ export const RowGroups: StoryObj<typeof DataTable<PriorityRow>> = {
               <>
                 <span className="data-table__group-indicator" aria-hidden />
                 Medium Priority
-                <Tag variant="attention" size="circle">6</Tag>
+                <Badge variant="attention" size="circle">6</Badge>
               </>
             ),
             rows: mediumRows,
@@ -799,9 +788,9 @@ export const EditableCells: StoryObj<typeof DataTable<EditableRow>> = {
         id: 'status',
         header: 'Status',
         render: (value: unknown) => (
-          <Tag variant={value === 'Active' ? 'success' : 'attention'} size="sm">
+          <Badge variant={value === 'Active' ? 'success' : 'attention'} size="sm">
             {String(value)}
-          </Tag>
+          </Badge>
         ),
       },
     ];
@@ -816,7 +805,6 @@ export const EditableCells: StoryObj<typeof DataTable<EditableRow>> = {
           searchPlaceholder: 'Search…',
           inlineFilters: [{ placeholder: 'Status', options: [{ label: 'Active', value: 'Active' }, { label: 'Pending', value: 'Pending' }] }],
           onAddFilter: () => {},
-          rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }, { label: 'Card', value: 'card' }], viewValue: 'table' },
         }}
       />
     );
@@ -881,77 +869,6 @@ export const ToolbarWithButtons: StoryObj<typeof DataTable<TenantRow>> = {
             type: 'buttons',
             primary: { label: 'Add tenant' },
             secondary: { label: 'Import' },
-          },
-        }}
-      />
-    );
-  },
-};
-
-// ─── Toolbar with View Dropdown story ─────────────────────────────────────
-
-export const ToolbarWithViewDropdown: StoryObj<typeof DataTable<TenantRow>> = {
-  name: 'Toolbar — View Dropdown',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Same toolbar layout but right-side action replaced with a View dropdown (Table / Card / Compact options).',
-      },
-    },
-  },
-  render: function ToolbarWithViewDropdownStory() {
-    const [query, setQuery] = useState('');
-    const [filterStatus, setFilterStatus] = useState('');
-    const [filterType, setFilterType] = useState('');
-    const [viewMode, setViewMode] = useState('table');
-
-    const filtered = allRows.slice(0, 10).filter((r) => {
-      if (query && !r.tenant.toLowerCase().includes(query.toLowerCase())) return false;
-      if (filterStatus && r.status !== filterStatus) return false;
-      if (filterType && r.type !== filterType) return false;
-      return true;
-    });
-
-    return (
-      <DataTable<TenantRow>
-        columns={overviewColumns}
-        rows={filtered}
-        getRowId={(row) => row.tenantEmail}
-        toolbar={{
-          onSearch: (q) => setQuery(q),
-          searchPlaceholder: 'Search tenants…',
-          inlineFilters: [
-            {
-              placeholder: 'Status',
-              options: [
-                { label: 'Active', value: 'Active' },
-                { label: 'Pending', value: 'Pending' },
-                { label: 'Default', value: 'Default' },
-              ],
-              value: filterStatus || undefined,
-              onSelect: setFilterStatus,
-            },
-            {
-              placeholder: 'Type',
-              options: [
-                { label: 'M365', value: 'M365' },
-                { label: 'Google', value: 'Google' },
-              ],
-              value: filterType || undefined,
-              onSelect: setFilterType,
-            },
-          ],
-          onAddFilter: () => {},
-          rightAction: {
-            type: 'view',
-            viewOptions: [
-              { label: 'Table', value: 'table' },
-              { label: 'Card', value: 'card' },
-              { label: 'Compact', value: 'compact' },
-            ],
-            viewValue: viewMode,
-            onViewChange: setViewMode,
           },
         }}
       />
