@@ -448,16 +448,26 @@ export function DataTable<T extends Record<string, unknown>>({
 
       {/* ── Grouped layout ── */}
       {isGrouped ? (
+        <div className="data-table__scroll">
         <table className="data-table data-table--grouped">
           <thead className="data-table__head">
             <tr>
               {selectable && (
-                <th className="data-table__cell data-table__cell--head data-table__cell--checkbox" scope="col" />
+                <th className="data-table__cell data-table__cell--head data-table__cell--checkbox data-table__cell--head-left" scope="col" />
               )}
-              {columns.map((col) => (
+              {columns.map((col, colIndex) => {
+                const totalCols = columns.length;
+                const isFirstCol = colIndex === 0;
+                const isLastCol = colIndex === totalCols - 1;
+                const headPos = !selectable && isFirstCol
+                  ? 'left'
+                  : isLastCol
+                    ? 'right'
+                    : 'center';
+                return (
                 <th
                   key={col.id}
-                  className={['data-table__cell data-table__cell--head', col.headerClassName].filter(Boolean).join(' ')}
+                  className={['data-table__cell data-table__cell--head', `data-table__cell--head-${headPos}`, col.headerClassName].filter(Boolean).join(' ')}
                   scope="col"
                 >
                   <span className="data-table__head-text">
@@ -469,7 +479,8 @@ export function DataTable<T extends Record<string, unknown>>({
                     )}
                   </span>
                 </th>
-              ))}
+                );
+              })}
             </tr>
           </thead>
 
@@ -619,15 +630,17 @@ export function DataTable<T extends Record<string, unknown>>({
             );
           })}
         </table>
+        </div>
       ) : (
         /* ── Regular (non-grouped) layout ── */
         <>
           {rows.length === 0 && emptyState ? emptyState : (
+          <div className="data-table__scroll">
           <table className="data-table">
             <thead className="data-table__head">
               <tr>
                 {selectable && (
-                  <th className="data-table__cell data-table__cell--checkbox" scope="col">
+                  <th className="data-table__cell data-table__cell--head data-table__cell--checkbox data-table__cell--head-left" scope="col">
                     <label className="data-table__checkbox-label">
                       <input
                         ref={headerCheckRef}
@@ -641,8 +654,17 @@ export function DataTable<T extends Record<string, unknown>>({
                     </label>
                   </th>
                 )}
-                {columns.map((col) => (
-                  <th key={col.id} className={['data-table__cell data-table__cell--head', col.headerClassName].filter(Boolean).join(' ')} scope="col">
+                {columns.map((col, colIndex) => {
+                  const totalCols = columns.length;
+                  const isFirstCol = colIndex === 0;
+                  const isLastCol = colIndex === totalCols - 1;
+                  const headPos = !selectable && isFirstCol
+                    ? 'left'
+                    : isLastCol
+                      ? 'right'
+                      : 'center';
+                  return (
+                  <th key={col.id} className={['data-table__cell data-table__cell--head', `data-table__cell--head-${headPos}`, col.headerClassName].filter(Boolean).join(' ')} scope="col">
                     <span className="data-table__head-text">
                       {col.header}
                       {col.sortable && (
@@ -652,7 +674,8 @@ export function DataTable<T extends Record<string, unknown>>({
                       )}
                     </span>
                   </th>
-                ))}
+                  );
+                })}
               </tr>
             </thead>
             <tbody className="data-table__body">
@@ -697,6 +720,7 @@ export function DataTable<T extends Record<string, unknown>>({
               })}
             </tbody>
           </table>
+          </div>
           )}
 
           {pagination && rows.length > 0 && (

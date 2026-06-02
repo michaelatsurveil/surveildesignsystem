@@ -8,11 +8,17 @@
 
 .data-table__wrap {
   width: 100%;
-  overflow-x: auto;
+  overflow: hidden; /* clips inner content to border-radius on all axes */
   background: var(--color-white, #ffffff);
   border-radius: var(--radius-lg, 8px);
-  border: 1px solid var(--color-grey-100, #e5e7eb);
+  border: 1px solid var(--color-border-light, #e5e7eb);
   box-shadow: var(--shadow);
+}
+
+/* Inner scroll container — sits between wrapper and table so overflow: hidden above can clip corners */
+.data-table__scroll {
+  overflow-x: auto;
+  width: 100%;
 }
 
 .data-table {
@@ -31,9 +37,8 @@
   justify-content: space-between;
   gap: var(--scale-400, 16px);
   padding: 8px 16px;
-  background: var(--color-grey-25, #f7f7f7);
-  border-bottom: 1px solid var(--color-grey-100, #dfdfdf);
-  border-radius: var(--radius-lg, 8px) var(--radius-lg, 8px) 0 0;
+  background: var(--color-neutral-white, #ffffff);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
 }
 
@@ -149,8 +154,8 @@
   display: flex;
   gap: var(--scale-200, 8px);
   padding: var(--scale-200, 8px) var(--scale-400, 16px);
-  background: var(--color-grey-25, #f7f7f7);
-  border-bottom: 1px solid var(--color-grey-100, #dfdfdf);
+  background: var(--color-neutral-white, #ffffff);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
 }
 
 /* Each filter fills its flex cell equally and stretches its trigger full-width */
@@ -170,7 +175,7 @@
 }
 
 .data-table__head {
-  background: var(--color-bg-alt, #f9fafb);
+  background: var(--color-surface-table-default, #f9fafb);
 }
 
 .data-table__cell {
@@ -178,15 +183,35 @@
   height: 32px;
   text-align: left;
   vertical-align: middle;
-  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
   box-sizing: border-box;
 }
 
 .data-table__cell--head {
-  padding: 12px 16px;
+  padding: 10px 16px;
+  height: 40px;
   font-size: 12px;
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--color-text-body, #616161);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-secondary, #6b7280);
+  background: var(--color-surface-table-default, #f9fafb);
+}
+
+/* ── Header cell position variants (left / center / right)
+   These give the first and last <th> their curved corners.
+   Requires the wrapping .data-table__wrap to have overflow: hidden
+   so the clip applies. With border-collapse: collapse the radius
+   is enforced by the outer wrapper clip, not the cell itself.  ── */
+
+.data-table__cell--head-left {
+  border-top-left-radius: var(--radius-lg, 8px);
+}
+
+.data-table__cell--head-center {
+  /* no corner radius — interior column */
+}
+
+.data-table__cell--head-right {
+  border-top-right-radius: var(--radius-lg, 8px);
 }
 
 .data-table__head-text {
@@ -432,9 +457,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  border-top: 1px solid var(--color-grey-100, #dfdfdf);
+  border-top: 1px solid var(--color-border-light, #e5e7eb);
   background: var(--color-neutral-white, #ffffff);
-  border-radius: 0 0 var(--radius-lg, 8px) var(--radius-lg, 8px);
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
   font-size: 14px;
   color: var(--color-grey-600, #3a3a3a);
@@ -460,7 +484,7 @@
   appearance: none;
   -webkit-appearance: none;
   padding: 4px 28px 4px 10px;
-  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border: 1px solid var(--color-border-light, #e5e7eb);
   border-radius: var(--radius-md, 4px);
   background: var(--color-neutral-white, #ffffff)
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23616161' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
@@ -501,7 +525,7 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border: 1px solid var(--color-border-light, #e5e7eb);
   border-radius: var(--radius-md, 4px);
   background: var(--color-neutral-white, #ffffff);
   color: var(--color-grey-600, #3a3a3a);
@@ -645,7 +669,7 @@
   z-index: 200;
   min-width: 240px;
   background: var(--color-neutral-white, #ffffff);
-  border: 1px solid var(--color-grey-100, #e5e7eb);
+  border: 1px solid var(--color-border-light, #e5e7eb);
   border-radius: var(--radius-lg, 8px);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06);
   padding: 4px 0;
@@ -657,7 +681,7 @@
 }
 
 .data-table__view-panel-section + .data-table__view-panel-section {
-  border-top: 1px solid var(--color-grey-100, #e5e7eb);
+  border-top: 1px solid var(--color-border-light, #e5e7eb);
 }
 
 .data-table__view-panel-heading {
@@ -671,7 +695,7 @@
 /* Segment control (e.g. Annual | Monthly) */
 .data-table__view-panel-segments {
   display: inline-flex;
-  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border: 1px solid var(--color-border-light, #e5e7eb);
   border-radius: var(--radius-sm, 4px);
   overflow: hidden;
 }
@@ -691,7 +715,7 @@
 }
 
 .data-table__view-panel-segment + .data-table__view-panel-segment {
-  border-left: 1px solid var(--color-grey-100, #dfdfdf);
+  border-left: 1px solid var(--color-border-light, #e5e7eb);
 }
 
 .data-table__view-panel-segment--active {
@@ -833,15 +857,15 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
 /* ── Thead is visually part of the first group card ── */
 /* Give it top + bottom + side borders and top radius so it merges with the first group */
 .data-table--grouped .data-table__head .data-table__cell {
-  border-top: 1px solid var(--color-grey-100, #e5e7eb);
-  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+  border-top: 1px solid var(--color-border-light, #e5e7eb);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
 }
 .data-table--grouped .data-table__head .data-table__cell:first-child {
-  border-left: 1px solid var(--color-grey-100, #e5e7eb);
+  border-left: 1px solid var(--color-border-light, #e5e7eb);
   border-top-left-radius: var(--radius-lg, 8px);
 }
 .data-table--grouped .data-table__head .data-table__cell:last-child {
-  border-right: 1px solid var(--color-grey-100, #e5e7eb);
+  border-right: 1px solid var(--color-border-light, #e5e7eb);
   border-top-right-radius: var(--radius-lg, 8px);
 }
 
@@ -873,17 +897,17 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
 
 /* Left border on every first cell in a group row */
 .data-table__group-body > tr > .data-table__cell:first-child {
-  border-left: 1px solid var(--color-grey-100, #e5e7eb);
+  border-left: 1px solid var(--color-border-light, #e5e7eb);
 }
 
 /* Right border on every last cell in a group row */
 .data-table__group-body > tr > .data-table__cell:last-child {
-  border-right: 1px solid var(--color-grey-100, #e5e7eb);
+  border-right: 1px solid var(--color-border-light, #e5e7eb);
 }
 
 /* Top border + top radius on the first row of each group */
 .data-table__group-body > tr:first-child > .data-table__cell {
-  border-top: 1px solid var(--color-grey-100, #e5e7eb);
+  border-top: 1px solid var(--color-border-light, #e5e7eb);
 }
 .data-table__group-body > tr:first-child > .data-table__cell:first-child {
   border-top-left-radius: 8px;
@@ -894,7 +918,7 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
 
 /* Bottom border on every row (row separator lines) */
 .data-table__group-body > tr > .data-table__cell {
-  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
 }
 
 /* Bottom radius on last row — applies whether it's the pagination row or a data row */
@@ -912,7 +936,7 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
  * When last row = data row (no pagination): restores the bottom border + radius.
  */
 .data-table__group-body > tr:last-child > .data-table__cell {
-  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
 }
 
 /*
@@ -922,7 +946,7 @@ td.data-table__cell:has(> .data-table__cell--group-header) {
  * and also appears later in the file, so it wins.
  */
 .data-table__group-body .data-table__row .data-table__cell {
-  border-bottom: 1px solid var(--color-grey-100, #e5e7eb);
+  border-bottom: 1px solid var(--color-border-light, #e5e7eb);
 }
 
 /* ── Group pagination row ── */

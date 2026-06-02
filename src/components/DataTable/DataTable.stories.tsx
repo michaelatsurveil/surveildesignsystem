@@ -500,7 +500,7 @@ export const CellTypes: StoryObj<typeof DataTable<CellTypeRow>> = {
       columns={cellTypeColumns as never}
       rows={cellTypeRows}
       getRowId={(row) => row.id}
-      toolbar={{ onSearch: () => {}, rightAction: { type: 'view', viewOptions: [{ label: 'Table', value: 'table' }], viewValue: 'table' } }}
+      toolbar={{ onSearch: () => {} }}
     />
   ),
 };
