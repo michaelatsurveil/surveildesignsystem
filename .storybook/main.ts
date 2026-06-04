@@ -12,6 +12,13 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  async viteFinal(config) {
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      force: true,
+    };
+    return config;
+  },
 };
 
 export default config;

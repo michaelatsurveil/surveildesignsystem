@@ -179,32 +179,204 @@ export const tokens = {
     },
     // Surface
     surface: {
-      default: '#f7f7f7',
-      table: {
-        default: '#ffffff',
-      },
+      page: '#ffffff',             // Neutral/White
+      'page-background': '#f7f7f7', // Neutral/25
+      transparent: 'transparent',  // Neutral/Transparent
+      scrim: 'rgba(0,0,0,0.2)',    // Grey/Scrim
+      primary: '#ffffff',          // Neutral/White
+      action: '#ffffff',           // Neutral/White
+      'action-hover': '#27518c',   // Primary/600
+      'action-pressed': '#203b61', // Primary/700
+      'action-focused': '#27518c', // Primary/600
+      'action-hover-light': '#efefef', // Grey/50
+      success: '#effff5',          // Success/50
+      warning: '#fdf9e9',          // Warning/50
+      information: '#e5eefa',      // Information/50
+      error: '#fff3f3',            // Error/50
+      disabled: '#dfdfdf',         // Neutral/100
+      dark: '#272727',             // Grey/700
+      light: '#f7f7f7',            // Neutral/25
+      default: '#f7f7f7',          // legacy alias
+    },
+
+    // Surface / Button
+    'surface-button': {
+      primary: '#3165ad',               // Primary/Default
+      'primary-hover': '#27518c',       // Primary/600
+      'primary-pressed': '#203b61',     // Primary/700
+      'primary-focused': '#27518c',     // Primary/600
+      'primary-disabled': '#dfdfdf',    // Neutral/100
+      secondary: '#ffffff',             // Neutral/White
+      'secondary-hover': '#f7f7f7',     // Neutral/25
+      'secondary-pressed': '#dfdfdf',   // Neutral/100
+      'secondary-focused': '#f7f7f7',   // Neutral/25
+      'secondary-disabled': '#ffffff',  // Neutral/White
+      tertiary: '#ffffff',              // Neutral/White
+      'tertiary-hover': '#f7f7f7',      // Neutral/25
+      'tertiary-pressed': '#dfdfdf',    // Neutral/100
+      'tertiary-focused': '#f7f7f7',    // Neutral/25
+      'tertiary-disabled': '#ffffff',   // Neutral/White
+      danger: '#e61c1d',                // Error/Default
+      'danger-hover': '#c51516',        // Error/600
+      'danger-pressed': '#c51516',      // Error/600
+      'danger-focused': '#c51516',      // Error/600
+      'danger-disabled': '#ffbbbc',     // Error/200
+      'icon-button-inactive': '#dfdfdf',          // Grey/100
+      'icon-button-inactive-hover': '#dfdfdf',    // Grey/100
+      'icon-button-inactive-pressed': '#dfdfdf',  // Grey/100
+      'icon-button-inactive-focused': '#dfdfdf',  // Grey/100
+      'icon-button-inactive-disabled': '#efefef', // Grey/50
+      'icon-button-active': '#3165ad',            // Blue/Default
+      'icon-button-active-hover': '#3165ad',      // Blue/Default
+      'icon-button-active-pressed': '#3165ad',    // Blue/Default
+      'icon-button-active-focused': '#3165ad',    // Blue/Default
+      'icon-button-active-disabled': '#efefef',   // Grey/50
+    },
+
+    // Surface / Table
+    'surface-table': {
+      default: '#ffffff',    // Neutral/White
+      hover: '#f7f7f7',      // Neutral/25
+      pressed: '#efefef',    // Neutral/50
+      'child-cell': '#f7f7f7', // Neutral/25
+      heading: '#f7f7f7',    // Neutral/25
     },
     // Text
     text: {
-      body: '#616161',
+      headings: '#272727',       // Neutral/700
+      body: '#616161',           // Neutral/Default
+      subtext: '#818181',        // Neutral/400
+      action: '#3165ad',         // Primary/Default
+      'action-hover': '#27518c', // Primary/600
+      'action-pressed': '#203b61', // Primary/700
+      'action-focused': '#27518c', // Primary/600
+      disabled: '#818181',       // Neutral/400
+      information: '#3165ad',    // Information/Default
+      warning: '#ac5c11',        // Warning/Default
+      success: '#15803d',        // Success/Default
+      error: '#e61c1d',          // Error/Default
+      'on-action': '#ffffff',    // Neutral/White
     },
     // Border
     border: {
-      light: '#e5e7eb',
-      dark: '#d1d5db',
+      default: '#dfdfdf',          // Neutral/100
+      dark: '#a0a0a0',             // Neutral/300
+      light: '#efefef',            // Neutral/50
+      focus: '#3165ad',            // Primary/Default
+      action: '#3165ad',           // Primary/Default
+      'action-hover': '#27518c',   // Primary/600
+      'action-pressed': '#203b61', // Primary/700
+      'action-focused': '#27518c', // Primary/600
+      success: '#daf1de',          // Success/100
+      warning: '#fbf1c6',          // Warning/100
+      information: '#c6d7f0',      // Information/100
+      error: '#ffe1e1',            // Error/100
+      disabled: '#a0a0a0',         // Neutral/300
+    },
+
+    // Border / Button
+    'border-button': {
+      primary: '#3165ad',               // Primary/Default
+      'primary-hover': '#27518c',       // Primary/600
+      'primary-pressed': '#203b61',     // Primary/700
+      'primary-focused': '#27518c',     // Primary/600
+      'primary-disabled': '#c0c0c0',    // Neutral/200
+      secondary: '#dfdfdf',             // Neutral/100
+      'secondary-hover': '#f7f7f7',     // Neutral/25
+      'secondary-pressed': '#c0c0c0',   // Neutral/200
+      'secondary-focused': '#dfdfdf',   // Neutral/100
+      'secondary-disabled': '#dfdfdf',  // Neutral/100
+      tertiary: '#ffffff',              // Neutral/White
+      'tertiary-hover': '#f7f7f7',      // Neutral/25
+      'tertiary-pressed': '#dfdfdf',    // Neutral/100
+      'tertiary-focused': '#f7f7f7',    // Neutral/25
+      'tertiary-disabled': '#ffffff',   // Neutral/White
+      danger: '#e61c1d',                // Error/Default
+      'danger-hover': '#c51516',        // Error/600
+      'danger-pressed': '#8a1111',      // Error/700
+      'danger-focused': '#c51516',      // Error/600
+      'danger-disabled': '#f07777',     // Error/300
     },
     // Scrim
     scrim: 'rgba(0, 0, 0, 0.2)',
 
-    // Icons (Lucide)
+    // Icons
     icon: {
-      default: '#616161',
-      light: '#818181',   // neutral/400 — default/light icon
+      default: '#616161',            // Neutral/Default
+      'default-light': '#818181',    // Neutral/400
+      action: '#3165ad',             // Primary/Default
+      'action-hover': '#27518c',     // Primary/600
+      'action-pressed': '#203b61',   // Primary/700
+      'action-focused': '#27518c',   // Primary/600
+      'action-hover-light': '#616161', // Grey/Default
+      disabled: '#818181',           // Neutral/400
+      information: '#3165ad',        // Information/Default
+      warning: '#ac5c11',            // Warning/Default
+      success: '#15803d',            // Success/Default
+      error: '#e61c1d',              // Error/Default
+      // legacy aliases kept for components
+      light: '#818181',
       muted: '#a0a0a0',
       primary: '#3165ad',
-      success: '#15803d',
-      error: '#e61c1d',
-      warning: '#ac5c11',
+    },
+
+    // Icon / Button
+    'icon-button': {
+      link: '#3165ad',               // Primary/Default
+      'on-action': '#ffffff',        // Neutral/White
+      'link-hovered': '#27518c',     // Primary/600
+      'link-pressed': '#27518c',     // Primary/600
+      'link-focused': '#27518c',     // Primary/600
+      'link-disabled': '#9fb9e0',    // Primary/200
+      primary: '#ffffff',            // Neutral/White
+      'primary-hover': '#ffffff',    // Neutral/White
+      'primary-focused': '#ffffff',  // Neutral/White
+      'primary-pressed': '#ffffff',  // Neutral/White
+      'primary-disabled': '#818181', // Neutral/400
+      secondary: '#203b61',          // Primary/700
+      'secondary-hover': '#203b61',  // Primary/700
+      'secondary-pressed': '#203b61', // Primary/700
+      'secondary-focused': '#203b61', // Primary/700
+      'secondary-disabled': '#a0a0a0', // Neutral/300
+      tertiary: '#203b61',           // Primary/700
+      'tertiary-hover': '#203b61',   // Primary/700
+      'tertiary-pressed': '#203b61', // Primary/700
+      'tertiary-focused': '#203b61', // Primary/700
+      'tertiary-disabled': '#a0a0a0', // Neutral/300
+      danger: '#ffffff',             // Neutral/White
+      'danger-hover': '#ffffff',     // Neutral/White
+      'danger-pressed': '#ffffff',   // Neutral/White
+      'danger-focused': '#ffffff',   // Neutral/White
+      'danger-disabled': '#ffffff',  // Neutral/White
+    },
+
+    // Text / Button (semantic text colors for button variants)
+    'text-button': {
+      link: '#3165ad',               // Primary/Default
+      'link-hovered': '#27518c',     // Primary/600
+      'link-pressed': '#27518c',     // Primary/600
+      'link-focused': '#27518c',     // Primary/600
+      'link-disabled': '#9fb9e0',    // Primary/200
+      primary: '#ffffff',            // Neutral/White
+      'primary-hover': '#ffffff',    // Neutral/White
+      'primary-focused': '#ffffff',  // Neutral/White
+      'primary-pressed': '#ffffff',  // Neutral/White
+      'primary-disabled': '#818181', // Neutral/400
+      secondary: '#203b61',          // Primary/700
+      'secondary-hover': '#203b61',  // Primary/700
+      'secondary-pressed': '#203b61', // Primary/700
+      'secondary-focused': '#203b61', // Primary/700
+      'secondary-disabled': '#a0a0a0', // Neutral/300
+      tertiary: '#203b61',           // Primary/700
+      'tertiary-hover': '#203b61',   // Primary/700
+      'tertiary-pressed': '#203b61', // Primary/700
+      'tertiary-focused': '#203b61', // Primary/700
+      'tertiary-disabled': '#a0a0a0', // Neutral/300
+      danger: '#ffffff',             // Neutral/White
+      'danger-hover': '#ffffff',     // Neutral/White
+      'danger-pressed': '#ffffff',   // Neutral/White
+      'danger-focused': '#ffffff',   // Neutral/White
+      'danger-disabled': '#818181',  // Neutral/400
     },
 
     // Button (semantic aliases - kept for components)
