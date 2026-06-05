@@ -127,28 +127,28 @@ export const Default: Story = {
         <div>
           {sectionLabel('Dark (expanded)')}
           <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
-            <Sidebar navItems={darkItems} user={user} poweredBy footer={logout} width={220} />
+            <Sidebar navItems={darkItems} user={user} poweredBy footer={logout} width={225} />
           </div>
         </div>
 
         <div>
           {sectionLabel('Dark (collapsed)')}
           <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
-            <Sidebar defaultCollapsed navItems={darkItems} user={user} poweredBy footer={logout} width={220} collapsedWidth={56} />
+            <Sidebar defaultCollapsed navItems={darkItems} user={user} poweredBy footer={logout} width={225} collapsedWidth={56} />
           </div>
         </div>
 
         <div>
           {sectionLabel('Navigator (expanded)')}
           <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
-            <Sidebar variant="navigator" navItems={navigatorItems} user={user} poweredBy footer={logout} width={250} />
+            <Sidebar variant="navigator" navItems={navigatorItems} user={user} poweredBy footer={logout} width={225} />
           </div>
         </div>
 
         <div>
           {sectionLabel('Navigator (collapsed)')}
           <div style={{ height: 580, overflow: 'hidden', display: 'inline-flex' }}>
-            <Sidebar variant="navigator" defaultCollapsed navItems={darkItems} user={user} poweredBy footer={logout} width={250} collapsedWidth={56} />
+            <Sidebar variant="navigator" defaultCollapsed navItems={darkItems} user={user} poweredBy footer={logout} width={225} collapsedWidth={56} />
           </div>
         </div>
       </div>

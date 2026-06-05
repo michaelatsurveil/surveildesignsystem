@@ -30,7 +30,7 @@ export interface SidebarProps {
   user?: SidebarUser;
   poweredBy?: boolean;
   footer?: React.ReactNode;
-  /** Width in px when expanded; default 260 */
+  /** Width in px when expanded; default 225 */
   width?: number;
   /** Width in px when collapsed (icon-only); default 56 */
   collapsedWidth?: number;
@@ -53,7 +53,7 @@ export function Sidebar({
   user,
   poweredBy = true,
   footer,
-  width = 260,
+  width = 225,
   collapsedWidth = 56,
   className = '',
   variant = 'default',

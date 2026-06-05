@@ -12,12 +12,11 @@ import {
   Settings,
   LogOut,
   Star,
-  Calendar,
 } from 'lucide-react';
 import { Sidebar } from './components/Sidebar/Sidebar';
 import { Topbar } from './components/Topbar/Topbar';
 import { Tabs } from './components/Tabs/Tabs';
-import { Dropdown } from './components/Dropdown/Dropdown';
+import { GlobalCommandBar } from './components/GlobalCommandBar/GlobalCommandBar';
 import type { SidebarNavItem } from './components/Sidebar/Sidebar';
 
 const meta: Meta = {
@@ -62,14 +61,6 @@ const tabOptions = [
   { value: 'tab1', label: 'Tab', dropdown: true },
   { value: 'tab2', label: 'Tab', dropdown: true },
   { value: 'tab3', label: 'Tab', dropdown: true },
-];
-
-const dateRangeOptions = [
-  { value: 'last-7', label: 'Last 7 Days' },
-  { value: 'last-30', label: 'Last 30 Days' },
-  { value: 'last-3m', label: 'Last 3 Months' },
-  { value: 'last-12m', label: 'Last 12 Months' },
-  { value: 'ytd', label: 'Year to Date' },
 ];
 
 const navigatorNavItems: SidebarNavItem[] = [
@@ -122,7 +113,7 @@ export const Navigator: Story = {
           navItems={navigatorNavItems}
           user={{ name: 'ITEXACT Limited', email: 'jade.chau@surveil.co', href: '#' }}
           footer={navigatorFooter}
-          width={192}
+          width={225}
         />
 
         {/* Main chrome */}
@@ -140,6 +131,9 @@ export const Navigator: Story = {
             <Tabs options={tabOptions} value={activeTab} onChange={setActiveTab} />
           </div>
 
+          {/* Global command bar — flush against tabs, sidebar and page edge */}
+          <GlobalCommandBar title="Title" />
+
           {/* Page content */}
           <main
             style={{
@@ -148,20 +142,7 @@ export const Navigator: Story = {
               background: 'var(--color-grey-50, #efefef)',
               padding: 'var(--scale-500, 20px)',
             }}
-          >
-            <h1
-              style={{
-                margin: 0,
-                fontFamily: 'var(--font-family-body, Roboto, system-ui, sans-serif)',
-                fontSize: '20px',
-                fontWeight: 600,
-                lineHeight: '28px',
-                color: 'var(--color-grey-700, #272727)',
-              }}
-            >
-              Title
-            </h1>
-          </main>
+          />
         </div>
       </div>
     );
@@ -180,7 +161,6 @@ export const Surveil: Story = {
   },
   render: () => {
     const [activeTab, setActiveTab] = useState('tab1');
-    const [dateRange, setDateRange] = useState('last-12m');
 
     const logout = (
       <button type="button" className="sidebar__logout">
@@ -199,7 +179,7 @@ export const Surveil: Story = {
           user={{ name: 'ITEXACT Limited', email: 'jade.chau@surveil.co', href: '#' }}
           poweredBy
           footer={logout}
-          width={192}
+          width={225}
         />
 
         {/* Main chrome */}
@@ -217,6 +197,9 @@ export const Surveil: Story = {
             <Tabs options={tabOptions} value={activeTab} onChange={setActiveTab} />
           </div>
 
+          {/* Global command bar — flush against tabs, sidebar and page edge */}
+          <GlobalCommandBar title="Title" />
+
           {/* Page content */}
           <main
             style={{
@@ -225,56 +208,7 @@ export const Surveil: Story = {
               background: 'var(--color-grey-50, #efefef)',
               padding: 'var(--scale-500, 20px)',
             }}
-          >
-            {/* Page header: title + subtext left, dropdown right */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                gap: 'var(--scale-400, 16px)',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 'var(--scale-100, 4px)',
-                }}
-              >
-                <h1
-                  style={{
-                    margin: 0,
-                    fontFamily: 'var(--font-family-headings, Roboto, system-ui, sans-serif)',
-                    fontSize: '20px',
-                    fontWeight: 'var(--font-weight-semibold, 600)' as React.CSSProperties['fontWeight'],
-                    lineHeight: 'var(--scale-700, 28px)',
-                    color: 'var(--color-grey-700, #272727)',
-                  }}
-                >
-                  Date in Month Date, Year - Month Date, Year
-                </h1>
-                <p
-                  style={{
-                    margin: 0,
-                    fontFamily: 'var(--font-family-body, Roboto, system-ui, sans-serif)',
-                    fontSize: '14px',
-                    fontWeight: 'var(--font-weight-regular, 400)' as React.CSSProperties['fontWeight'],
-                    lineHeight: 'var(--scale-400, 16px)',
-                    color: 'var(--color-grey-400, #818181)',
-                  }}
-                >
-                  Subtext goes here
-                </p>
-              </div>
-              <Dropdown
-                options={dateRangeOptions}
-                value={dateRange}
-                onChange={setDateRange}
-                icon={<Calendar size={16} />}
-              />
-            </div>
-          </main>
+          />
         </div>
       </div>
     );
