@@ -130,6 +130,55 @@ export const Default: Story = {
   ),
 };
 
+// ─── List variant — States ────────────────────────────────────────────────────
+
+export const ListStates: Story = {
+  name: 'List — States',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'All five interactive states for the `list` variant, matched 1:1 from Figma. **Default** — white bg, grey-50 bottom border. **Hover** — grey-50 fill. **Pressed** — grey-25 fill (`:active`). **Focus** — white bg, 2px primary-600 full border. **Disabled** — grey-100 fill, muted text, `pointer-events: none`.',
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 0, width: 500 }}>
+
+      {/* Default */}
+      <div style={sectionLabel}>Default</div>
+      <Card variant="list" title="Card Header" status="Success" statusVariant="success" icon={icon} onClick={() => {}}>
+        Supporting text 1&nbsp;&nbsp;·&nbsp;&nbsp;Supporting text 2
+      </Card>
+
+      {/* Hover */}
+      <div style={{ ...sectionLabel, marginTop: 24 }}>Hover</div>
+      <Card variant="list" title="Card Header" status="Success" statusVariant="success" icon={icon} onClick={() => {}} className="card--state-hover">
+        Supporting text 1&nbsp;&nbsp;·&nbsp;&nbsp;Supporting text 2
+      </Card>
+
+      {/* Pressed */}
+      <div style={{ ...sectionLabel, marginTop: 24 }}>Pressed</div>
+      <Card variant="list" title="Card Header" status="Success" statusVariant="success" icon={icon} onClick={() => {}} className="card--state-pressed">
+        Supporting text 1&nbsp;&nbsp;·&nbsp;&nbsp;Supporting text 2
+      </Card>
+
+      {/* Focus */}
+      <div style={{ ...sectionLabel, marginTop: 24 }}>Focus</div>
+      <Card variant="list" title="Card Header" status="Success" statusVariant="success" icon={icon} onClick={() => {}} className="card--state-focus">
+        Supporting text 1&nbsp;&nbsp;·&nbsp;&nbsp;Supporting text 2
+      </Card>
+
+      {/* Disabled */}
+      <div style={{ ...sectionLabel, marginTop: 24 }}>Disabled</div>
+      <Card variant="list" title="Card Header" status="Success" statusVariant="success" icon={icon} disabled>
+        Supporting text 1&nbsp;&nbsp;·&nbsp;&nbsp;Supporting text 2
+      </Card>
+
+    </div>
+  ),
+};
+
 // ─── List variant ─────────────────────────────────────────────────────────────
 
 export const ListVariant: Story = {

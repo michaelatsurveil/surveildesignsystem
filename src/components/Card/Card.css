@@ -112,10 +112,70 @@
 .card--list {
   /* Override default column gap — list is a single flat row */
   padding: var(--scale-400, 16px) var(--scale-600, 24px);
+  /* Flat: no elevation; bottom-only divider border */
+  box-shadow: none;
+  border: none;
+  border-bottom: 1px solid var(--color-grey-50, #efefef);
 }
 
-.card--list.card--interactive:hover .card__list-chevron {
+/* ── Interactive: override the generic card shadow-based hover/focus ── */
+
+.card--list.card--interactive {
+  transition: background 0.1s;
+}
+
+/* Hover — grey-50 fill */
+.card--list.card--interactive:hover,
+.card--list.card--state-hover {
+  box-shadow: none;
+  background: var(--color-grey-50, #efefef);
+  border-bottom-color: var(--color-grey-50, #efefef);
+}
+
+.card--list.card--interactive:hover .card__list-chevron,
+.card--list.card--state-hover .card__list-chevron {
   color: var(--color-primary, #3165ad);
+}
+
+/* Pressed — grey-25 fill */
+.card--list.card--interactive:active,
+.card--list.card--state-pressed {
+  background: var(--color-grey-25, #f7f7f7);
+}
+
+/* Focus — white bg, full 2px primary-600 border */
+.card--list.card--interactive:focus-visible,
+.card--list.card--state-focus {
+  outline: none;
+  box-shadow: none;
+  background: var(--color-white, #ffffff);
+  border: 2px solid var(--color-primary-600, #27518c);
+}
+
+/* ── Disabled ── */
+
+.card--list.card--disabled {
+  background: var(--color-grey-100, #dfdfdf);
+  border: none;
+  border-bottom: 1px solid var(--color-grey-300, #a0a0a0);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.card--list.card--disabled .card__title {
+  color: var(--color-grey-400, #818181);
+}
+
+.card--list.card--disabled .card__list-subtext {
+  color: var(--color-grey-400, #818181);
+}
+
+.card--list.card--disabled .card__list-chevron {
+  color: var(--color-grey-400, #818181);
+}
+
+.card--list.card--disabled .card__icon {
+  background: var(--color-grey-100, #dfdfdf);
 }
 
 .card__list-row {

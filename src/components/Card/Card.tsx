@@ -63,6 +63,12 @@ export interface CardProps {
 
   /** When set the card is interactive (hover/focus styles + keyboard support) */
   onClick?: () => void;
+  /**
+   * Disables the list-variant card — removes interactivity and applies the
+   * disabled visual state (greyed background, muted text). Only applies to
+   * the `list` variant.
+   */
+  disabled?: boolean;
   /** Additional class name */
   className?: string;
 }
@@ -78,6 +84,7 @@ export function Card({
   secondaryAction,
   footerAlign = 'right',
   onClick,
+  disabled = false,
   className = '',
 }: CardProps) {
   const isInteractive = typeof onClick === 'function';
@@ -86,11 +93,12 @@ export function Card({
   const rootClass = [
     'card',
     `card--${variant}`,
-    isInteractive && 'card--interactive',
+    isInteractive && !disabled && 'card--interactive',
+    disabled && 'card--disabled',
     className,
   ].filter(Boolean).join(' ');
 
-  const interactiveProps = isInteractive
+  const interactiveProps = isInteractive && !disabled
     ? {
         onClick,
         role: 'button' as const,
@@ -102,7 +110,9 @@ export function Card({
           }
         },
       }
-    : {};
+    : disabled
+      ? { 'aria-disabled': true as const }
+      : {};
 
   // ── List variant ────────────────────────────────────────────────────────────
   if (variant === 'list') {
