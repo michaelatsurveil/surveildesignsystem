@@ -133,6 +133,7 @@
   --color-surface-action-hover: #27518c;
   --color-surface-action-pressed: #203b61;
   --color-surface-action-focused: #27518c;
+  --color-surface-action-active: #e5eefa;
   --color-surface-action-hover-light: #efefef;
   --color-surface-success: #effff5;
   --color-surface-warning: #fdf9e9;
@@ -217,6 +218,7 @@
   --color-text-action-hover: #27518c;
   --color-text-action-pressed: #203b61;
   --color-text-action-focused: #27518c;
+  --color-text-action-active: #27518c;
   --color-text-disabled: #818181;
   --color-text-information: #3165ad;
   --color-text-warning: #ac5c11;
@@ -255,6 +257,7 @@
   --color-icon-action-hover: #27518c;
   --color-icon-action-pressed: #203b61;
   --color-icon-action-focused: #27518c;
+  --color-icon-action-active: #203b61;
   --color-icon-action-hover-light: #616161;
   --color-icon-disabled: #818181;
   --color-icon-information: #3165ad;

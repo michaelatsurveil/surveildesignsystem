@@ -188,6 +188,7 @@ export const tokens = {
       'action-hover': '#27518c',   // Primary/600
       'action-pressed': '#203b61', // Primary/700
       'action-focused': '#27518c', // Primary/600
+      'action-active': '#e5eefa',  // Primary/50
       'action-hover-light': '#efefef', // Grey/50
       success: '#effff5',          // Success/50
       warning: '#fdf9e9',          // Warning/50
@@ -246,11 +247,12 @@ export const tokens = {
       headings: '#272727',       // Neutral/700
       body: '#616161',           // Neutral/Default
       subtext: '#818181',        // Neutral/400
-      action: '#3165ad',         // Primary/Default
-      'action-hover': '#27518c', // Primary/600
+      action: '#3165ad',           // Primary/Default
+      'action-hover': '#27518c',   // Primary/600
       'action-pressed': '#203b61', // Primary/700
       'action-focused': '#27518c', // Primary/600
-      disabled: '#818181',       // Neutral/400
+      'action-active': '#27518c',  // Primary/600
+      disabled: '#818181',         // Neutral/400
       information: '#3165ad',    // Information/Default
       warning: '#ac5c11',        // Warning/Default
       success: '#15803d',        // Success/Default
@@ -304,12 +306,13 @@ export const tokens = {
     icon: {
       default: '#616161',            // Neutral/Default
       'default-light': '#818181',    // Neutral/400
-      action: '#3165ad',             // Primary/Default
-      'action-hover': '#27518c',     // Primary/600
-      'action-pressed': '#203b61',   // Primary/700
-      'action-focused': '#27518c',   // Primary/600
+      action: '#3165ad',               // Primary/Default
+      'action-hover': '#27518c',       // Primary/600
+      'action-pressed': '#203b61',     // Primary/700
+      'action-focused': '#27518c',     // Primary/600
+      'action-active': '#203b61',      // Primary/700
       'action-hover-light': '#616161', // Grey/Default
-      disabled: '#818181',           // Neutral/400
+      disabled: '#818181',             // Neutral/400
       information: '#3165ad',        // Information/Default
       warning: '#ac5c11',            // Warning/Default
       success: '#15803d',            // Success/Default
