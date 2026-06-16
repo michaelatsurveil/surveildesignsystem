@@ -28,7 +28,7 @@
 
 .icon-btn--md {
   height: var(--scale-800, 32px);
-  padding: var(--scale-200, 8px) var(--scale-300, 12px);
+  padding: var(--scale-200, 8px);
 }
 
 .icon-btn--lg {
