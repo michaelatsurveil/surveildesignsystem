@@ -1,0 +1,148 @@
+/**
+ * IconButton — icon-only action button
+ * Figma: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=3104-6210
+ */
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md, 4px);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.icon-btn:disabled {
+  cursor: not-allowed;
+}
+
+/* ── Sizes ── */
+
+.icon-btn--sm {
+  height: var(--scale-700, 28px);
+  padding: 6px var(--scale-200, 8px);
+}
+
+.icon-btn--md {
+  height: var(--scale-800, 32px);
+  padding: var(--scale-200, 8px) var(--scale-300, 12px);
+}
+
+.icon-btn--lg {
+  height: var(--scale-900, 36px);
+  padding: 6px var(--scale-300, 12px);
+}
+
+/* ── Primary ── */
+
+.icon-btn--primary {
+  background-color: var(--color-primary, #3165ad);
+  border-color: var(--color-primary, #3165ad);
+  color: var(--color-icon-button-primary, #ffffff);
+}
+.icon-btn--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-600, #27518c);
+  border-color: var(--color-primary-600, #27518c);
+}
+.icon-btn--primary:active:not(:disabled) {
+  background-color: var(--color-primary-700, #203b61);
+  border-color: var(--color-primary-700, #203b61);
+}
+.icon-btn--primary:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+.icon-btn--primary:disabled {
+  background-color: var(--color-grey-100, #dfdfdf);
+  border-color: var(--color-grey-200, #c0c0c0);
+  color: var(--color-icon-button-primary-disabled, #818181);
+}
+
+/* ── Secondary ── */
+
+.icon-btn--secondary {
+  background-color: var(--color-white, #ffffff);
+  border-color: var(--color-button-secondary-border, #dfdfdf);
+  color: var(--color-icon-button-secondary, #203b61);
+}
+.icon-btn--secondary:hover:not(:disabled) {
+  background-color: var(--color-grey-50, #f7f7f7);
+}
+.icon-btn--secondary:active:not(:disabled) {
+  background-color: var(--color-grey-100, #dfdfdf);
+  border-color: var(--color-grey-300, #9ca3af);
+}
+.icon-btn--secondary:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+.icon-btn--secondary:disabled {
+  background-color: var(--color-white, #ffffff);
+  border-color: var(--color-grey-100, #e5e7eb);
+  color: var(--color-icon-button-secondary-disabled, #a0a0a0);
+}
+
+/* ── Tertiary ── */
+
+.icon-btn--tertiary {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-icon-button-tertiary, #203b61);
+}
+.icon-btn--tertiary:hover:not(:disabled) {
+  background-color: var(--color-grey-50, #f7f7f7);
+}
+.icon-btn--tertiary:active:not(:disabled) {
+  background-color: var(--color-grey-100, #dfdfdf);
+}
+.icon-btn--tertiary:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+.icon-btn--tertiary:disabled {
+  color: var(--color-icon-button-tertiary-disabled, #a0a0a0);
+}
+
+/* ── Danger ── */
+
+.icon-btn--danger {
+  background-color: var(--color-error, #e61c1d);
+  border-color: var(--color-error, #e61c1d);
+  color: var(--color-icon-button-danger, #ffffff);
+}
+.icon-btn--danger:hover:not(:disabled) {
+  background-color: var(--color-error-600, #c51516);
+  border-color: var(--color-error-600, #c51516);
+}
+.icon-btn--danger:active:not(:disabled) {
+  background-color: var(--color-error-700, #8a1111);
+  border-color: var(--color-error-700, #8a1111);
+}
+.icon-btn--danger:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+.icon-btn--danger:disabled {
+  background-color: var(--color-error-200, #ffbbbc);
+  border-color: var(--color-error-300, #f07777);
+  color: var(--color-icon-button-danger-disabled, #ffffff);
+}
+
+/* ── Link ── */
+
+.icon-btn--link {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--color-icon-button-link, #3165ad);
+}
+.icon-btn--link:hover:not(:disabled) {
+  color: var(--color-icon-button-link-hovered, #27518c);
+}
+.icon-btn--link:active:not(:disabled) {
+  color: var(--color-icon-button-link-pressed, #27518c);
+}
+.icon-btn--link:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+.icon-btn--link:disabled {
+  color: var(--color-icon-button-link-disabled, #9fb9e0);
+}
