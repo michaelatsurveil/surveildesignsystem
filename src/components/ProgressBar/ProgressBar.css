@@ -64,14 +64,14 @@
   margin-bottom: 8px;
 }
 
-/* Large: body/lrg-semibold */
-.progress-linear__heading--lg {
-  font-size: 18px;
-  line-height: 28px;
+/* Small: body/sm-semibold — 14px / 600 / 16px */
+.progress-linear__heading--sm {
+  font-size: 14px;
+  line-height: 16px;
 }
 
-/* Small: body/md-semibold */
-.progress-linear__heading--sm {
+/* Large: body/md-semibold — 16px / 600 / 24px */
+.progress-linear__heading--lg {
   font-size: 16px;
   line-height: 24px;
 }
@@ -87,22 +87,40 @@
   min-width: 0;
 }
 
+/* Percentage metric — body/sm-medium (sm) / body/md-medium (lg) */
 .progress-linear__percentage {
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
+  font-weight: var(--font-weight-medium, 500);
   color: var(--color-grey-400, #818181);
   flex-shrink: 0;
 }
 
+.progress-linear__percentage--sm {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.progress-linear__percentage--lg {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* Subtext — body/sm (sm) / body/md (lg) */
 .progress-linear__subtext {
   font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
+  font-weight: var(--font-weight-regular, 400);
   color: var(--color-grey-400, #818181);
   margin-top: 8px;
+}
+
+.progress-linear__subtext--sm {
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.progress-linear__subtext--lg {
+  font-size: 16px;
+  line-height: 24px;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

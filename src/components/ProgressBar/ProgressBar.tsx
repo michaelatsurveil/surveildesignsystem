@@ -127,10 +127,10 @@ export function ProgressBar({
         >
           <div className="progress-linear__fill" style={{ width: `${pct}%` }} />
         </div>
-        <span className="progress-linear__percentage">{pct}%</span>
+        <span className={`progress-linear__percentage progress-linear__percentage--${size}`}>{pct}%</span>
       </div>
       {subtext && (
-        <span className="progress-linear__subtext">{subtext}</span>
+        <span className={`progress-linear__subtext progress-linear__subtext--${size}`}>{subtext}</span>
       )}
     </div>
   );
