@@ -2,9 +2,12 @@
  * Card component — Figma Component Library node 2283:10045
  * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=320-5290
  *
- * Two variants:
- *  default  — stacked card with header, body text, optional footer buttons
- *  list     — compact single-row item with title+tag inline, chevron, subtext
+ * Variants:
+ *  default      — stacked tile with header, body text, optional footer buttons
+ *  list         — compact row (navigational): title+badge inline, subtext, chevron
+ *  list-toggle  — compact row: same as list but with an icon toggle button instead of chevron
+ *  list-action  — compact row: content left, action buttons right
+ *  tile-toggle  — tile: icon+toggle top row, title+subtext, badge+timestamp footer
  */
 
 /* ─── Card shell (shared) ────────────────────────────────────────────────────── */
@@ -107,12 +110,12 @@
   justify-content: flex-start;
 }
 
-/* ─── List variant ───────────────────────────────────────────────────────────── */
+/* ─── List shared base (navigational, toggle, action) ────────────────────────── */
 
-.card--list {
-  /* Override default column gap — list is a single flat row */
+.card--list,
+.card--list-toggle,
+.card--list-action {
   padding: var(--scale-400, 16px) var(--scale-600, 24px);
-  /* Flat: no elevation; bottom-only divider border */
   box-shadow: none;
   border: none;
   border-bottom: 1px solid var(--color-grey-50, #efefef);
@@ -120,13 +123,19 @@
 
 /* ── Interactive: override the generic card shadow-based hover/focus ── */
 
-.card--list.card--interactive {
+.card--list.card--interactive,
+.card--list-toggle.card--interactive,
+.card--list-action.card--interactive {
   transition: background 0.1s;
 }
 
-/* Hover — grey-50 fill */
+/* Hover */
 .card--list.card--interactive:hover,
-.card--list.card--state-hover {
+.card--list.card--state-hover,
+.card--list-toggle.card--interactive:hover,
+.card--list-toggle.card--state-hover,
+.card--list-action.card--interactive:hover,
+.card--list-action.card--state-hover {
   box-shadow: none;
   background: var(--color-grey-50, #efefef);
   border-bottom-color: var(--color-grey-50, #efefef);
@@ -137,15 +146,23 @@
   color: var(--color-primary, #3165ad);
 }
 
-/* Pressed — grey-25 fill */
+/* Pressed */
 .card--list.card--interactive:active,
-.card--list.card--state-pressed {
+.card--list.card--state-pressed,
+.card--list-toggle.card--interactive:active,
+.card--list-toggle.card--state-pressed,
+.card--list-action.card--interactive:active,
+.card--list-action.card--state-pressed {
   background: var(--color-grey-25, #f7f7f7);
 }
 
-/* Focus — white bg, full 2px primary-600 border */
+/* Focus */
 .card--list.card--interactive:focus-visible,
-.card--list.card--state-focus {
+.card--list.card--state-focus,
+.card--list-toggle.card--interactive:focus-visible,
+.card--list-toggle.card--state-focus,
+.card--list-action.card--interactive:focus-visible,
+.card--list-action.card--state-focus {
   outline: none;
   box-shadow: none;
   background: var(--color-white, #ffffff);
@@ -154,7 +171,9 @@
 
 /* ── Disabled ── */
 
-.card--list.card--disabled {
+.card--list.card--disabled,
+.card--list-toggle.card--disabled,
+.card--list-action.card--disabled {
   background: var(--color-grey-100, #dfdfdf);
   border: none;
   border-bottom: 1px solid var(--color-grey-300, #a0a0a0);
@@ -162,11 +181,15 @@
   pointer-events: none;
 }
 
-.card--list.card--disabled .card__title {
+.card--list.card--disabled .card__title,
+.card--list-toggle.card--disabled .card__title,
+.card--list-action.card--disabled .card__title {
   color: var(--color-grey-400, #818181);
 }
 
-.card--list.card--disabled .card__list-subtext {
+.card--list.card--disabled .card__list-subtext,
+.card--list-toggle.card--disabled .card__list-subtext,
+.card--list-action.card--disabled .card__list-subtext {
   color: var(--color-grey-400, #818181);
 }
 
@@ -174,9 +197,18 @@
   color: var(--color-grey-400, #818181);
 }
 
-.card--list.card--disabled .card__icon {
+.card--list-toggle.card--disabled .card__toggle-btn,
+.card--list-action.card--disabled .card__toggle-btn {
+  color: var(--color-grey-400, #818181);
+}
+
+.card--list.card--disabled .card__icon,
+.card--list-toggle.card--disabled .card__icon,
+.card--list-action.card--disabled .card__icon {
   background: var(--color-grey-100, #dfdfdf);
 }
+
+/* ─── List row (shared by navigational + toggle) ─────────────────────────────── */
 
 .card__list-row {
   display: flex;
@@ -186,12 +218,12 @@
   width: 100%;
 }
 
-/* Content column: title + tag row, then subtext — both aligned to the same left edge */
+/* Content column: title + tag row, then subtext */
 .card__list-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--scale-100, 4px);
+  gap: var(--scale-200, 8px);
   min-width: 0;
 }
 
@@ -204,7 +236,7 @@
   flex-wrap: wrap;
 }
 
-/* Supporting sub-text: smaller, grey, aligned with title (inherits left edge of .card__list-content) */
+/* Supporting sub-text */
 .card__list-subtext {
   margin: 0;
   font-size: 13px;
@@ -216,11 +248,131 @@
   text-overflow: ellipsis;
 }
 
-/* Dot separator helper: use in story as "Text 1 · Text 2" */
-
 /* Chevron */
 .card__list-chevron {
   flex-shrink: 0;
   color: var(--color-grey-300, #a0a0a0);
   transition: color 0.15s;
+}
+
+/* ─── Toggle button (list-toggle, tile-toggle) ───────────────────────────────── */
+
+.card__toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  padding: var(--scale-150, 6px) var(--scale-300, 12px);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md, 4px);
+  cursor: pointer;
+  color: var(--color-grey-300, #a0a0a0);
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.card__toggle-btn:hover {
+  background-color: var(--color-grey-50, #efefef);
+  color: var(--color-grey-600, #3a3a3a);
+}
+
+.card__toggle-btn:active {
+  background-color: var(--color-grey-100, #dfdfdf);
+}
+
+.card__toggle-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(39, 81, 140, 0.4), 0 0 0 2px var(--color-white, #ffffff);
+}
+
+/* ─── List action layout ─────────────────────────────────────────────────────── */
+
+.card__action-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--scale-600, 24px);
+  width: 100%;
+}
+
+.card__action-content {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--scale-300, 12px);
+  min-width: 0;
+}
+
+.card__action-text {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-100, 4px);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.card__action-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--scale-200, 8px);
+  flex-shrink: 0;
+}
+
+/* ─── Tile toggle ────────────────────────────────────────────────────────────── */
+
+.card--tile-toggle {
+  box-shadow: none;
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  width: 350px;
+  gap: var(--scale-600, 24px);
+}
+
+.card__tile-toggle-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-300, 12px);
+  width: 100%;
+}
+
+.card__tile-toggle-top {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.card__tile-toggle-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scale-100, 4px);
+}
+
+.card__tile-toggle-subtext {
+  margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
+  color: var(--color-grey-400, #818181);
+}
+
+.card__tile-toggle-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.card__timestamp {
+  font-size: 12px;
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 16px;
+  color: var(--color-grey-400, #818181);
+  flex-shrink: 0;
 }
