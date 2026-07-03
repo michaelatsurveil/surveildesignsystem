@@ -110,6 +110,7 @@ export const Default: StoryObj<typeof DataTable<TenantRow>> = {
 
     return (
       <DataTable<TenantRow>
+        resizableColumns
         columns={overviewColumns}
         rows={pagedRows}
         getRowId={(row) => row.tenantEmail}
@@ -826,6 +827,52 @@ export const ToolbarWithButtons: StoryObj<typeof DataTable<TenantRow>> = {
           ],
           onAddFilter: () => {},
         }}
+      />
+    );
+  },
+};
+
+// ─── Resizable columns ─────────────────────────────────────────────────────
+
+type ResizableRow = { name: string; role: string; department: string; location: string; status: string };
+
+const resizableRows: ResizableRow[] = [
+  { name: 'Alice Nguyen',   role: 'Product Designer',  department: 'Design',      location: 'Sydney',    status: 'Active'   },
+  { name: 'Ben Carter',     role: 'Frontend Engineer', department: 'Engineering', location: 'London',    status: 'Active'   },
+  { name: 'Chloe Martinez', role: 'Data Analyst',      department: 'Analytics',   location: 'New York',  status: 'Pending'  },
+  { name: 'David Kim',      role: 'Product Manager',   department: 'Product',     location: 'Singapore', status: 'Active'   },
+  { name: 'Eva Rossi',      role: 'Backend Engineer',  department: 'Engineering', location: 'Milan',     status: 'Inactive' },
+  { name: 'Felix Okafor',   role: 'UX Researcher',     department: 'Design',      location: 'Lagos',     status: 'Active'   },
+];
+
+export const ResizableColumns: StoryObj<typeof DataTable<ResizableRow>> = {
+  name: 'Resizable Columns',
+  render: function ResizableColumnsStory() {
+    return (
+      <DataTable<ResizableRow>
+        resizableColumns
+        columns={[
+          { id: 'name',       header: 'Name',       sortable: true },
+          { id: 'role',       header: 'Role',       sortable: true },
+          { id: 'department', header: 'Department', sortable: true },
+          { id: 'location',   header: 'Location',   sortable: true },
+          {
+            id: 'status',
+            header: 'Status',
+            sortable: true,
+            render: (value: unknown) => (
+              <Badge
+                variant={value === 'Active' ? 'success' : value === 'Pending' ? 'attention' : 'default'}
+                size="sm"
+              >
+                {String(value)}
+              </Badge>
+            ),
+          },
+        ]}
+        rows={resizableRows}
+        getRowId={row => row.name}
+        toolbar={{ title: 'Team Members' }}
       />
     );
   },

@@ -1,9 +1,11 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert, ChevronDown, Check } from 'lucide-react';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { MoreVertical, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, RefreshCw, Download, Search, CircleAlert, ChevronDown, Check, ArrowLeftRight, MoveHorizontal, ArrowUp, ArrowDown, LayoutGrid } from 'lucide-react';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { Filter as FilterComponent } from '../Filter/Filter';
 import type { FilterField } from '../Filter/Filter';
+import { ContextMenu } from '../ContextMenu/ContextMenu';
 import './DataTable.css';
 
 export interface DataTableViewPanelSection {
@@ -90,6 +92,10 @@ export interface DataTableColumn<T = Record<string, unknown>> {
   onCellChange?: (value: string, row: T) => void;
   /** Extra class name applied to the <th> for this column */
   headerClassName?: string;
+  /** Called when Sort A-Z is clicked in the column menu */
+  onSortAsc?: () => void;
+  /** Called when Sort Z-A is clicked in the column menu */
+  onSortDesc?: () => void;
 }
 
 export interface DataTablePagination {
@@ -139,6 +145,12 @@ export interface DataTableProps<T = Record<string, unknown>> {
   emptyState?: React.ReactNode;
   /** Optional additional class name for the wrapper */
   className?: string;
+  /** Enable column resize handles — drag the right edge of any header cell to resize */
+  resizableColumns?: boolean;
+  /** Called when "Autofit all columns" is selected from any column menu */
+  onAutofitAllColumns?: () => void;
+  /** Called when "Autofit this column" is selected; receives the column id */
+  onAutofitColumn?: (colId: string) => void;
   /**
    * When provided, renders each group as a bordered card with its own rows and pagination.
    * The `rows` prop is ignored when `groups` is set.
@@ -206,6 +218,9 @@ export function DataTable<T extends Record<string, unknown>>({
   className = '',
   groups,
   defaultCollapsedGroupIds,
+  resizableColumns = true,
+  onAutofitAllColumns,
+  onAutofitColumn,
 }: DataTableProps<T>) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBarOpen, setFilterBarOpen] = useState(toolbar?.defaultFilterBarOpen ?? false);
@@ -216,6 +231,53 @@ export function DataTable<T extends Record<string, unknown>>({
   );
   const [viewPanelOpen, setViewPanelOpen] = useState(false);
   const viewPanelRef = useRef<HTMLDivElement>(null);
+
+  // ── Column resize ──────────────────────────────────────────────────────────
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
+  const resizingRef = useRef<{ col: string; startX: number; startWidth: number } | null>(null);
+
+  const handleResizeStart = useCallback((e: React.MouseEvent, colId: string) => {
+    e.preventDefault();
+    const th = (e.currentTarget as HTMLElement).closest('th') as HTMLTableCellElement;
+    resizingRef.current = { col: colId, startX: e.clientX, startWidth: th.offsetWidth };
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+
+    const onMouseMove = (mv: MouseEvent) => {
+      if (!resizingRef.current) return;
+      const newWidth = Math.max(60, resizingRef.current.startWidth + mv.clientX - resizingRef.current.startX);
+      setColumnWidths(prev => ({ ...prev, [resizingRef.current!.col]: newWidth }));
+    };
+
+    const onMouseUp = () => {
+      resizingRef.current = null;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }, []);
+
+  // ── Header column menu ────────────────────────────────────────────────────
+  const [openHeaderMenu, setOpenHeaderMenu] = useState<string | null>(null);
+  const [menuPos, setMenuPos] = useState<{ top: number; left: number } | null>(null);
+  const headerMenuRef = useRef<HTMLDivElement>(null);
+
+  const closeHeaderMenu = () => { setOpenHeaderMenu(null); setMenuPos(null); };
+
+  useEffect(() => {
+    if (!openHeaderMenu) return;
+    const handler = (e: MouseEvent) => {
+      if (headerMenuRef.current && !headerMenuRef.current.contains(e.target as Node)) {
+        closeHeaderMenu();
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [openHeaderMenu]);
 
   const allSelected = selectable && rows.length > 0 && rows.every((r) => selectedRowIds.has(getRowId(r)));
   const someSelected = selectable && selectedRowIds.size > 0;
@@ -464,7 +526,7 @@ export function DataTable<T extends Record<string, unknown>>({
       {/* ── Grouped layout ── */}
       {isGrouped ? (
         <div className="data-table__scroll">
-        <table className="data-table data-table--grouped">
+        <table className="data-table data-table--grouped" style={resizableColumns && Object.keys(columnWidths).length > 0 ? { tableLayout: 'fixed' } : undefined}>
           <thead className="data-table__head">
             <tr>
               {selectable && (
@@ -484,15 +546,34 @@ export function DataTable<T extends Record<string, unknown>>({
                   key={col.id}
                   className={['data-table__cell data-table__cell--head', `data-table__cell--head-${headPos}`, col.headerClassName].filter(Boolean).join(' ')}
                   scope="col"
+                  style={resizableColumns && columnWidths[col.id] ? { width: columnWidths[col.id] } : undefined}
                 >
                   <span className="data-table__head-text">
                     {col.header}
-                    {col.sortable && (
-                      <span className="data-table__head-icon" aria-hidden>
-                        <MoreVertical size={16} strokeWidth={2} />
-                      </span>
-                    )}
+                    <button
+                      type="button"
+                      className={`data-table__head-menu-btn${openHeaderMenu === col.id ? ' data-table__head-menu-btn--active' : ''}`}
+                      onClick={e => {
+                        e.stopPropagation();
+                        if (openHeaderMenu === col.id) { closeHeaderMenu(); return; }
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setMenuPos({ top: rect.bottom + 4, left: rect.left });
+                        setOpenHeaderMenu(col.id);
+                      }}
+                      aria-label={`Column options for ${col.header}`}
+                      aria-expanded={openHeaderMenu === col.id}
+                      aria-haspopup="menu"
+                    >
+                      <MoreVertical size={16} strokeWidth={2} />
+                    </button>
                   </span>
+                  {resizableColumns && (
+                    <div
+                      className="data-table__resize-handle"
+                      onMouseDown={e => handleResizeStart(e, col.id)}
+                      aria-hidden="true"
+                    />
+                  )}
                 </th>
                 );
               })}
@@ -651,7 +732,7 @@ export function DataTable<T extends Record<string, unknown>>({
         <>
           {rows.length === 0 && emptyState ? emptyState : (
           <div className="data-table__scroll">
-          <table className="data-table">
+          <table className="data-table" style={resizableColumns && Object.keys(columnWidths).length > 0 ? { tableLayout: 'fixed' } : undefined}>
             <thead className="data-table__head">
               <tr>
                 {selectable && (
@@ -679,15 +760,38 @@ export function DataTable<T extends Record<string, unknown>>({
                       ? 'right'
                       : 'center';
                   return (
-                  <th key={col.id} className={['data-table__cell data-table__cell--head', `data-table__cell--head-${headPos}`, col.headerClassName].filter(Boolean).join(' ')} scope="col">
+                  <th
+                    key={col.id}
+                    className={['data-table__cell data-table__cell--head', `data-table__cell--head-${headPos}`, col.headerClassName].filter(Boolean).join(' ')}
+                    scope="col"
+                    style={resizableColumns && columnWidths[col.id] ? { width: columnWidths[col.id] } : undefined}
+                  >
                     <span className="data-table__head-text">
                       {col.header}
-                      {col.sortable && (
-                        <span className="data-table__head-icon" aria-hidden>
-                          <MoreVertical size={16} strokeWidth={2} />
-                        </span>
-                      )}
+                      <button
+                        type="button"
+                        className={`data-table__head-menu-btn${openHeaderMenu === col.id ? ' data-table__head-menu-btn--active' : ''}`}
+                        onClick={e => {
+                          e.stopPropagation();
+                          if (openHeaderMenu === col.id) { closeHeaderMenu(); return; }
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          setMenuPos({ top: rect.bottom + 4, left: rect.left });
+                          setOpenHeaderMenu(col.id);
+                        }}
+                        aria-label={`Column options for ${col.header}`}
+                        aria-expanded={openHeaderMenu === col.id}
+                        aria-haspopup="menu"
+                      >
+                        <MoreVertical size={16} strokeWidth={2} />
+                      </button>
                     </span>
+                    {resizableColumns && (
+                      <div
+                        className="data-table__resize-handle"
+                        onMouseDown={e => handleResizeStart(e, col.id)}
+                        aria-hidden="true"
+                      />
+                    )}
                   </th>
                   );
                 })}
@@ -812,6 +916,59 @@ export function DataTable<T extends Record<string, unknown>>({
             </div>
           )}
         </>
+      )}
+
+      {/* ── Header column context menu ──────────────────────────────────────── */}
+      {openHeaderMenu && menuPos && createPortal(
+        <div
+          ref={headerMenuRef}
+          style={{ position: 'fixed', top: menuPos.top, left: menuPos.left, zIndex: 9999 }}
+        >
+          <ContextMenu
+            open
+            items={[
+              {
+                label: 'Autofit all columns',
+                icon: <ArrowLeftRight size={14} />,
+                onClick: () => {
+                  if (onAutofitAllColumns) { onAutofitAllColumns(); } else { setColumnWidths({}); }
+                  closeHeaderMenu();
+                },
+              },
+              {
+                label: 'Autofit this column',
+                icon: <MoveHorizontal size={14} />,
+                divider: true,
+                onClick: () => {
+                  if (onAutofitColumn) { onAutofitColumn(openHeaderMenu!); } else { setColumnWidths(prev => { const n = { ...prev }; delete n[openHeaderMenu!]; return n; }); }
+                  closeHeaderMenu();
+                },
+              },
+              {
+                label: 'Sort A-Z',
+                icon: <ArrowUp size={14} />,
+                onClick: () => { columns.find(c => c.id === openHeaderMenu)?.onSortAsc?.(); closeHeaderMenu(); },
+              },
+              {
+                label: 'Sort Z-A',
+                icon: <ArrowDown size={14} />,
+                divider: true,
+                onClick: () => { columns.find(c => c.id === openHeaderMenu)?.onSortDesc?.(); closeHeaderMenu(); },
+              },
+              {
+                label: 'Columns',
+                icon: <LayoutGrid size={14} />,
+                arrow: true,
+              },
+              {
+                label: 'Filter',
+                icon: <Filter size={14} />,
+                disabled: true,
+              },
+            ]}
+          />
+        </div>,
+        document.body
       )}
     </div>
   );
