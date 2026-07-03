@@ -194,17 +194,13 @@
   color: var(--color-grey-400, #818181);
   cursor: pointer;
   flex-shrink: 0;
-  transition: color 0.1s, transform 0.15s;
+  transition: color 0.1s;
   border-radius: 0 var(--radius-md, 4px) var(--radius-md, 4px) 0;
 }
 
 .multiselect__chevron-btn:hover {
   color: var(--color-grey, #616161);
   background: var(--color-grey-50, #f7f7f7);
-}
-
-.multiselect__chevron-btn.multiselect__chevron--open {
-  transform: rotate(180deg);
 }
 
 .multiselect__chevron-btn:disabled {
@@ -227,7 +223,8 @@
 .multiselect__dropdown > .multiselect__menu {
   position: static;
   min-width: 160px;
-  width: 160px;
+  max-width: 250px;
+  width: auto;
 }
 
 /* ── Sub-panel (right flyout) ── */
