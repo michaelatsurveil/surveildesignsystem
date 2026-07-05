@@ -21,48 +21,30 @@
 .segmented-control {
   display: inline-flex;
   font-family: Roboto, system-ui, sans-serif;
+  font-size: 14px;
   font-weight: 500;
+  line-height: 16px;
 }
 
-/* XS: 28px height, 12px text */
-.segmented-control--xs {
-  font-size: 12px;
-  line-height: 18px;
-}
-
+/* XS: 28px height */
 .segmented-control--xs .segmented-control__segment {
   min-height: var(--scale-700, 28px);
   padding: 4px var(--scale-300, 12px);
 }
 
-/* S: 28px height, 14px text */
-.segmented-control--s {
-  font-size: 14px;
-  line-height: 20px;
-}
-
+/* S: 28px height */
 .segmented-control--s .segmented-control__segment {
   min-height: var(--scale-700, 28px);
   padding: 3px var(--scale-300, 12px);
 }
 
-/* M: 32px height, 14px text */
-.segmented-control--m {
-  font-size: 14px;
-  line-height: 20px;
-}
-
+/* M: 32px height */
 .segmented-control--m .segmented-control__segment {
   min-height: var(--scale-800, 32px);
   padding: 5px var(--scale-300, 12px);
 }
 
-/* L: 36px height, 16px text */
-.segmented-control--l {
-  font-size: 16px;
-  line-height: 24px;
-}
-
+/* L: 36px height */
 .segmented-control--l .segmented-control__segment {
   min-height: 36px;
   padding: 5px var(--scale-400, 16px);
