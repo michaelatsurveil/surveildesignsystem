@@ -79,9 +79,12 @@ export const Default: Story = {
     const [iconNavS, setIconNavS] = useState('list');
     const [iconNavM, setIconNavM] = useState('list');
     const [iconNavL, setIconNavL] = useState('list');
+    const [pillS, setPillS] = useState('b');
     const [pillM, setPillM] = useState('b');
     const [pillL, setPillL] = useState('b');
+    const [iconPillS, setIconPillS] = useState('list');
     const [iconPillM, setIconPillM] = useState('list');
+    const [iconPillL, setIconPillL] = useState('list');
     const [togXs, setTogXs] = useState('3');
     const [togM, setTogM] = useState('3');
     const [togL, setTogL] = useState('3');
@@ -120,9 +123,12 @@ export const Default: Story = {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {subLabel('Rounded')}
+            <SegmentedControl options={threeOptions} value={pillS} onChange={setPillS} variant="pill" size="s" />
             <SegmentedControl options={threeOptions} value={pillM} onChange={setPillM} variant="pill" size="m" />
             <SegmentedControl options={threeOptions} value={pillL} onChange={setPillL} variant="pill" size="l" />
+            <SegmentedControl options={iconOptions} value={iconPillS} onChange={setIconPillS} variant="pill" size="s" />
             <SegmentedControl options={iconOptions} value={iconPillM} onChange={setIconPillM} variant="pill" size="m" />
+            <SegmentedControl options={iconOptionsFive} value={iconPillL} onChange={setIconPillL} variant="pill" size="l" />
           </div>
         </div>
 
