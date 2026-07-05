@@ -79,6 +79,9 @@ export const Default: Story = {
     const [iconNavS, setIconNavS] = useState('list');
     const [iconNavM, setIconNavM] = useState('list');
     const [iconNavL, setIconNavL] = useState('list');
+    const [pillM, setPillM] = useState('b');
+    const [pillL, setPillL] = useState('b');
+    const [iconPillM, setIconPillM] = useState('list');
     const [togXs, setTogXs] = useState('3');
     const [togM, setTogM] = useState('3');
     const [togL, setTogL] = useState('3');
@@ -114,6 +117,12 @@ export const Default: Story = {
             {subLabel('Disabled')}
             <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="navigational" disabled />
             <SegmentedControl options={iconOptions} value="list" onChange={() => {}} variant="navigational" disabled />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {subLabel('Rounded')}
+            <SegmentedControl options={threeOptions} value={pillM} onChange={setPillM} variant="pill" size="m" />
+            <SegmentedControl options={threeOptions} value={pillL} onChange={setPillL} variant="pill" size="l" />
+            <SegmentedControl options={iconOptions} value={iconPillM} onChange={setIconPillM} variant="pill" size="m" />
           </div>
         </div>
 
