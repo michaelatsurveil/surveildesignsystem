@@ -71,73 +71,69 @@ const iconOptionsFive = [
 export const Default: Story = {
   name: 'Overview — Variants & Sizes',
   render: () => {
-    const [nav, setNav] = useState('3');
-    const [tog, setTog] = useState('3');
-    const [pill, setPill] = useState('3');
-    const [xs, setXs] = useState('b');
-    const [s, setS] = useState('b');
-    const [m, setM] = useState('b');
-    const [l, setL] = useState('b');
+    const [navXs, setNavXs] = useState('b');
+    const [navS, setNavS] = useState('b');
+    const [navM, setNavM] = useState('b');
+    const [navL, setNavL] = useState('b');
+    const [iconNavXs, setIconNavXs] = useState('list');
+    const [iconNavS, setIconNavS] = useState('list');
+    const [iconNavM, setIconNavM] = useState('list');
+    const [iconNavL, setIconNavL] = useState('list');
     const [togXs, setTogXs] = useState('3');
     const [togM, setTogM] = useState('3');
-    const [iconXs, setIconXs] = useState('grid');
-    const [iconS, setIconS] = useState('grid');
-    const [iconM, setIconM] = useState('list');
-    const [iconL, setIconL] = useState('list');
+    const [togL, setTogL] = useState('3');
     const [togIcon, setTogIcon] = useState('list');
-    const label = (text: string) => (
-      <div style={{ marginBottom: 8, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>{text}</div>
+
+    const variantLabel = (text: string) => (
+      <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>{text}</div>
     );
+    const subLabel = (text: string) => (
+      <div style={{ fontSize: 10, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#c4c4c4', fontFamily: 'Roboto, sans-serif' }}>{text}</div>
+    );
+
     return (
-      <div style={{ display: 'flex', gap: 48, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-        {/* Variants */}
+      <div style={{ display: 'flex', gap: 56, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+        {/* Navigational */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {label('Navigational')}
-          <SegmentedControl options={fiveOptions} value={nav} onChange={setNav} variant="navigational" />
-          {label('Toggle')}
-          <SegmentedControl options={fiveOptions} value={tog} onChange={setTog} variant="toggle" />
-          {label('Pill')}
-          <SegmentedControl options={fiveOptions} value={pill} onChange={setPill} variant="pill" />
-          {label('Disabled — Navigational')}
-          <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="navigational" disabled />
-          {label('Disabled — Toggle')}
-          <SegmentedControl options={fiveOptions} value="3" onChange={() => {}} variant="toggle" disabled />
+          {variantLabel('Navigational')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {subLabel('Sizes')}
+            <SegmentedControl options={threeOptions} value={navXs} onChange={setNavXs} variant="navigational" size="xs" />
+            <SegmentedControl options={threeOptions} value={navS} onChange={setNavS} variant="navigational" size="s" />
+            <SegmentedControl options={threeOptions} value={navM} onChange={setNavM} variant="navigational" size="m" />
+            <SegmentedControl options={threeOptions} value={navL} onChange={setNavL} variant="navigational" size="l" />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {subLabel('Icons')}
+            <SegmentedControl options={iconOptions} value={iconNavXs} onChange={setIconNavXs} variant="navigational" size="xs" />
+            <SegmentedControl options={iconOptions} value={iconNavS} onChange={setIconNavS} variant="navigational" size="s" />
+            <SegmentedControl options={iconOptions} value={iconNavM} onChange={setIconNavM} variant="navigational" size="m" />
+            <SegmentedControl options={iconOptionsFive} value={iconNavL} onChange={setIconNavL} variant="navigational" size="l" />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {subLabel('Disabled')}
+            <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="navigational" disabled />
+            <SegmentedControl options={iconOptions} value="list" onChange={() => {}} variant="navigational" disabled />
+          </div>
         </div>
 
-        {/* Sizes */}
+        {/* Toggle */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {label('XS (28px)')}
-          <SegmentedControl options={threeOptions} value={xs} onChange={setXs} size="xs" />
-          {label('S (28px)')}
-          <SegmentedControl options={threeOptions} value={s} onChange={setS} size="s" />
-          {label('M (32px)')}
-          <SegmentedControl options={threeOptions} value={m} onChange={setM} size="m" />
-          {label('L (36px)')}
-          <SegmentedControl options={threeOptions} value={l} onChange={setL} size="l" />
-          {label('Toggle — XS')}
-          <SegmentedControl options={fiveOptions} value={togXs} onChange={setTogXs} size="xs" variant="toggle" />
-          {label('Toggle — M')}
-          <SegmentedControl options={fiveOptions} value={togM} onChange={setTogM} size="m" variant="toggle" />
-          {label('Toggle — L')}
-          <SegmentedControl options={threeOptions} value={l} onChange={setL} size="l" variant="toggle" />
-        </div>
-
-        {/* Icon */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {label('Icon — XS')}
-          <SegmentedControl options={iconOptions} value={iconXs} onChange={setIconXs} size="xs" />
-          {label('Icon — S')}
-          <SegmentedControl options={iconOptions} value={iconS} onChange={setIconS} size="s" />
-          {label('Icon — M')}
-          <SegmentedControl options={iconOptions} value={iconM} onChange={setIconM} size="m" />
-          {label('Icon — L')}
-          <SegmentedControl options={iconOptionsFive} value={iconL} onChange={setIconL} size="l" />
-          {label('Icon — Toggle M')}
-          <SegmentedControl options={iconOptionsFive} value={togIcon} onChange={setTogIcon} size="m" variant="toggle" />
-          {label('Icon — Pill')}
-          <SegmentedControl options={iconOptions} value={iconM} onChange={setIconM} size="m" variant="pill" />
-          {label('Icon — Disabled')}
-          <SegmentedControl options={iconOptions} value="grid" onChange={() => {}} size="m" disabled />
+          {variantLabel('Toggle')}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {subLabel('Sizes')}
+            <SegmentedControl options={fiveOptions} value={togXs} onChange={setTogXs} variant="toggle" size="xs" />
+            <SegmentedControl options={fiveOptions} value={togM} onChange={setTogM} variant="toggle" size="m" />
+            <SegmentedControl options={fiveOptions} value={togL} onChange={setTogL} variant="toggle" size="l" />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {subLabel('Icons')}
+            <SegmentedControl options={iconOptionsFive} value={togIcon} onChange={setTogIcon} variant="toggle" size="m" />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {subLabel('Disabled')}
+            <SegmentedControl options={fiveOptions} value="3" onChange={() => {}} variant="toggle" disabled />
+          </div>
         </div>
       </div>
     );
