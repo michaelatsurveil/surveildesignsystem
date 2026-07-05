@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import './SegmentedControl.css';
 
-export type SegmentedControlVariant = 'navigational' | 'toggle' | 'pill';
+export type SegmentedControlVariant = 'navigational' | 'switcher' | 'pill';
 
 export type SegmentedControlSize = 'xs' | 's' | 'm' | 'l';
 
@@ -23,7 +23,7 @@ export interface SegmentedControlProps {
   /**
    * Visual style:
    * - navigational — button group with shared borders (default)
-   * - toggle — grey track with white pill on selected (Figma: Switcher)
+   * - switcher — grey track with white pill on selected (Figma: Switcher)
    * - pill — fully rounded button group
    */
   variant?: SegmentedControlVariant;

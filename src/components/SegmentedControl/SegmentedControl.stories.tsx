@@ -16,14 +16,14 @@ const meta: Meta<typeof SegmentedControl> = {
     docs: {
       description: {
         component:
-          'Segmented controls let users choose one option from a set of mutually exclusive choices. **navigational** uses a button-group with shared borders; **toggle** uses a grey track with a floating white pill (Figma: Switcher).',
+          'Segmented controls let users choose one option from a set of mutually exclusive choices. **navigational** uses a button-group with shared borders; **switcher** uses a grey track with a floating white pill (Figma: Switcher).',
       },
     },
   },
   argTypes: {
     variant: {
       control: 'radio',
-      options: ['navigational', 'toggle', 'pill'],
+      options: ['navigational', 'switcher', 'pill'],
     },
     size: {
       control: 'radio',
@@ -119,20 +119,20 @@ export const Default: Story = {
 
         {/* Toggle */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {variantLabel('Toggle')}
+          {variantLabel('Switcher')}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {subLabel('Sizes')}
-            <SegmentedControl options={fiveOptions} value={togXs} onChange={setTogXs} variant="toggle" size="xs" />
-            <SegmentedControl options={fiveOptions} value={togM} onChange={setTogM} variant="toggle" size="m" />
-            <SegmentedControl options={fiveOptions} value={togL} onChange={setTogL} variant="toggle" size="l" />
+            <SegmentedControl options={fiveOptions} value={togXs} onChange={setTogXs} variant="switcher" size="xs" />
+            <SegmentedControl options={fiveOptions} value={togM} onChange={setTogM} variant="switcher" size="m" />
+            <SegmentedControl options={fiveOptions} value={togL} onChange={setTogL} variant="switcher" size="l" />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {subLabel('Icons')}
-            <SegmentedControl options={iconOptionsFive} value={togIcon} onChange={setTogIcon} variant="toggle" size="m" />
+            <SegmentedControl options={iconOptionsFive} value={togIcon} onChange={setTogIcon} variant="switcher" size="m" />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {subLabel('Disabled')}
-            <SegmentedControl options={fiveOptions} value="3" onChange={() => {}} variant="toggle" disabled />
+            <SegmentedControl options={fiveOptions} value="3" onChange={() => {}} variant="switcher" disabled />
           </div>
         </div>
       </div>
@@ -156,18 +156,18 @@ export const Navigational: Story = {
   },
 };
 
-export const Toggle: Story = {
-  name: 'Toggle',
+export const Switcher: Story = {
+  name: 'Switcher',
   render: () => {
     function Example() {
       const [text, setText] = useState('2');
       const [icon, setIcon] = useState('list');
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingBottom: 40 }}>
-          <SegmentedControl options={fiveOptions} value={text} onChange={setText} variant="toggle" size="m" />
-          <SegmentedControl options={threeOptions} value={text === '2' ? 'b' : 'a'} onChange={() => {}} variant="toggle" size="l" />
-          <SegmentedControl options={iconOptions} value={icon} onChange={setIcon} variant="toggle" size="m" />
-          <SegmentedControl options={iconOptions} value={icon} onChange={setIcon} variant="toggle" size="l" />
+          <SegmentedControl options={fiveOptions} value={text} onChange={setText} variant="switcher" size="m" />
+          <SegmentedControl options={threeOptions} value={text === '2' ? 'b' : 'a'} onChange={() => {}} variant="switcher" size="l" />
+          <SegmentedControl options={iconOptions} value={icon} onChange={setIcon} variant="switcher" size="m" />
+          <SegmentedControl options={iconOptions} value={icon} onChange={setIcon} variant="switcher" size="l" />
         </div>
       );
     }
