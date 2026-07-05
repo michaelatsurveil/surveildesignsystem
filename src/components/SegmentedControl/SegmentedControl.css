@@ -103,6 +103,8 @@
   border-radius: var(--radius-lg, 8px);
   padding: var(--scale-100, 4px);
   align-items: center;
+  gap: var(--scale-100, 4px);
+  align-self: flex-start;
 }
 
 .segmented-control--toggle .segmented-control__segment {
