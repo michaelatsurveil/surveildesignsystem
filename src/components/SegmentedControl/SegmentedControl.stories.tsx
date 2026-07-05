@@ -71,11 +71,9 @@ const iconOptionsFive = [
 export const Default: Story = {
   name: 'Overview — Variants & Sizes',
   render: () => {
-    const [navXs, setNavXs] = useState('b');
     const [navS, setNavS] = useState('b');
     const [navM, setNavM] = useState('b');
     const [navL, setNavL] = useState('b');
-    const [iconNavXs, setIconNavXs] = useState('list');
     const [iconNavS, setIconNavS] = useState('list');
     const [iconNavM, setIconNavM] = useState('list');
     const [iconNavL, setIconNavL] = useState('list');
@@ -104,14 +102,12 @@ export const Default: Story = {
           {variantLabel('Navigational')}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {subLabel('Sizes')}
-            <SegmentedControl options={threeOptions} value={navXs} onChange={setNavXs} variant="navigational" size="xs" />
             <SegmentedControl options={threeOptions} value={navS} onChange={setNavS} variant="navigational" size="s" />
             <SegmentedControl options={threeOptions} value={navM} onChange={setNavM} variant="navigational" size="m" />
             <SegmentedControl options={threeOptions} value={navL} onChange={setNavL} variant="navigational" size="l" />
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {subLabel('Icons')}
-            <SegmentedControl options={iconOptions} value={iconNavXs} onChange={setIconNavXs} variant="navigational" size="xs" />
             <SegmentedControl options={iconOptions} value={iconNavS} onChange={setIconNavS} variant="navigational" size="s" />
             <SegmentedControl options={iconOptions} value={iconNavM} onChange={setIconNavM} variant="navigational" size="m" />
             <SegmentedControl options={iconOptionsFive} value={iconNavL} onChange={setIconNavL} variant="navigational" size="l" />
