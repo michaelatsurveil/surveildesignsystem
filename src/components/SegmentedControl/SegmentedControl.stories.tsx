@@ -78,6 +78,8 @@ export const Default: Story = {
     const [s, setS] = useState('b');
     const [m, setM] = useState('b');
     const [l, setL] = useState('b');
+    const [togXs, setTogXs] = useState('3');
+    const [togM, setTogM] = useState('3');
     const [iconXs, setIconXs] = useState('grid');
     const [iconS, setIconS] = useState('grid');
     const [iconM, setIconM] = useState('list');
@@ -99,7 +101,7 @@ export const Default: Story = {
           {label('Disabled — Navigational')}
           <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="navigational" disabled />
           {label('Disabled — Toggle')}
-          <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="toggle" disabled />
+          <SegmentedControl options={fiveOptions} value="3" onChange={() => {}} variant="toggle" disabled />
         </div>
 
         {/* Sizes */}
@@ -113,9 +115,9 @@ export const Default: Story = {
           {label('L (36px)')}
           <SegmentedControl options={threeOptions} value={l} onChange={setL} size="l" />
           {label('Toggle — XS')}
-          <SegmentedControl options={threeOptions} value={xs} onChange={setXs} size="xs" variant="toggle" />
+          <SegmentedControl options={fiveOptions} value={togXs} onChange={setTogXs} size="xs" variant="toggle" />
           {label('Toggle — M')}
-          <SegmentedControl options={threeOptions} value={m} onChange={setM} size="m" variant="toggle" />
+          <SegmentedControl options={fiveOptions} value={togM} onChange={setTogM} size="m" variant="toggle" />
           {label('Toggle — L')}
           <SegmentedControl options={threeOptions} value={l} onChange={setL} size="l" variant="toggle" />
         </div>
@@ -131,7 +133,7 @@ export const Default: Story = {
           {label('Icon — L')}
           <SegmentedControl options={iconOptionsFive} value={iconL} onChange={setIconL} size="l" />
           {label('Icon — Toggle M')}
-          <SegmentedControl options={iconOptions} value={togIcon} onChange={setTogIcon} size="m" variant="toggle" />
+          <SegmentedControl options={iconOptionsFive} value={togIcon} onChange={setTogIcon} size="m" variant="toggle" />
           {label('Icon — Pill')}
           <SegmentedControl options={iconOptions} value={iconM} onChange={setIconM} size="m" variant="pill" />
           {label('Icon — Disabled')}
