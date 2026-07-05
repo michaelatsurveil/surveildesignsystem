@@ -9,22 +9,26 @@ const meta: Meta<typeof SegmentedControl> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=296-4663',
+    },
     docs: {
       description: {
         component:
-          'Segmented controls let users choose one option from a set of mutually exclusive choices.',
+          'Segmented controls let users choose one option from a set of mutually exclusive choices. **navigational** uses a button-group with shared borders; **toggle** uses a grey track with a floating white pill (Figma: Switcher).',
       },
     },
   },
   argTypes: {
     variant: {
       control: 'radio',
-      options: ['rectangular', 'pill'],
+      options: ['navigational', 'toggle', 'pill'],
     },
     size: {
       control: 'radio',
       options: ['xs', 's', 'm', 'l'],
-      description: 'Numbers-TC/Inputs-TC: XS (28px), S (28px), M (32px), L (36px)',
+      description: 'XS/S (28px), M (32px), L (36px)',
     },
     disabled: {
       control: 'boolean',
@@ -67,7 +71,8 @@ const iconOptionsFive = [
 export const Default: Story = {
   name: 'Overview — Variants & Sizes',
   render: () => {
-    const [rect, setRect] = useState('3');
+    const [nav, setNav] = useState('3');
+    const [tog, setTog] = useState('3');
     const [pill, setPill] = useState('3');
     const [xs, setXs] = useState('b');
     const [s, setS] = useState('b');
@@ -77,19 +82,27 @@ export const Default: Story = {
     const [iconS, setIconS] = useState('grid');
     const [iconM, setIconM] = useState('list');
     const [iconL, setIconL] = useState('list');
+    const [togIcon, setTogIcon] = useState('list');
     const label = (text: string) => (
       <div style={{ marginBottom: 8, fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>{text}</div>
     );
     return (
       <div style={{ display: 'flex', gap: 48, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+        {/* Variants */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {label('Rectangular')}
-          <SegmentedControl options={fiveOptions} value={rect} onChange={setRect} variant="rectangular" />
+          {label('Navigational')}
+          <SegmentedControl options={fiveOptions} value={nav} onChange={setNav} variant="navigational" />
+          {label('Toggle')}
+          <SegmentedControl options={fiveOptions} value={tog} onChange={setTog} variant="toggle" />
           {label('Pill')}
           <SegmentedControl options={fiveOptions} value={pill} onChange={setPill} variant="pill" />
-          {label('Disabled')}
-          <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="rectangular" disabled />
+          {label('Disabled — Navigational')}
+          <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="navigational" disabled />
+          {label('Disabled — Toggle')}
+          <SegmentedControl options={threeOptions} value="b" onChange={() => {}} variant="toggle" disabled />
         </div>
+
+        {/* Sizes */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {label('XS (28px)')}
           <SegmentedControl options={threeOptions} value={xs} onChange={setXs} size="xs" />
@@ -99,7 +112,15 @@ export const Default: Story = {
           <SegmentedControl options={threeOptions} value={m} onChange={setM} size="m" />
           {label('L (36px)')}
           <SegmentedControl options={threeOptions} value={l} onChange={setL} size="l" />
+          {label('Toggle — XS')}
+          <SegmentedControl options={threeOptions} value={xs} onChange={setXs} size="xs" variant="toggle" />
+          {label('Toggle — M')}
+          <SegmentedControl options={threeOptions} value={m} onChange={setM} size="m" variant="toggle" />
+          {label('Toggle — L')}
+          <SegmentedControl options={threeOptions} value={l} onChange={setL} size="l" variant="toggle" />
         </div>
+
+        {/* Icon */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {label('Icon — XS')}
           <SegmentedControl options={iconOptions} value={iconXs} onChange={setIconXs} size="xs" />
@@ -108,7 +129,9 @@ export const Default: Story = {
           {label('Icon — M')}
           <SegmentedControl options={iconOptions} value={iconM} onChange={setIconM} size="m" />
           {label('Icon — L')}
-          <SegmentedControl options={iconOptions} value={iconL} onChange={setIconL} size="l" />
+          <SegmentedControl options={iconOptionsFive} value={iconL} onChange={setIconL} size="l" />
+          {label('Icon — Toggle M')}
+          <SegmentedControl options={iconOptions} value={togIcon} onChange={setTogIcon} size="m" variant="toggle" />
           {label('Icon — Pill')}
           <SegmentedControl options={iconOptions} value={iconM} onChange={setIconM} size="m" variant="pill" />
           {label('Icon — Disabled')}
@@ -119,3 +142,37 @@ export const Default: Story = {
   },
 };
 
+export const Navigational: Story = {
+  name: 'Navigational',
+  render: () => {
+    function Example() {
+      const [val, setVal] = useState('2');
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingBottom: 40 }}>
+          <SegmentedControl options={fiveOptions} value={val} onChange={setVal} variant="navigational" size="m" />
+          <SegmentedControl options={threeOptions} value={val === '2' ? 'b' : 'a'} onChange={() => {}} variant="navigational" size="l" />
+        </div>
+      );
+    }
+    return <Example />;
+  },
+};
+
+export const Toggle: Story = {
+  name: 'Toggle',
+  render: () => {
+    function Example() {
+      const [text, setText] = useState('2');
+      const [icon, setIcon] = useState('list');
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, paddingBottom: 40 }}>
+          <SegmentedControl options={fiveOptions} value={text} onChange={setText} variant="toggle" size="m" />
+          <SegmentedControl options={threeOptions} value={text === '2' ? 'b' : 'a'} onChange={() => {}} variant="toggle" size="l" />
+          <SegmentedControl options={iconOptions} value={icon} onChange={setIcon} variant="toggle" size="m" />
+          <SegmentedControl options={iconOptions} value={icon} onChange={setIcon} variant="toggle" size="l" />
+        </div>
+      );
+    }
+    return <Example />;
+  },
+};

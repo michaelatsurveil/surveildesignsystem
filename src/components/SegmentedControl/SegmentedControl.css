@@ -1,19 +1,21 @@
 /**
  * Segmented Control styles from Figma Component Library
  * https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=239-259
- * Component set: _Atom / Button First (296:3702)
+ * Component set: Segmented Control (296:4663)
  *
- * Figma state fills:
+ * Variants:
+ *   navigational — button group with shared borders (Figma: Navigational)
+ *   toggle       — grey track + white selected pill, no borders (Figma: Switcher)
+ *   pill         — fully rounded button group
+ *
+ * Figma state fills (navigational/pill):
  *   Enabled:  bg #FFFFFF,              border #DFDFDF, text #616161
  *   Hover:    bg #F7F7F7,              border #DFDFDF, text #616161
  *   Active:   bg #E5EEFA (primary-50), border #DFDFDF, text #27518C (primary-600)
  *   Focus:    bg #F7F7F7,              border #DFDFDF, text #616161, ring: 4px primary + 2px white
  *   Disabled: bg #FFFFFF,              border #818181 (text-disabled), text #818181
  *
- * Sizes: Numbers-TC/Inputs-TC (XS: 28, S: 28, M: 32, L: 36)
- * Typography: Text-X Small (12px), Text-Small (14px), Text-Base (16px)
- * Radius: Radius/S (4px), Radius/10XL (1000px for pill)
- * Note: scale/850 (36px) not yet in DS scale tokens — L uses raw 36px
+ * Sizes: XS/S (28px), M (32px), L (36px)
  */
 
 .segmented-control {
@@ -22,7 +24,7 @@
   font-weight: 500;
 }
 
-/* XS: 28px height, Text-X Small/Medium (12px, 18px) */
+/* XS: 28px height, 12px text */
 .segmented-control--xs {
   font-size: 12px;
   line-height: 18px;
@@ -33,7 +35,7 @@
   padding: 4px var(--scale-300, 12px);
 }
 
-/* S: 28px height, Text-Small/Medium (14px, 20px) */
+/* S: 28px height, 14px text */
 .segmented-control--s {
   font-size: 14px;
   line-height: 20px;
@@ -44,7 +46,7 @@
   padding: 3px var(--scale-300, 12px);
 }
 
-/* M: 32px height, Text-Small/Medium (14px, 20px) */
+/* M: 32px height, 14px text */
 .segmented-control--m {
   font-size: 14px;
   line-height: 20px;
@@ -55,7 +57,7 @@
   padding: 5px var(--scale-300, 12px);
 }
 
-/* L: 36px height, Text-Base/Medium (16px, 24px) */
+/* L: 36px height, 16px text */
 .segmented-control--l {
   font-size: 16px;
   line-height: 24px;
@@ -66,17 +68,21 @@
   padding: 5px var(--scale-400, 16px);
 }
 
-.segmented-control--rectangular .segmented-control__segment:first-child {
+/* ── Navigational variant — button group with shared borders ── */
+
+.segmented-control--navigational .segmented-control__segment:first-child {
   border-radius: var(--radius-md, 4px) 0 0 var(--radius-md, 4px);
 }
 
-.segmented-control--rectangular .segmented-control__segment:last-child {
+.segmented-control--navigational .segmented-control__segment:last-child {
   border-radius: 0 var(--radius-md, 4px) var(--radius-md, 4px) 0;
 }
 
-.segmented-control--rectangular .segmented-control__segment:not(:first-child):not(:last-child) {
+.segmented-control--navigational .segmented-control__segment:not(:first-child):not(:last-child) {
   border-radius: 0;
 }
+
+/* ── Pill variant — fully rounded button group ── */
 
 .segmented-control--pill .segmented-control__segment:first-child {
   border-radius: 1000px 0 0 1000px;
@@ -90,27 +96,96 @@
   border-radius: 0;
 }
 
-/* Icon-only segments — square, override text padding with uniform padding */
-/* xs/s: 28px square, 16px icon → padding = (28 - 16 - 2borders) / 2 = 5px */
+/* ── Toggle variant — grey track + white selected pill (Figma: Switcher) ── */
+
+.segmented-control--toggle {
+  background: var(--color-grey-50, #f7f7f7);
+  border-radius: var(--radius-lg, 8px);
+  padding: var(--scale-100, 4px);
+  align-items: center;
+}
+
+.segmented-control--toggle .segmented-control__segment {
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md, 4px);
+  color: var(--color-grey-400, #818181);
+}
+
+/* No border overlap offset needed — toggle segments have no borders */
+.segmented-control--toggle .segmented-control__segment + .segmented-control__segment {
+  margin-left: 0;
+}
+
+/* Selected pill in toggle — white bg + shadow */
+.segmented-control--toggle .segmented-control__segment--selected {
+  background: var(--color-white, #ffffff);
+  border-color: transparent;
+  color: var(--color-grey, #616161);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.segmented-control--toggle .segmented-control__segment:hover:not(.segmented-control__segment--selected):not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: transparent;
+}
+
+.segmented-control--toggle .segmented-control__segment:active:not(.segmented-control__segment--selected):not(:disabled) {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: transparent;
+}
+
+.segmented-control--toggle .segmented-control__segment:disabled {
+  border: none;
+  color: var(--color-text-disabled, #818181);
+  background: transparent;
+}
+
+.segmented-control--toggle .segmented-control__segment--selected:disabled {
+  background: var(--color-white, #ffffff);
+  box-shadow: none;
+}
+
+/* ── Icon-only segments — square, override text padding ── */
+
+/* xs/s: 28px square — padding = (28 - 16 - 2borders) / 2 = 5px */
 .segmented-control--xs .segmented-control__segment--icon,
 .segmented-control--s .segmented-control__segment--icon {
   width: var(--scale-700, 28px);
   padding: 5px;
 }
 
-/* m: 32px square, 16px icon → padding = (32 - 16 - 2) / 2 = 7px */
+/* m: 32px square — padding = (32 - 16 - 2) / 2 = 7px */
 .segmented-control--m .segmented-control__segment--icon {
   width: var(--scale-800, 32px);
   padding: 7px;
 }
 
-/* l: 36px square, 20px icon → padding = (36 - 20 - 2) / 2 = 7px */
+/* l: 36px square — padding = (36 - 20 - 2) / 2 = 7px */
 .segmented-control--l .segmented-control__segment--icon {
   width: 36px;
   padding: 7px;
 }
 
-/* Base segment — Figma: bg #FFFFFF, border #DFDFDF, text #616161 */
+/* Toggle icon segments have no border, so full size */
+.segmented-control--toggle.segmented-control--xs .segmented-control__segment--icon,
+.segmented-control--toggle.segmented-control--s .segmented-control__segment--icon {
+  width: var(--scale-700, 28px);
+  padding: 6px;
+}
+
+.segmented-control--toggle.segmented-control--m .segmented-control__segment--icon {
+  width: var(--scale-800, 32px);
+  padding: 8px;
+}
+
+.segmented-control--toggle.segmented-control--l .segmented-control__segment--icon {
+  width: 36px;
+  padding: 8px;
+}
+
+/* ── Base segment ── */
+
 .segmented-control__segment {
   border: 1px solid var(--color-grey-100, #dfdfdf);
   background: var(--color-white, #ffffff);
@@ -132,21 +207,21 @@
   margin-left: -1px;
 }
 
-/* Hover — Figma: bg #F7F7F7, border #DFDFDF, text #616161 */
+/* Hover */
 .segmented-control__segment:hover:not(.segmented-control__segment--selected):not(:disabled) {
   background: var(--color-grey-50, #f7f7f7);
   border-color: var(--color-grey-100, #dfdfdf);
   z-index: 1;
 }
 
-/* Pressed — Figma: bg #DFDFDF, border #DFDFDF, text #616161 */
+/* Pressed */
 .segmented-control__segment:active:not(.segmented-control__segment--selected):not(:disabled) {
   background: var(--color-grey-100, #dfdfdf);
   border-color: var(--color-grey-100, #dfdfdf);
   z-index: 1;
 }
 
-/* Selected/Active — Figma: bg surface-action-active, border default, text text-action-active */
+/* Selected — bg surface-action-active, text text-action-active */
 .segmented-control__segment--selected {
   background: var(--color-surface-action-active, #e5eefa);
   border-color: var(--color-border-default, #dfdfdf);
@@ -154,7 +229,7 @@
   z-index: 1;
 }
 
-/* Focus — Figma: bg #F7F7F7, border #C0C0C0, double ring (4px primary + 2px white) */
+/* Focus */
 .segmented-control__segment:focus-visible {
   outline: none;
   background: var(--color-grey-50, #f7f7f7);
@@ -163,7 +238,7 @@
   z-index: 2;
 }
 
-/* Disabled — Figma: bg #FFFFFF, border #818181 (text-disabled), text #818181 */
+/* Disabled */
 .segmented-control__segment:disabled {
   background: var(--color-white, #ffffff);
   border-color: var(--color-text-disabled, #818181);
@@ -171,7 +246,8 @@
   cursor: not-allowed;
 }
 
-/* Icon segment colours — uses currentColor so Lucide inherits */
+/* ── Icon segment colours — currentColor so Lucide inherits ── */
+
 .segmented-control__segment--icon {
   color: var(--color-icon, #616161);
 }
@@ -180,11 +256,16 @@
   color: var(--color-icon, #616161);
 }
 
-/* Selected icon: override text-action-active with icon-action-active (primary-700) */
+/* Selected icon: icon-action-active (primary-700) */
 .segmented-control__segment--icon.segmented-control__segment--selected {
   color: var(--color-icon-action-active, #203b61);
 }
 
 .segmented-control__segment--icon:disabled {
   color: var(--color-icon-disabled, #818181);
+}
+
+/* Toggle icon selected — grey not blue (no primary accent in switcher) */
+.segmented-control--toggle .segmented-control__segment--icon.segmented-control__segment--selected {
+  color: var(--color-icon, #616161);
 }
