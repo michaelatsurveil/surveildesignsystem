@@ -187,6 +187,7 @@
 /* ── Base segment ── */
 
 .segmented-control__segment {
+  position: relative;
   border: 1px solid var(--color-grey-100, #dfdfdf);
   background: var(--color-white, #ffffff);
   color: var(--color-grey, #616161);
@@ -241,7 +242,7 @@
 /* Disabled */
 .segmented-control__segment:disabled {
   background: var(--color-white, #ffffff);
-  border-color: var(--color-text-disabled, #818181);
+  border-color: var(--color-grey-100, #dfdfdf);
   color: var(--color-text-disabled, #818181);
   cursor: not-allowed;
 }
