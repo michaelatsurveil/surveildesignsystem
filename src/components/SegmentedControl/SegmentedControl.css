@@ -81,7 +81,7 @@
 /* ── Switcher variant — grey track + white selected pill (Figma: Switcher) ── */
 
 .segmented-control--switcher {
-  background: var(--color-grey-50, #f7f7f7);
+  background: var(--color-surface-light, #f7f7f7);
   border-radius: var(--radius-lg, 8px);
   padding: var(--scale-100, 4px);
   align-items: center;
