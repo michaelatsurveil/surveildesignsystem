@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronRight, X } from 'lucide-react';
+import { ChevronDown, ChevronRight, Search, X } from 'lucide-react';
 import './MultiSelect.css';
 
 export interface MultiSelectOption {
@@ -27,6 +27,16 @@ export interface MultiSelectProps {
    * flyout panel on hover. The trigger shows a count summary and a clear button.
    */
   variant?: 'default' | 'embedded';
+  /**
+   * When set, renders a Match toggle (Any / All).
+   * For the embedded variant it appears at the top of the right sub-panel.
+   * For the default variant it appears below the trigger.
+   * 'any' = OR logic — records matching any selected value.
+   * 'all' = AND logic — records matching all selected values.
+   */
+  operator?: 'any' | 'all';
+  /** Called when the user switches the match operator */
+  onOperatorChange?: (operator: 'any' | 'all') => void;
 }
 
 export function MultiSelect({
@@ -37,13 +47,23 @@ export function MultiSelect({
   disabled = false,
   className = '',
   variant = 'default',
+  operator,
+  onOperatorChange,
 }: MultiSelectProps) {
   const [open, setOpen] = useState(false);
   const [activeParent, setActiveParent] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const rootRef = useRef<HTMLDivElement>(null);
 
   const hasSelection = value.length > 0;
   const isEmbedded = variant === 'embedded';
+
+  const filteredOptions = searchQuery
+    ? options.filter((o) =>
+        o.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        o.children?.some((c) => c.label.toLowerCase().includes(searchQuery.toLowerCase()))
+      )
+    : options;
 
   const defaultTriggerLabel = (() => {
     if (!hasSelection) return placeholder;
@@ -74,11 +94,14 @@ export function MultiSelect({
   })();
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      setSearchQuery('');
+      setActiveParent(null);
+      return;
+    }
     function handleClick(e: MouseEvent) {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
         setOpen(false);
-        setActiveParent(null);
       }
     }
     document.addEventListener('mousedown', handleClick);
@@ -115,6 +138,29 @@ export function MultiSelect({
   ]
     .filter(Boolean)
     .join(' ');
+
+  const matchToggle = operator !== undefined && (
+    <div className="multiselect__match" role="group" aria-label="Match operator">
+      <button
+        type="button"
+        className={`multiselect__match-btn${operator === 'any' ? ' multiselect__match-btn--active' : ''}`}
+        onClick={() => onOperatorChange?.('any')}
+        aria-pressed={operator === 'any'}
+        disabled={disabled}
+      >
+        Any (OR)
+      </button>
+      <button
+        type="button"
+        className={`multiselect__match-btn${operator === 'all' ? ' multiselect__match-btn--active' : ''}`}
+        onClick={() => onOperatorChange?.('all')}
+        aria-pressed={operator === 'all'}
+        disabled={disabled}
+      >
+        All (AND)
+      </button>
+    </div>
+  );
 
   return (
     <div ref={rootRef} className={classNames}>
@@ -182,13 +228,27 @@ export function MultiSelect({
         </button>
       )}
 
+      {/* ── Match toggle — default variant only (embedded puts it inside the dropdown) ── */}
+      {!isEmbedded && matchToggle}
+
       {/* ── Dropdown ── */}
       {open && (
         isEmbedded ? (
           <div className="multiselect__dropdown">
-            {/* Left panel */}
+            {/* Left panel with search */}
             <ul className="multiselect__menu" role="listbox" aria-multiselectable="true">
-              {options.map((opt) => {
+              <li className="multiselect__search-row" role="presentation">
+                <Search size={14} className="multiselect__search-icon" aria-hidden />
+                <input
+                  className="multiselect__search"
+                  type="text"
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </li>
+              {filteredOptions.map((opt) => {
                 const hasChildren = (opt.children?.length ?? 0) > 0;
                 const childValues = opt.children?.map((c) => c.value) ?? [];
                 const selectedChildCount = childValues.filter((v) => value.includes(v)).length;
@@ -240,42 +300,45 @@ export function MultiSelect({
               })}
             </ul>
 
-            {/* Right sub-panel */}
+            {/* Right column: operator toggle (if set) + sub-panel */}
             {activeParent && (() => {
               const parent = options.find((o) => o.value === activeParent);
               if (!parent?.children) return null;
               return (
-                <ul
-                  className="multiselect__menu multiselect__submenu"
-                  role="listbox"
-                  aria-multiselectable="true"
-                >
-                  {parent.children.map((child) => {
-                    const checked = value.includes(child.value);
-                    return (
-                      <li
-                        key={child.value}
-                        role="option"
-                        aria-selected={checked}
-                        className={`multiselect__item ${checked ? 'multiselect__item--checked' : ''}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleOption(child.value);
-                        }}
-                      >
-                        <input
-                          type="checkbox"
-                          className="multiselect__checkbox"
-                          checked={checked}
-                          readOnly
-                          tabIndex={-1}
-                          aria-hidden
-                        />
-                        <span className="multiselect__item-label">{child.label}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className="multiselect__right-col">
+                  {matchToggle}
+                  <ul
+                    className="multiselect__menu multiselect__submenu"
+                    role="listbox"
+                    aria-multiselectable="true"
+                  >
+                    {parent.children.map((child) => {
+                      const checked = value.includes(child.value);
+                      return (
+                        <li
+                          key={child.value}
+                          role="option"
+                          aria-selected={checked}
+                          className={`multiselect__item ${checked ? 'multiselect__item--checked' : ''}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleOption(child.value);
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            className="multiselect__checkbox"
+                            checked={checked}
+                            readOnly
+                            tabIndex={-1}
+                            aria-hidden
+                          />
+                          <span className="multiselect__item-label">{child.label}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
               );
             })()}
           </div>

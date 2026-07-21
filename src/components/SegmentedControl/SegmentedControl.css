@@ -225,7 +225,7 @@
 
 /* Disabled */
 .segmented-control__segment:disabled {
-  background: var(--color-white, #ffffff);
+  background: transparent;
   border-color: var(--color-grey-100, #dfdfdf);
   color: var(--color-text-disabled, #818181);
   cursor: not-allowed;

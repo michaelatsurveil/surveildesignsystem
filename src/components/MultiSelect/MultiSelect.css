@@ -28,7 +28,7 @@
   white-space: nowrap;
   transition: border-color 0.15s, box-shadow 0.15s;
   box-sizing: border-box;
-  min-width: 150px;
+  min-width: 180px;
 }
 
 .multiselect__trigger:hover .multiselect__trigger-label {
@@ -251,4 +251,95 @@
 
 .multiselect--embedded .multiselect__item--checked .multiselect__item-label {
   font-weight: var(--font-weight-regular, 400);
+}
+
+/* ── Search row (embedded dropdown) ── */
+
+.multiselect__search-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--color-grey-100, #dfdfdf);
+  list-style: none;
+}
+
+.multiselect__search-icon {
+  color: var(--color-grey-400, #818181);
+  flex-shrink: 0;
+}
+
+.multiselect__search {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 13px;
+  color: var(--color-grey, #616161);
+  background: transparent;
+  min-width: 0;
+}
+
+.multiselect__search::placeholder {
+  color: var(--color-grey-400, #818181);
+}
+
+/* ── Right column (operator toggle + sub-panel stacked) ── */
+
+.multiselect__right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.multiselect__right-col .multiselect__match {
+  margin-top: 0;
+  border-radius: var(--radius-md, 4px) var(--radius-md, 4px) 0 0;
+}
+
+.multiselect__right-col .multiselect__menu {
+  border-radius: 0 0 var(--radius-md, 4px) var(--radius-md, 4px);
+  border-top: none;
+}
+
+/* ── Match operator toggle (Any / All) ── */
+
+.multiselect__match {
+  display: flex;
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border-radius: var(--radius-md, 4px);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.multiselect__match-btn {
+  flex: 1;
+  height: 28px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-grey-400, #818181);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.multiselect__match-btn + .multiselect__match-btn {
+  border-left: 1px solid var(--color-grey-100, #dfdfdf);
+}
+
+.multiselect__match-btn--active {
+  background: var(--color-primary-600, #3165ad);
+  color: var(--color-white, #ffffff);
+}
+
+.multiselect__match-btn:not(.multiselect__match-btn--active):hover {
+  background: var(--color-grey-50, #f7f7f7);
+  color: var(--color-grey, #616161);
+}
+
+.multiselect__match-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }

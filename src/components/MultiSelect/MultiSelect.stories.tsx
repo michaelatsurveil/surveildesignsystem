@@ -112,6 +112,73 @@ export const Preselected: Story = {
   },
 };
 
+export const AdvancedEmbedded: Story = {
+  name: 'Advanced embedded (with match operator)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Pass `operator` and `onOperatorChange` to show the Any (OR) / All (AND) match toggle below the trigger. ' +
+          'Use inside Filter panels when Advanced mode is on. ' +
+          'Any (OR) — records matching at least one selected value. All (AND) — records matching every selected value.',
+      },
+    },
+  },
+  render: () => {
+    function Example() {
+      const [selected, setSelected] = useState<string[]>([]);
+      const [operator, setOperator] = useState<'any' | 'all'>('any');
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 32, paddingBottom: 240 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>
+              Default variant + operator
+            </p>
+            <MultiSelect
+              options={departmentOptions}
+              value={selected}
+              onChange={setSelected}
+              placeholder="Select departments"
+              operator={operator}
+              onOperatorChange={setOperator}
+            />
+            {selected.length > 0 && (
+              <p style={{ margin: 0, fontSize: 12, color: '#818181', fontFamily: 'Roboto, sans-serif' }}>
+                Match: {operator} — {selected.join(', ')}
+              </p>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9ca3af', fontFamily: 'Roboto, sans-serif' }}>
+              Embedded variant + operator
+            </p>
+            <EmbeddedWithOperator />
+          </div>
+        </div>
+      );
+    }
+
+    function EmbeddedWithOperator() {
+      const [selected, setSelected] = useState<string[]>(['accounting', 'audit']);
+      const [operator, setOperator] = useState<'any' | 'all'>('all');
+      return (
+        <MultiSelect
+          variant="embedded"
+          options={departmentOptionsNested}
+          value={selected}
+          onChange={setSelected}
+          placeholder="Select Department"
+          operator={operator}
+          onOperatorChange={setOperator}
+        />
+      );
+    }
+
+    return <Example />;
+  },
+};
+
 export const Embedded: Story = {
   name: 'Embedded (nested sub-menu)',
   render: () => {
