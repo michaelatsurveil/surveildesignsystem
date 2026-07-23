@@ -228,15 +228,17 @@ export function MultiSelect({
         </button>
       )}
 
-      {/* ── Match toggle — default variant only (embedded puts it inside the dropdown) ── */}
-      {!isEmbedded && matchToggle}
-
       {/* ── Dropdown ── */}
       {open && (
         isEmbedded ? (
           <div className="multiselect__dropdown">
-            {/* Left panel with search */}
+            {/* Left panel with match toggle (if set) + search */}
             <ul className="multiselect__menu" role="listbox" aria-multiselectable="true">
+              {matchToggle && (
+                <li className="multiselect__match-row" role="presentation">
+                  {matchToggle}
+                </li>
+              )}
               <li className="multiselect__search-row" role="presentation">
                 <Search size={14} className="multiselect__search-icon" aria-hidden />
                 <input
@@ -300,50 +302,52 @@ export function MultiSelect({
               })}
             </ul>
 
-            {/* Right column: operator toggle (if set) + sub-panel */}
+            {/* Sub-panel */}
             {activeParent && (() => {
               const parent = options.find((o) => o.value === activeParent);
               if (!parent?.children) return null;
               return (
-                <div className="multiselect__right-col">
-                  {matchToggle}
-                  <ul
-                    className="multiselect__menu multiselect__submenu"
-                    role="listbox"
-                    aria-multiselectable="true"
-                  >
-                    {parent.children.map((child) => {
-                      const checked = value.includes(child.value);
-                      return (
-                        <li
-                          key={child.value}
-                          role="option"
-                          aria-selected={checked}
-                          className={`multiselect__item ${checked ? 'multiselect__item--checked' : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleOption(child.value);
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            className="multiselect__checkbox"
-                            checked={checked}
-                            readOnly
-                            tabIndex={-1}
-                            aria-hidden
-                          />
-                          <span className="multiselect__item-label">{child.label}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
+                <ul
+                  className="multiselect__menu multiselect__submenu"
+                  role="listbox"
+                  aria-multiselectable="true"
+                >
+                  {parent.children.map((child) => {
+                    const checked = value.includes(child.value);
+                    return (
+                      <li
+                        key={child.value}
+                        role="option"
+                        aria-selected={checked}
+                        className={`multiselect__item ${checked ? 'multiselect__item--checked' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleOption(child.value);
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          className="multiselect__checkbox"
+                          checked={checked}
+                          readOnly
+                          tabIndex={-1}
+                          aria-hidden
+                        />
+                        <span className="multiselect__item-label">{child.label}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
               );
             })()}
           </div>
         ) : (
           <ul className="multiselect__menu" role="listbox" aria-multiselectable="true">
+            {matchToggle && (
+              <li className="multiselect__match-row" role="presentation">
+                {matchToggle}
+              </li>
+            )}
             {options.map((opt) => {
               const checked = value.includes(opt.value);
               return (
