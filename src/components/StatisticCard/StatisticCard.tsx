@@ -143,6 +143,16 @@ export function StatisticCard({
           <span className="statistic-card__progress-label">
             {progress.label ?? `${progress.value}%`}
           </span>
+          {comparison != null && (
+            <span
+              className={`statistic-card__comparison statistic-card__comparison--${comparison.trend}`}
+            >
+              {comparison.trend === 'up' && <ArrowUp size={14} strokeWidth={2} aria-hidden />}
+              {comparison.trend === 'down' && <ArrowDown size={14} strokeWidth={2} aria-hidden />}
+              {comparison.trend === 'neutral' && <Minus size={14} strokeWidth={2} aria-hidden />}
+              <span>{comparison.text}</span>
+            </span>
+          )}
         </div>
       )}
 

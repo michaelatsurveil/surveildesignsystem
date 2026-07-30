@@ -432,6 +432,13 @@
   box-shadow: var(--focus-ring-primary, 0 0 0 3px rgba(49, 101, 173, 0.3));
 }
 
+.filter__trigger--new--active {
+  border-color: var(--color-primary-900, #203b61);
+  border-style: solid;
+  color: var(--color-grey, #616161);
+  background: var(--color-grey-25, #f7f7f7);
+}
+
 .filter__trigger--new-icon {
   display: inline-flex;
   align-items: center;

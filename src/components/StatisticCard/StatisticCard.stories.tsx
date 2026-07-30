@@ -139,6 +139,7 @@ export const Default: Story = {
             title="Statistic Title"
             badge="Default"
             progress={{ value: 20, status: 'success' }}
+            comparison={{ trend: 'down', text: '-{N} (-{N}%)' }}
             supportingText="Supporting text that adds value or can be actioned"
             ctaLabel="CTA"
           />
@@ -147,6 +148,7 @@ export const Default: Story = {
             title="Storage Used"
             badge="Azure"
             progress={{ value: 65, status: 'warning', label: '65%' }}
+            comparison={{ trend: 'up', text: '+12%' }}
             supportingText="650 GB of 1 TB used."
             ctaLabel="Manage storage"
           />
@@ -155,6 +157,7 @@ export const Default: Story = {
             title="Compliance Score"
             badge="Live"
             progress={{ value: 92, status: 'success', label: '92%' }}
+            comparison={{ trend: 'neutral', text: 'No change' }}
             supportingText="Above target threshold."
             ctaLabel="View details"
           />
@@ -274,6 +277,7 @@ export const ProgressVariant: Story = {
         title="Statistic Title"
         badge="Default"
         progress={{ value: 20, status: 'success' }}
+        comparison={{ trend: 'down', text: '-{N} (-{N}%)' }}
         supportingText="Supporting text that adds value or can be actioned"
         ctaLabel="CTA"
       />
@@ -282,6 +286,7 @@ export const ProgressVariant: Story = {
         title="Disk Utilisation"
         badge="Warning"
         progress={{ value: 78, status: 'warning', label: '78%' }}
+        comparison={{ trend: 'up', text: '+8%' }}
         supportingText="Approaching capacity limit."
         ctaLabel="Manage"
       />
@@ -290,6 +295,7 @@ export const ProgressVariant: Story = {
         title="Policy Compliance"
         badge="Error"
         progress={{ value: 45, status: 'error', label: '45%' }}
+        comparison={{ trend: 'neutral', text: 'No change' }}
         supportingText="Below required compliance threshold."
         ctaLabel="Remediate"
       />

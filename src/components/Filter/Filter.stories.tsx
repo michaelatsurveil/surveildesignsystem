@@ -198,8 +198,8 @@ export const NewFilter: Story = {
       description: {
         story:
           'Pass `variant="new-filter"` to render the dashed "+ Filter" ghost button. ' +
-          'Place it after applied filter chips to let users add additional filters. ' +
-          'The `onAddFilter` callback fires on click.',
+          'Clicking opens the same Add Filter panel — pick a field and values, then click Add. ' +
+          'Place it after applied filter chips to let users add additional filters.',
       },
     },
   },
@@ -207,6 +207,8 @@ export const NewFilter: Story = {
     const [open, setOpen] = useState(false);
     const [fieldValue, setFieldValue] = useState<string | undefined>('status');
     const [values, setValues] = useState<string[]>(['active']);
+    const [newField, setNewField] = useState<string | undefined>();
+    const [newValues, setNewValues] = useState<string[]>([]);
 
     return (
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', paddingBottom: 340 }}>
@@ -219,9 +221,21 @@ export const NewFilter: Story = {
           onApply={(fv, vals) => { setFieldValue(fv); setValues(vals); setOpen(false); }}
           onRemove={() => { setFieldValue(undefined); setValues([]); }}
         />
+        {newField && newValues.length > 0 && (
+          <Filter
+            fields={SAMPLE_FIELDS}
+            fieldValue={newField}
+            values={newValues}
+            open={false}
+            onToggle={() => {}}
+            onApply={(fv, vals) => { setNewField(fv); setNewValues(vals); }}
+            onRemove={() => { setNewField(undefined); setNewValues([]); }}
+          />
+        )}
         <Filter
           variant="new-filter"
-          onAddFilter={() => alert('Add filter clicked')}
+          fields={SAMPLE_FIELDS}
+          onApply={(fv, vals) => { setNewField(fv); setNewValues(vals); }}
         />
       </div>
     );

@@ -33,9 +33,9 @@ export interface FilterProps {
   onApply?: (fieldValue: string, values: string[]) => void;
   /** Called when the × remove button on the applied-filter chip is clicked */
   onRemove?: () => void;
-  /** Whether the filter panel is open (controlled) */
+  /** Whether the filter panel is open (controlled, default variant only) */
   open?: boolean;
-  /** Toggle the panel open/closed */
+  /** Toggle the panel open/closed (default variant only) */
   onToggle?: () => void;
   /** Placeholder shown in the idle trigger. Defaults to "Select Filter" */
   placeholder?: string;
@@ -43,10 +43,10 @@ export interface FilterProps {
   className?: string;
   /**
    * 'default'     — the full filter trigger + panel (default)
-   * 'new-filter'  — a dashed "+ Filter" ghost button for adding new filters
+   * 'new-filter'  — a dashed "+ Filter" ghost button that opens its own panel
    */
   variant?: 'default' | 'new-filter';
-  /** Called when the new-filter button is clicked */
+  /** @deprecated Use variant="new-filter" with onApply instead */
   onAddFilter?: () => void;
 }
 
@@ -56,6 +56,8 @@ export interface FilterProps {
  * Idle:    [Select Filter ▾]
  * Open:    floating panel with field dropdown + value multiselect + Add / Cancel
  * Applied: [FieldName: Val1, Val2 ▾] [×]
+ *
+ * new-filter variant: [+ Filter] — opens the same panel inline.
  *
  * Figma: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=340-3889
  */
@@ -82,28 +84,39 @@ export function Filter({
   const [fieldDropdownOpen, setFieldDropdownOpen] = useState(false);
   const [valueDropdownOpen, setValueDropdownOpen] = useState(false);
 
+  // Internal open state for the new-filter variant
+  const [newFilterOpen, setNewFilterOpen] = useState(false);
+
+  // Resolved open/toggle for whichever variant is active
+  const effectiveOpen = variant === 'new-filter' ? newFilterOpen : open;
+  const closePanel = () =>
+    variant === 'new-filter' ? setNewFilterOpen(false) : onToggle?.();
+  const togglePanel = () =>
+    variant === 'new-filter' ? setNewFilterOpen((v) => !v) : onToggle?.();
+
   // Re-sync internal panel state whenever the panel opens
   useEffect(() => {
-    if (open) {
-      setPanelField(fieldValue ?? '');
-      setPanelValues(values ?? []);
+    if (effectiveOpen) {
+      setPanelField(variant === 'new-filter' ? '' : (fieldValue ?? ''));
+      setPanelValues(variant === 'new-filter' ? [] : (values ?? []));
       setFieldDropdownOpen(false);
       setValueDropdownOpen(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
+  }, [effectiveOpen]);
 
   // Close panel on outside click
   useEffect(() => {
-    if (!open) return;
+    if (!effectiveOpen) return;
     function handleClick(e: MouseEvent) {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-        onToggle?.();
+        closePanel();
       }
     }
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
-  }, [open, onToggle]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [effectiveOpen]);
 
   // Close field/value dropdowns when clicking outside their wrap (but still inside the panel)
   useEffect(() => {
@@ -120,23 +133,6 @@ export function Filter({
     return () => document.removeEventListener('mousedown', handleDropdownClickOutside);
   }, [fieldDropdownOpen, valueDropdownOpen]);
 
-  // ── new-filter variant ────────────────────────────────────────────────────
-
-  if (variant === 'new-filter') {
-    return (
-      <button
-        type="button"
-        className={`filter__trigger--new ${className}`.trim()}
-        onClick={onAddFilter}
-      >
-        <span className="filter__trigger--new-icon" aria-hidden>
-          <Plus size={14} strokeWidth={2} />
-        </span>
-        Filter
-      </button>
-    );
-  }
-
   // ── Derived values ────────────────────────────────────────────────────────
 
   const isApplied = !!fieldValue && values.length > 0;
@@ -149,19 +145,203 @@ export function Filter({
       setFieldDropdownOpen(false);
       setValueDropdownOpen(false);
       onApply?.(panelField, panelValues);
-      onToggle?.();
+      closePanel();
     }
   };
 
-  const handleCancel = () => {
-    onToggle?.();
-  };
+  const handleCancel = () => closePanel();
 
   const toggleValue = (v: string) => {
     setPanelValues((prev) =>
       prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v]
     );
   };
+
+  // ── Shared panel JSX ──────────────────────────────────────────────────────
+
+  const panel = (
+    <div className="filter__panel" role="dialog" aria-label="Add filter">
+      <div className="filter__panel-header">Add Filter</div>
+
+      {/* Field selector */}
+      <div className="filter__panel-body">
+        <div className="filter__panel-section">
+          <span className="filter__panel-label">Title</span>
+          <div className="filter__panel-row-wrap" ref={fieldWrapRef}>
+            <button
+              type="button"
+              className={[
+                'filter__panel-trigger',
+                fieldDropdownOpen ? 'filter__panel-trigger--open' : '',
+                panelField ? 'filter__panel-trigger--selected' : '',
+              ].filter(Boolean).join(' ')}
+              onClick={() => {
+                setFieldDropdownOpen((v) => !v);
+                setValueDropdownOpen(false);
+              }}
+              aria-expanded={fieldDropdownOpen}
+              aria-haspopup="listbox"
+            >
+              <span
+                className={[
+                  'filter__panel-trigger-text',
+                  !panelField ? 'filter__panel-trigger-text--placeholder' : '',
+                ].filter(Boolean).join(' ')}
+              >
+                {panelField
+                  ? fields.find((f) => f.value === panelField)?.label
+                  : 'Select Filter'}
+              </span>
+              <span className="filter__chevron" aria-hidden>
+                {fieldDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </span>
+            </button>
+
+            {fieldDropdownOpen && (
+              <ul className="filter__panel-menu" role="listbox">
+                {fields.map((field) => (
+                  <li
+                    key={field.value}
+                    className={[
+                      'filter__panel-option',
+                      panelField === field.value ? 'filter__panel-option--selected' : '',
+                    ].filter(Boolean).join(' ')}
+                    role="option"
+                    aria-selected={panelField === field.value}
+                    onClick={() => {
+                      setPanelField(field.value);
+                      setPanelValues([]);
+                      setFieldDropdownOpen(false);
+                    }}
+                  >
+                    {panelField === field.value && (
+                      <Check size={13} strokeWidth={2.5} className="filter__panel-option-check" aria-hidden />
+                    )}
+                    {field.label}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+
+        {/* Value multiselect */}
+        <div className="filter__panel-section">
+          <span className="filter__panel-label">Value(s)</span>
+          <div className="filter__panel-row-wrap" ref={valueWrapRef}>
+            <button
+              type="button"
+              className={[
+                'filter__panel-trigger',
+                !panelField ? 'filter__panel-trigger--disabled' : '',
+                valueDropdownOpen ? 'filter__panel-trigger--open' : '',
+                panelValues.length > 0 ? 'filter__panel-trigger--selected' : '',
+              ].filter(Boolean).join(' ')}
+              disabled={!panelField}
+              onClick={() => {
+                setValueDropdownOpen((v) => !v);
+                setFieldDropdownOpen(false);
+              }}
+              aria-expanded={valueDropdownOpen}
+              aria-haspopup="listbox"
+            >
+              <span
+                className={[
+                  'filter__panel-trigger-text',
+                  panelValues.length === 0 ? 'filter__panel-trigger-text--placeholder' : '',
+                ].filter(Boolean).join(' ')}
+              >
+                {panelValues.length === 0
+                  ? 'Select Value(s)'
+                  : panelValues.length === 1
+                    ? availableValues.find((o) => o.value === panelValues[0])?.label ?? panelValues[0]
+                    : `${panelValues.length} Selected`}
+              </span>
+              <span className="filter__chevron" aria-hidden>
+                {valueDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </span>
+            </button>
+
+            {valueDropdownOpen && availableValues.length > 0 && (
+              <ul className="filter__panel-menu" role="listbox" aria-multiselectable="true">
+                {availableValues.map((opt) => {
+                  const checked = panelValues.includes(opt.value);
+                  return (
+                    <li
+                      key={opt.value}
+                      className={[
+                        'filter__panel-option filter__panel-option--checkbox',
+                        checked ? 'filter__panel-option--checked' : '',
+                      ].filter(Boolean).join(' ')}
+                      role="option"
+                      aria-selected={checked}
+                      onClick={() => toggleValue(opt.value)}
+                    >
+                      <span className="filter__checkbox" aria-hidden>
+                        {checked && <Check size={10} strokeWidth={3} />}
+                      </span>
+                      {opt.label}
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Action bar */}
+      <div className="filter__panel-actions">
+        <button
+          type="button"
+          className="filter__panel-btn filter__panel-btn--cancel"
+          onClick={handleCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          className="filter__panel-btn filter__panel-btn--add"
+          disabled={!panelField || panelValues.length === 0}
+          onClick={handleAdd}
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  );
+
+  // ── new-filter variant ────────────────────────────────────────────────────
+
+  if (variant === 'new-filter') {
+    return (
+      <div
+        ref={rootRef}
+        className={['filter', className].filter(Boolean).join(' ')}
+      >
+        <button
+          type="button"
+          className={[
+            'filter__trigger--new',
+            newFilterOpen ? 'filter__trigger--new--active' : '',
+          ].filter(Boolean).join(' ')}
+          aria-haspopup="dialog"
+          aria-expanded={newFilterOpen}
+          onClick={() => {
+            onAddFilter?.();
+            togglePanel();
+          }}
+        >
+          <span className="filter__trigger--new-icon" aria-hidden>
+            <Plus size={14} strokeWidth={2} />
+          </span>
+          Filter
+        </button>
+
+        {newFilterOpen && panel}
+      </div>
+    );
+  }
 
   // ── Applied chip (filter has been added, panel is closed) ────────────────
 
@@ -229,157 +409,7 @@ export function Filter({
       </button>
 
       {/* ── Panel ── */}
-      {open && (
-        <div className="filter__panel" role="dialog" aria-label="Add filter">
-          <div className="filter__panel-header">Add Filter</div>
-
-          {/* Field selector */}
-          <div className="filter__panel-body">
-            <div className="filter__panel-section">
-              <span className="filter__panel-label">Title</span>
-              <div className="filter__panel-row-wrap" ref={fieldWrapRef}>
-                <button
-                  type="button"
-                  className={[
-                    'filter__panel-trigger',
-                    fieldDropdownOpen ? 'filter__panel-trigger--open' : '',
-                    panelField ? 'filter__panel-trigger--selected' : '',
-                  ].filter(Boolean).join(' ')}
-                  onClick={() => {
-                    setFieldDropdownOpen((v) => !v);
-                    setValueDropdownOpen(false);
-                  }}
-                  aria-expanded={fieldDropdownOpen}
-                  aria-haspopup="listbox"
-                >
-                  <span
-                    className={[
-                      'filter__panel-trigger-text',
-                      !panelField ? 'filter__panel-trigger-text--placeholder' : '',
-                    ].filter(Boolean).join(' ')}
-                  >
-                    {panelField
-                      ? fields.find((f) => f.value === panelField)?.label
-                      : 'Select Filter'}
-                  </span>
-                  <span className="filter__chevron" aria-hidden>
-                    {fieldDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                  </span>
-                </button>
-
-                {fieldDropdownOpen && (
-                  <ul className="filter__panel-menu" role="listbox">
-                    {fields.map((field) => (
-                      <li
-                        key={field.value}
-                        className={[
-                          'filter__panel-option',
-                          panelField === field.value ? 'filter__panel-option--selected' : '',
-                        ].filter(Boolean).join(' ')}
-                        role="option"
-                        aria-selected={panelField === field.value}
-                        onClick={() => {
-                          setPanelField(field.value);
-                          setPanelValues([]);
-                          setFieldDropdownOpen(false);
-                        }}
-                      >
-                        {panelField === field.value && (
-                          <Check size={13} strokeWidth={2.5} className="filter__panel-option-check" aria-hidden />
-                        )}
-                        {field.label}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-
-            {/* Value multiselect */}
-            <div className="filter__panel-section">
-              <span className="filter__panel-label">Value(s)</span>
-              <div className="filter__panel-row-wrap" ref={valueWrapRef}>
-                <button
-                  type="button"
-                  className={[
-                    'filter__panel-trigger',
-                    !panelField ? 'filter__panel-trigger--disabled' : '',
-                    valueDropdownOpen ? 'filter__panel-trigger--open' : '',
-                    panelValues.length > 0 ? 'filter__panel-trigger--selected' : '',
-                  ].filter(Boolean).join(' ')}
-                  disabled={!panelField}
-                  onClick={() => {
-                    setValueDropdownOpen((v) => !v);
-                    setFieldDropdownOpen(false);
-                  }}
-                  aria-expanded={valueDropdownOpen}
-                  aria-haspopup="listbox"
-                >
-                  <span
-                    className={[
-                      'filter__panel-trigger-text',
-                      panelValues.length === 0 ? 'filter__panel-trigger-text--placeholder' : '',
-                    ].filter(Boolean).join(' ')}
-                  >
-                    {panelValues.length === 0
-                      ? 'Select Value(s)'
-                      : panelValues.length === 1
-                        ? availableValues.find((o) => o.value === panelValues[0])?.label ?? panelValues[0]
-                        : `${panelValues.length} Selected`}
-                  </span>
-                  <span className="filter__chevron" aria-hidden>
-                    {valueDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                  </span>
-                </button>
-
-                {valueDropdownOpen && availableValues.length > 0 && (
-                  <ul className="filter__panel-menu" role="listbox" aria-multiselectable="true">
-                    {availableValues.map((opt) => {
-                      const checked = panelValues.includes(opt.value);
-                      return (
-                        <li
-                          key={opt.value}
-                          className={[
-                            'filter__panel-option filter__panel-option--checkbox',
-                            checked ? 'filter__panel-option--checked' : '',
-                          ].filter(Boolean).join(' ')}
-                          role="option"
-                          aria-selected={checked}
-                          onClick={() => toggleValue(opt.value)}
-                        >
-                          <span className="filter__checkbox" aria-hidden>
-                            {checked && <Check size={10} strokeWidth={3} />}
-                          </span>
-                          {opt.label}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Action bar */}
-          <div className="filter__panel-actions">
-            <button
-              type="button"
-              className="filter__panel-btn filter__panel-btn--cancel"
-              onClick={handleCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="filter__panel-btn filter__panel-btn--add"
-              disabled={!panelField || panelValues.length === 0}
-              onClick={handleAdd}
-            >
-              Add
-            </button>
-          </div>
-        </div>
-      )}
+      {open && panel}
     </div>
   );
 }
