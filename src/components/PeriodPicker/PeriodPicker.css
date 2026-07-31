@@ -1,0 +1,160 @@
+/**
+ * PeriodPicker component
+ * Figma: https://www.figma.com/design/G2ilXQ5APUbKVg6HLbAQMP/Component-Library?node-id=3749-6481
+ */
+
+.period-picker {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  font-family: var(--font-family-body, Roboto, system-ui, sans-serif);
+}
+
+/* ── Trigger ── */
+
+.period-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--scale-800, 32px);
+  padding: var(--scale-200, 8px);
+  background: var(--color-white, #ffffff);
+  border: 1px solid var(--color-grey-100, #dfdfdf);
+  border-radius: var(--radius-md, 4px);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.period-picker__trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(49, 101, 173, 0.3);
+}
+
+.period-picker--open .period-picker__trigger,
+.period-picker--selected .period-picker__trigger {
+  border-color: var(--color-primary-600, #27518c);
+}
+
+.period-picker--disabled .period-picker__trigger {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ── Label ── */
+
+.period-picker__label {
+  font-size: var(--paragraph-sm-font-size, 14px);
+  font-weight: var(--font-weight-regular, 400);
+  line-height: var(--paragraph-xsm-line-height, 16px);
+  color: var(--color-grey-400, #818181);
+}
+
+.period-picker--selected .period-picker__label {
+  color: var(--color-grey, #616161);
+}
+
+/* ── Chevron ── */
+
+.period-picker__chevron {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-grey-400, #818181);
+}
+
+/* ── Menu panel ── */
+
+.period-picker__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 200;
+  width: 268px;
+  background: var(--color-white, #ffffff);
+  border-radius: var(--radius-md, 4px);
+  box-shadow:
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 4px 6px 2px rgba(0, 0, 0, 0.05);
+  padding: 4px 0;
+}
+
+/* ── Year header ── */
+
+.period-picker__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--scale-400, 16px);
+  height: var(--scale-800, 32px);
+}
+
+.period-picker__nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm, 2px);
+  cursor: pointer;
+  color: var(--color-grey, #616161);
+  transition: background 0.1s;
+}
+
+.period-picker__nav-btn:hover {
+  background: var(--color-grey-25, #f7f7f7);
+}
+
+.period-picker__year {
+  font-size: var(--paragraph-sm-font-size, 14px);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--paragraph-xsm-line-height, 16px);
+  color: var(--color-grey, #616161);
+}
+
+/* ── Quarter grid ── */
+
+.period-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding: var(--scale-200, 8px);
+}
+
+/* ── Quarter item ── */
+
+.period-picker__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--scale-800, 32px);
+  padding: 0 var(--scale-300, 12px);
+  font-size: var(--paragraph-sm-font-size, 14px);
+  font-weight: var(--font-weight-regular, 400);
+  line-height: var(--paragraph-xsm-line-height, 16px);
+  color: var(--color-grey, #616161);
+  background: var(--color-white, #ffffff);
+  border: none;
+  border-radius: var(--radius-md, 4px);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.period-picker__item:hover {
+  background: var(--color-grey-25, #f7f7f7);
+}
+
+.period-picker__item:active {
+  background: var(--color-grey-50, #efefef);
+}
+
+.period-picker__item--selected {
+  background: var(--color-primary-50, #e5eefa);
+  color: var(--color-primary-600, #27518c);
+  font-weight: var(--font-weight-semibold, 600);
+}
