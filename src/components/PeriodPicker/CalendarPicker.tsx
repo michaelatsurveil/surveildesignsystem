@@ -249,6 +249,21 @@ export function CalendarPicker({
                   );
                 })}
               </div>
+
+              {/* ── Action bar (days view only) ── */}
+              <div className="calendar-picker__actions">
+                <button className="calendar-picker__reset-btn" onClick={handleReset}>
+                  Reset
+                </button>
+                <div className="calendar-picker__actions-right">
+                  <Button variant="secondary" size="sm" onClick={handleCancel}>
+                    Cancel
+                  </Button>
+                  <Button variant="primary" size="sm" onClick={handleApply}>
+                    Apply
+                  </Button>
+                </div>
+              </div>
             </>
           )}
 
@@ -337,21 +352,6 @@ export function CalendarPicker({
               </div>
             </>
           )}
-
-          {/* ── Action bar ── */}
-          <div className="calendar-picker__actions">
-            <button className="calendar-picker__reset-btn" onClick={handleReset}>
-              Reset
-            </button>
-            <div className="calendar-picker__actions-right">
-              <Button variant="secondary" size="sm" onClick={handleCancel}>
-                Cancel
-              </Button>
-              <Button variant="primary" size="sm" onClick={handleApply}>
-                Apply
-              </Button>
-            </div>
-          </div>
 
         </div>
       )}
